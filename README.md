@@ -8,6 +8,8 @@ Kezdőlap: https://szaszfzsolt.github.io/szemleltetok/
 | Tantárgy | Osztály | Anyag | Hely |
 |---|---|---|---|
 | Földrajz | 5. | Űrszótár kicsiknek | `foldrajz/5-osztaly/urszotar.html` |
+| Földrajz | 8. | Románia glaciális formakincse (A4 lap) | `foldrajz/8-osztaly/glacialis-formakincs.png` |
+| Földrajz | 8. | Románia karsztformakincsei (A4 lap) | `foldrajz/8-osztaly/karszt-formakincs.png` |
 | Biológia | 5. | Mi eszik mit? | `biologia/5-osztaly/mi-eszik-mit.html` |
 | Biológia | 6. | Növénymozgás-kaland | `biologia/6-osztaly/novenymozgas-kaland/` |
 | Biológia | 6. | Mikroszkópos megfigyelések | `biologia/6-osztaly/mikroszkopos-megfigyelesek/` |
@@ -19,6 +21,7 @@ Kezdőlap: https://szaszfzsolt.github.io/szemleltetok/
 ## Képek
 - Az Űrszótár fényképei a NASA, az ESA és a JPL szabadon felhasználható felvételei; a forrás minden képnél fel van tüntetve.
 - A növényi sejt ábrája Mariana Ruiz Villarreal (LadyofHats) közkincs rajza a Wikimedia Commonsról, Németh László magyar fordításával.
+- A glaciális és a karszt lap fotói többnyire a Wikimedia Commonsról származnak; a szerzők és a licencek a lapok alján vannak felsorolva.
 - A Növénymozgás-kaland és a Mikroszkópos megfigyelések illusztrációi mesterséges intelligenciával (Nano Banana) készültek.
 
 ## Szerkezet
