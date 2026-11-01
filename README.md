@@ -8,6 +8,8 @@ Kezdőlap: https://szaszfzsolt.github.io/szemleltetok/
 | Tantárgy | Osztály | Anyag | Hely |
 |---|---|---|---|
 | Földrajz | 5. | Űrszótár kicsiknek | `foldrajz/5-osztaly/urszotar.html` |
+| Földrajz | 5. | A Föld mozgásai (okostábla) | `foldrajz/5-osztaly/fold-mozgasai.html` |
+| Földrajz | 5. | A Föld mozgásai (telefon) | `foldrajz/5-osztaly/fold-mozgasai-telefon.html` |
 | Földrajz | 8. | Románia glaciális formakincse (A4 lap) | `foldrajz/8-osztaly/glacialis-formakincs.png` |
 | Földrajz | 8. | Románia karsztformakincsei (A4 lap) | `foldrajz/8-osztaly/karszt-formakincs.png` |
 | Földrajz | 8. | Románia domborzatának kialakulása | `foldrajz/8-osztaly/romania-domborzat.html` |
@@ -20,6 +22,7 @@ Kezdőlap: https://szaszfzsolt.github.io/szemleltetok/
 | Latin | – | Sententiae Tabula (tanári, okostábla) | `latin/sententiae-tabula.html` |
 
 ## Képek
+- A Föld mozgásai szemléltető Föld-képei a NASA Blue Marble közkincs felvételei (nappali és éjszakai textúra); a Barlow betűtípus SIL OFL licencű.
 - Az Űrszótár fényképei a NASA, az ESA és a JPL szabadon felhasználható felvételei; a forrás minden képnél fel van tüntetve.
 - A növényi sejt ábrája Mariana Ruiz Villarreal (LadyofHats) közkincs rajza a Wikimedia Commonsról, Németh László magyar fordításával.
 - A glaciális és a karszt lap fotói többnyire a Wikimedia Commonsról származnak; a szerzők és a licencek a lapok alján vannak felsorolva.
