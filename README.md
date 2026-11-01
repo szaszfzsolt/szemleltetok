@@ -14,7 +14,7 @@ Kezdőlap: https://szaszfzsolt.github.io/szemleltetok/
 | Földrajz | 8. | Románia karsztformakincsei (A4 lap) | `foldrajz/8-osztaly/karszt-formakincs.png` |
 | Földrajz | 8. | Románia domborzatának kialakulása | `foldrajz/8-osztaly/romania-domborzat.html` |
 | Biológia | 5. | Mi eszik mit? | `biologia/5-osztaly/mi-eszik-mit.html` |
-| Biológia | 6. | Növénymozgás-kaland | `biologia/6-osztaly/novenymozgas-kaland/` |
+| Biológia | 7. | Növénymozgás-kaland | `biologia/7-osztaly/novenymozgas-kaland/` |
 | Biológia | 6. | Mikroszkópos megfigyelések | `biologia/6-osztaly/mikroszkopos-megfigyelesek/` |
 | Biológia | 6. + érettségi | A növényi sejt felépítése (két szinten) | `biologia/6-osztaly/novenyi-sejt.html` |
 | Biológia | 6. | Mikroszkópos kísérletek képpromptjai (tanári) | `biologia/6-osztaly/mikroszkopos-megfigyelesek/promptok.html` |
