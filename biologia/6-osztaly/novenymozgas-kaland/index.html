@@ -1,0 +1,473 @@
+<!doctype html><html lang="hu"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Növénymozgás-kaland</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,800&display=swap">
+<style>
+/* Egyetlen, világos téma szándékosan: napfényben, telefonon is jól olvasható. */
+:root{
+  --ground:#EEF3E6; --paper:#FFFFFF; --ink:#18261B; --ink-soft:#4A5B4C;
+  --leaf:#2E6B3A; --leaf-deep:#1F4D29; --leaf-pale:#D7E6CF; --line:#CBD8C2;
+  --sun:#E3A008; --sun-deep:#8A5A00; --sun-pale:#FCEFC7;
+  --mim:#D2487E; --mim-pale:#FADCE7;
+  --ok:#2E7D32; --ok-pale:#DDF0DC; --no:#B3261E; --no-pale:#F8DEDB;
+  --display:"Baloo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito Sans","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.4;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+button:focus-visible{outline:3px solid var(--leaf);outline-offset:3px}
+.wrap{max-width:560px;margin-inline:auto;padding-inline:16px;padding-block:14px 28px;min-height:100%;display:flex;flex-direction:column;gap:14px}
+
+/* ---------- Kezdőképernyő ---------- */
+.hero{display:flex;align-items:center;gap:12px}
+.hero svg{width:54px;height:54px;flex:none}
+.hero h1{margin:0;font-family:var(--display);font-weight:800;font-size:30px;line-height:1;color:var(--leaf-deep)}
+.hero p{margin:2px 0 0;color:var(--ink-soft);font-size:14px;font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--paper);border-radius:14px;padding:10px 8px;text-align:center}
+.stat b{display:block;font-family:var(--display);font-size:24px;line-height:1.1;color:var(--leaf-deep);font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;font-weight:700;color:var(--ink-soft);letter-spacing:.03em}
+.mode{display:grid;grid-template-columns:1fr 1fr;background:var(--leaf-pale);border-radius:14px;padding:4px;gap:4px}
+.mode button{border:0;background:transparent;border-radius:11px;padding:9px 6px;font-weight:800;color:var(--leaf-deep);line-height:1.15}
+.mode button small{display:block;font-weight:600;font-size:12px;opacity:.85}
+.mode button[aria-pressed="true"]{background:var(--leaf);color:#fff}
+.sect{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--leaf);margin:4px 0 -4px}
+.cards{display:flex;flex-direction:column;gap:10px}
+.card{display:grid;grid-template-columns:64px 1fr auto;align-items:center;gap:12px;width:100%;text-align:left;border:0;background:var(--paper);border-radius:16px;padding:8px 12px 8px 8px;box-shadow:0 1px 0 var(--line)}
+.card:active{transform:scale(.99)}
+.card img,.card .ic{width:64px;height:64px;border-radius:12px;object-fit:cover;background:var(--leaf-pale);display:flex;align-items:center;justify-content:center}
+.card h3{margin:0;font-family:var(--display);font-weight:800;font-size:19px;line-height:1.1}
+.card p{margin:2px 0 0;font-size:13px;color:var(--ink-soft)}
+.stars{display:flex;gap:1px;font-size:18px;line-height:1}
+.stars i{font-style:normal;color:var(--line)}
+.stars i.on{color:var(--sun)}
+.card.special{background:var(--leaf);color:#fff;box-shadow:none}
+.card.special p{color:#D7E6CF}
+.card.flash{background:var(--sun-pale);box-shadow:none}
+.card .rec{font-family:var(--display);font-weight:800;font-size:18px;color:var(--sun-deep);text-align:right;line-height:1}
+.card .rec small{display:block;font-family:var(--body);font-size:11px;font-weight:700;color:var(--ink-soft)}
+.foot{margin-top:auto;text-align:center;font-size:13px;color:var(--ink-soft)}
+.foot button{border:0;background:none;text-decoration:underline;color:var(--ink-soft);font-size:13px;padding:6px}
+
+/* ---------- Játékképernyő ---------- */
+.bar{display:flex;align-items:center;gap:10px}
+.x{border:0;background:var(--paper);width:40px;height:40px;border-radius:12px;font-size:20px;font-weight:800;color:var(--ink-soft);flex:none}
+.prog{flex:1;display:flex;gap:4px}
+.prog i{flex:1;height:8px;border-radius:99px;background:var(--line)}
+.prog i.ok{background:var(--ok)} .prog i.no{background:var(--no)} .prog i.cur{background:var(--leaf-deep)}
+.pts{font-family:var(--display);font-weight:800;font-size:20px;color:var(--leaf-deep);font-variant-numeric:tabular-nums;min-width:3ch;text-align:right}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;font-weight:800;color:var(--ink-soft)}
+.streak{color:var(--sun-deep);background:var(--sun-pale);padding:2px 10px;border-radius:99px}
+.streak[hidden]{display:none}
+.timer{height:6px;border-radius:99px;background:var(--leaf-pale);overflow:hidden}
+.timer i{display:block;height:100%;background:var(--leaf);transform-origin:left;transition:transform .25s linear}
+.timer i.low{background:var(--no)}
+.pic{position:relative;border-radius:16px;overflow:hidden;background:#fff;aspect-ratio:16/9;max-width:100%}
+.pic img{width:100%;height:100%;object-fit:cover;display:block}
+.pic .zoomhint{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:700;padding:3px 9px;border-radius:99px}
+.q{margin:0;font-family:var(--display);font-weight:800;font-size:22px;line-height:1.15;text-wrap:balance}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{border:2px solid var(--line);background:var(--paper);border-radius:14px;padding:13px 14px;text-align:left;font-weight:700;font-size:16px;line-height:1.25;min-height:52px;display:flex;align-items:center;gap:10px;transition:background .15s,border-color .15s}
+.opt .l{flex:none;width:26px;height:26px;border-radius:8px;background:var(--leaf-pale);color:var(--leaf-deep);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800}
+.opt:disabled{cursor:default}
+.opt.gone{opacity:.28;text-decoration:line-through}
+.opt.right{background:var(--ok-pale);border-color:var(--ok)}
+.opt.right .l{background:var(--ok);color:#fff}
+.opt.wrong{background:var(--no-pale);border-color:var(--no)}
+.opt.wrong .l{background:var(--no);color:#fff}
+.opt.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.tools{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.hint{border:2px dashed var(--sun);background:var(--sun-pale);color:var(--sun-deep);border-radius:12px;padding:8px 12px;font-weight:800;font-size:14px}
+.hint:disabled{opacity:.45;cursor:default}
+.fb{border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:6px;animation:rise .25s ease}
+@keyframes rise{from{transform:translateY(8px);opacity:.3}}
+.fb.ok{background:var(--ok-pale)} .fb.no{background:var(--no-pale)}
+.fb h4{margin:0;font-family:var(--display);font-weight:800;font-size:21px;line-height:1.1}
+.fb.ok h4{color:var(--ok)} .fb.no h4{color:var(--no)}
+.fb p{margin:0;font-size:15px}
+.fb .gain{font-weight:800;color:var(--leaf-deep);font-size:14px}
+.primary{border:0;border-radius:14px;background:var(--leaf);color:#fff;font-weight:800;font-size:18px;padding:14px;box-shadow:inset 0 -4px 0 var(--leaf-deep);width:100%}
+.secondary{border:2px solid var(--leaf);border-radius:14px;background:var(--paper);color:var(--leaf-deep);font-weight:800;font-size:16px;padding:12px;width:100%}
+.review{font-size:13px;font-weight:800;color:var(--mim);background:var(--mim-pale);padding:2px 10px;border-radius:99px}
+
+/* ---------- Eredmény ---------- */
+.result{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding-top:10px}
+.bigstars{display:flex;gap:6px;font-size:52px;line-height:1}
+.bigstars i{font-style:normal;color:var(--line)}
+.bigstars i.on{color:var(--sun);animation:pop .4s ease both}
+.bigstars i.on:nth-child(2){animation-delay:.15s} .bigstars i.on:nth-child(3){animation-delay:.3s}
+@keyframes pop{from{transform:scale(0)}70%{transform:scale(1.25)}}
+.result h2{margin:0;font-family:var(--display);font-weight:800;font-size:30px;line-height:1.05;color:var(--leaf-deep);text-wrap:balance}
+.result .score{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;color:var(--ink)}
+.result p{margin:0;color:var(--ink-soft)}
+.badge{background:var(--sun);color:var(--ink);font-weight:800;padding:4px 12px;border-radius:99px;font-size:14px}
+.btns{display:flex;flex-direction:column;gap:8px;width:100%;margin-top:6px}
+.missed{width:100%;text-align:left;background:var(--paper);border-radius:14px;padding:12px 14px}
+.missed h4{margin:0 0 6px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--no)}
+.missed li{margin:4px 0;font-size:14px}
+.missed ul{margin:0;padding-left:18px}
+
+/* ---------- Villámkör ---------- */
+.flashcard{background:var(--paper);border-radius:20px;padding:22px 18px;min-height:190px;display:flex;align-items:center;justify-content:center;text-align:center;font-family:var(--display);font-weight:800;font-size:25px;line-height:1.15;text-wrap:balance;transition:background .2s}
+.flashcard.ok{background:var(--ok-pale)} .flashcard.no{background:var(--no-pale)}
+.tfbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tfbtns button{border:0;border-radius:16px;padding:22px 8px;font-family:var(--display);font-weight:800;font-size:26px;color:#fff}
+.tfbtns .t{background:var(--ok);box-shadow:inset 0 -5px 0 #1B5E20}
+.tfbtns .f{background:var(--no);box-shadow:inset 0 -5px 0 #7F1A15}
+.flashwhy{min-height:44px;text-align:center;font-size:14px;color:var(--ink-soft)}
+.clock{font-family:var(--display);font-weight:800;font-size:22px;color:var(--leaf-deep);font-variant-numeric:tabular-nums}
+
+.zoom{position:fixed;inset:0;background:#0b120c;z-index:40;display:flex;align-items:center;justify-content:center}
+.zoom img{max-width:100%;max-height:100%;object-fit:contain}
+.zoom span{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:12px;color:#fff;font-weight:800;background:rgba(255,255,255,.15);padding:6px 12px;border-radius:99px}
+.confirm{background:var(--paper);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px;font-weight:700}
+.confirm div{display:flex;gap:8px}
+.confirm button{flex:1}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script>
+/* ============ KATEGÓRIÁK ============ */
+const CATS=[
+ {name:"Tropizmusok",sub:"A fény, a föld, a víz és a sók felé",img:1},
+ {name:"Nasztiák",sub:"Nyílás, záródás, összecsukódás",img:6},
+ {name:"Taxisok és nutáció",sub:"Úszó sejtek és kúszónövények",img:11},
+ {name:"Passzív vagy aktív?",sub:"Szél, víz, állatok vagy a növény maga",img:13},
+ {name:"Kísérletezz!",sub:"Mit látnál az osztályban?",img:20},
+];
+
+/* ============ KÉRDÉSEK ============
+   c: kategória, img: kép, q: kérdés, o: válaszok (az ELSŐ a helyes), w: magyarázat */
+const Q=[
+ // --- Tropizmusok ---
+ {c:0,img:1,q:"Milyen mozgást végeznek a palánták?",o:["Fototropizmus","Fotonasztia","Fototaxis","Geotropizmus"],w:"A levelek és a szárak a fény felé fordulnak. A „foto” jelentése: fény."},
+ {c:0,img:1,q:"Mi váltja ki a palánták elhajlását?",o:["A fény","A gravitáció","A talajvíz","Az érintés"],w:"A palánták a világosabb ablak felé hajlanak: ez fototropizmus."},
+ {c:0,img:1,q:"Aktív vagy passzív a palánták mozgása?",o:["Aktív, mert a növény kezdeményezi, és energiát használ hozzá","Passzív, mert a fény tolja el a leveleket","Passzív, mert a szél hajlítja meg őket","Egyik sem, a növények nem mozognak"],w:"A tropizmusok aktív mozgások: a növény maga végzi őket."},
+ {c:0,img:2,q:"Hogy nevezzük, hogy a gyökér lefelé, a szár felfelé nő?",o:["Geotropizmus","Hidrotropizmus","Termonasztia","Kemotaxis"],w:"A gravitáció irányába (gyökér) vagy azzal ellentétesen (szár) történő növekedés a geotropizmus."},
+ {c:0,img:2,q:"Merre nő a gyökér a geotropizmus miatt?",o:["A Föld középpontja felé","A fény felé","Felfelé, a levegő felé","Oldalra, a szomszéd növény felé"],w:"A gyökér a gravitációs erő irányába, a Föld középpontja felé nő."},
+ {c:0,img:2,q:"Mit jelent a „geo” szó?",o:["föld","víz","fény","hő"],w:"geo = föld, hidro = víz, foto = fény."},
+ {c:0,img:3,q:"A gyökerek a nedves talajrész felé nőnek. Hogy hívjuk ezt a mozgást?",o:["Hidrotropizmus","Kemotropizmus","Geotropizmus","Fototropizmus"],w:"A gyökerek a talajvíz felé irányulnak. A „hidro” jelentése: víz."},
+ {c:0,img:3,q:"Mi a hidrotropizmus ingere?",o:["A talajvíz","Az ásványi sók","A fény","Az érintés"],w:"A hidrotropizmus a gyökereknek a talajvíz felé való irányulása."},
+ {c:0,img:3,q:"Mit jelent a „hidro” szó?",o:["víz","föld","fény","só"],w:"hidro = víz, ezért hidrotropizmus a víz felé növekedés."},
+ {c:0,img:4,q:"A gyökerek a kék szemcsék (ásványi sók) felé sűrűsödnek. Melyik mozgás ez?",o:["Kemotropizmus","Kemotaxis","Hidrotropizmus","Termonasztia"],w:"A kemotropizmus az ásványi sókban gazdagabb talajrész felé való irányulás."},
+ {c:0,img:4,q:"A kemotropizmus során merre nőnek a gyökerek?",o:["Az ásványi sókban gazdagabb talajrész felé","A napfény felé","A szárazabb talaj felé","A talaj felszíne felé"],w:"A gyökerek ott nőnek sűrűbben, ahol több az ásványi só."},
+ {c:0,img:4,q:"Miért tropizmus ez, és nem taxis?",o:["Mert a rögzített növény egy része nő az inger felé","Mert az egész növény elvándorol","Mert nem irányított mozgás","Mert passzív mozgás"],w:"Taxist csak szabadon mozgó növények vagy sejtek végeznek. A gyökér a helyén marad, csak az iránya változik."},
+ // --- Nasztiák ---
+ {c:1,img:5,q:"A tulipán melegben kinyílik, hidegben záródik. Melyik mozgás ez?",o:["Termonasztia","Fotonasztia","Szeizmonasztia","Fototropizmus"],w:"A termonasztiákat a hőmérséklet változásai váltják ki."},
+ {c:1,img:5,q:"Mi váltja ki a tulipán virágának nyílását?",o:["A hőmérséklet változása","A fényerősség változása","Az érintés","A gravitáció"],w:"Melegben nyílik, hidegben záródik: termonasztia."},
+ {c:1,img:5,q:"Mikor záródik a tulipán virága?",o:["Hidegben","Melegben","Érintésre","Délben, a legnagyobb fényben"],w:"A lehűlés hatására a virág bezáródik."},
+ {c:1,img:6,q:"A gyermekláncfű virágai nappal nyitottak, este zártak. Melyik mozgás ez?",o:["Fotonasztia","Termonasztia","Fototropizmus","Fototaxis"],w:"A fotonasztiákat a fényerősség változásai határozzák meg."},
+ {c:1,img:6,q:"Mikor nyílnak ki a gyermekláncfű virágai?",o:["Fényben","Sötétben","Csak esőben","Érintésre"],w:"Fényben kinyílnak, sötétben záródnak."},
+ {c:1,img:6,q:"Mitől függnek a nasztiák?",o:["Az ingererősségtől","Az inger irányától","A növény magasságától","A talaj színétől"],w:"A nasztiák nem irányított mozgások, az inger erősségének változásától függenek."},
+ {c:1,img:7,q:"A mimóza érintésre összecsukja a levélkéit. Melyik mozgás ez?",o:["Szeizmonasztia","Termonasztia","Nutáció","Kemotropizmus"],w:"A szeizmonasztiákat mechanikai tényezők, például az érintés váltják ki."},
+ {c:1,img:7,q:"Milyen tényező váltja ki a mimóza mozgását?",o:["Mechanikai tényező (érintés)","A fény","A hőmérséklet","A talajvíz"],w:"Érintésre a levélkék összecsukódnak."},
+ {c:1,img:8,q:"A húsevő növény csapdája bezárul a légy körül. Melyik mozgás ez?",o:["Szeizmonasztia","Fototropizmus","Kemotaxis","Passzív mozgás"],w:"A rovar érintése váltja ki a levél bezáródását."},
+ {c:1,img:8,q:"Miért nasztia a csapda bezárulása, és nem tropizmus?",o:["Mert nem irányított, az inger erősségétől függ","Mert passzív mozgás","Mert a gyökér végzi","Mert csak sötétben történik"],w:"A tropizmus irányított mozgás, a nasztia nem az."},
+ {c:1,img:8,q:"Mi a közös a mimózában és a húsevő növényben?",o:["Mindkettő érintésre mozdul","Mindkettő a fény felé fordul","Mindkettő passzívan mozog","Mindkettő hidegben záródik"],w:"Mindkettő szeizmonasztiát mutat."},
+ // --- Taxisok és nutáció ---
+ {c:2,img:9,q:"Az algák a pohár megvilágított oldalán gyűltek össze. Melyik mozgás ez?",o:["Fototaxis","Fototropizmus","Fotonasztia","Kemotaxis"],w:"A szabadon mozgó algák a víz jobban megvilágított része felé úsznak."},
+ {c:2,img:9,q:"Miért taxis ez, és nem tropizmus?",o:["Mert az algák szabadon mozognak, helyet változtatnak","Mert nem irányított mozgás","Mert passzív mozgás","Mert a víz sodorja őket"],w:"A taxisok szabadon mozgó növényekre vagy sejtekre jellemzők."},
+ {c:2,img:9,q:"Mi történne, ha a lámpát a pohár másik oldalára tennénk?",o:["Az algák átúsznának a másik oldalra","Az algák a helyükön maradnának","Az algák leülepednének az aljára","Az algák a sötét oldal felé úsznának"],w:"Az algák mindig a fény felé mozognak: ez a fototaxis."},
+ {c:2,img:10,q:"A hímivarsejtek a petesejt felé úsznak. Melyik mozgás ez?",o:["Kemotaxis","Kemotropizmus","Fototaxis","Szeizmonasztia"],w:"A kemotaxis a hímivarsejtekre jellemző."},
+ {c:2,img:10,q:"Mi vonzza a hímivarsejteket a petesejt felé?",o:["A petesejt által termelt kémiai anyagok","A fény","A víz áramlása","A meleg"],w:"„Kemo”: kémiai anyagok vonzása."},
+ {c:2,img:11,q:"Hogy nevezzük a kúszónövények felcsavarodását egy támasz körül?",o:["Nutáció","Geotropizmus","Termonasztia","Fototaxis"],w:"Ez a nutáció, a kúszónövények speciális mozgása."},
+ {c:2,img:11,q:"Melyik növényre jellemző a nutáció?",o:["Borsó","Tulipán","Gyermekláncfű","Mimóza"],w:"A borsó, a bab, az uborka és a szőlő kacsai támasz köré csavarodnak."},
+ {c:2,img:11,q:"Mire jó a kúszónövénynek a felcsavarodás?",o:["Megkapaszkodik, így feljebb juthat a fényhez","Így szívja fel a vizet","Így terjeszti a magvait","Így védekezik a hideg ellen"],w:"A kacsok segítségével a növény egy támaszon felfelé kúszik."},
+ {c:2,img:12,q:"Bal oldalon a palánta a lámpa felé hajlik, jobb oldalon az algák a fény felé úsznak. Melyik párosítás helyes?",o:["bal: fototropizmus · jobb: fototaxis","bal: fototaxis · jobb: fototropizmus","bal: fotonasztia · jobb: fototaxis","bal: fototropizmus · jobb: fotonasztia"],w:"A rögzített palánta fordul (tropizmus), a szabad algák úsznak (taxis)."},
+ {c:2,img:12,q:"Mi a különbség a két kép mozgásai között?",o:["A taxisnál az egész élőlény helyet változtat, a tropizmusnál a rögzített növénynek csak egyes részei fordulnak","A tropizmus passzív, a taxis aktív","A taxis nem irányított mozgás","Nincs köztük különbség"],w:"Mindkettő irányított, és mindkettőt a fény váltja ki, de csak a taxisnál mozdul el az egész élőlény."},
+ {c:2,img:12,q:"Mi a közös a két képen látható mozgásban?",o:["Mindkettőt a fény váltja ki, és mindkettő irányított","Mindkettő passzív","Mindkettő nasztia","Mindkettőt a hő váltja ki"],w:"Fototropizmus és fototaxis: mindkettő a fény irányába történik."},
+ // --- Passzív vagy aktív? ---
+ {c:3,img:13,q:"A gyékény magvait elviszi a szél. Aktív vagy passzív ez a mozgás?",o:["Passzív","Aktív","Nasztia","Tropizmus"],w:"A passzív mozgásokat fizikai mechanizmusok határozzák meg."},
+ {c:3,img:13,q:"Mi szállítja a gyékény pihés magvait?",o:["A szél","A víz","Az állatok","A növény maga lövi ki őket"],w:"A könnyű, pihés magvakat a szél viszi messzire."},
+ {c:3,img:13,q:"Használ-e energiát a növény a passzív mozgáshoz?",o:["Nem, a környezeti tényezőkre hagyatkozik","Igen, sokat","Csak éjszaka","Csak melegben"],w:"Passzív mozgáskor a növény nem használ energiát."},
+ {c:3,img:14,q:"A vízi növények lebegnek, sodródnak a patakban. Milyen mozgás ez?",o:["Passzív, a vízáramlat hatására","Aktív, a növények úsznak","Fototaxis","Hidrotropizmus"],w:"A vízi növények lebegése a vízáramlatok hatására passzív mozgás."},
+ {c:3,img:14,q:"Miért nem hidrotropizmus a vízi növények sodródása?",o:["Mert nem a növény irányítja, a víz sodorja","Mert a gyökér végzi","Mert túl gyors","Mert a fény váltja ki"],w:"A hidrotropizmus a gyökér aktív növekedése a víz felé. A sodródás passzív."},
+ {c:3,img:15,q:"Hogyan jutnak messzire a bojtorján termései?",o:["Az állatok bundájába akadnak","A szél viszi őket","A növény kilövi őket","A víz sodorja őket"],w:"A horgas termések az állatok szőrébe kapaszkodnak."},
+ {c:3,img:15,q:"Aktív vagy passzív a bojtorján terméseinek terjedése?",o:["Passzív","Aktív","Szeizmonasztia","Kemotaxis"],w:"Az állatok viszik a terméseket, a növény nem használ hozzá energiát."},
+ {c:3,img:16,q:"Az erdei nebáncsvirág termése érintésre felreped, és szétlövi a magokat. Milyen mozgás ez?",o:["Aktív mozgás, az érintés váltja ki","Passzív, a szél fújja szét","Passzív, az állatok viszik el","Fototropizmus"],w:"A mozgást maga a növény végzi, érintésre."},
+ {c:3,img:16,q:"Melyik mozgáshoz hasonlít a nebáncsvirág terméseinek felrepedése?",o:["Szeizmonasztia","Termonasztia","Fototaxis","Hidrotropizmus"],w:"Mint a mimózánál: érintés (mechanikai tényező) váltja ki."},
+ {c:3,img:16,q:"Mi az erdei nebáncsvirág népi neve?",o:["Nenyúljhozzám","Gyermekláncfű","Bojtorján","Gyékény"],w:"A legkisebb érintésre is szétlövi a magvait, innen ered a neve."},
+ // --- Kísérletezz! ---
+ {c:4,img:17,q:"A növényt elfordítottuk az ablaktól. Egy hét múlva a levelei újra az ablak felé néznek. Melyik mozgás ez?",o:["Fototropizmus","Geotropizmus","Fotonasztia","Nutáció"],w:"A levelek visszafordulnak a fény felé."},
+ {c:4,img:17,q:"Mennyi idő alatt figyelhető meg ez a mozgás?",o:["Néhány nap alatt, lassan","Egy másodperc alatt","Soha nem figyelhető meg","Csak több év alatt"],w:"A növények mozgásai általában lassúak."},
+ {c:4,img:18,q:"A babcsírát fordítva ültettük vissza. Mi történik a gyököcskével?",o:["Visszafordul lefelé","Tovább nő felfelé","Megáll a növekedésben","Kinő a földből"],w:"A gyököcske a Föld középpontja felé fordul: geotropizmus."},
+ {c:4,img:18,q:"Merre fordul a fordítva ültetett bab száracskája?",o:["Felfelé","Lefelé","Oldalra, a pohár fala felé","Sehova, elpusztul"],w:"A szár a gravitációval ellentétes irányba nő."},
+ {c:4,img:18,q:"Melyik mozgást figyeljük meg a fordítva ültetett babon?",o:["Geotropizmus","Hidrotropizmus","Kemotaxis","Termonasztia"],w:"A gravitáció határozza meg, merre nő a gyökér és a szár."},
+ {c:4,img:19,q:"Ceruzával megérintjük a mimóza levélkéjét. Mi történik?",o:["Összecsukja a levélkéit","Semmi sem történik","Lehullik a levél","A ceruza felé fordul"],w:"Szeizmonasztia: az érintésre a levélkék összecsukódnak."},
+ {c:4,img:19,q:"Visszatér-e a mimóza levélkéje az eredeti helyzetébe?",o:["Igen, néhány perc, legfeljebb fél óra múlva","Soha","Csak egy hét múlva","Azonnal, egy másodperc alatt"],w:"Egy idő után a levélkék újra kinyílnak."},
+ {c:4,img:19,q:"Mi történik, ha óvatosan megrázzuk a mimóza cserepét?",o:["A levélkék összecsukódnak, mert a rázás is mechanikai inger","Semmi sem történik","A virágok kinyílnak","A növény a fény felé fordul"],w:"Nemcsak az érintés, a rázkódás is kiváltja a szeizmonasztiát."},
+ {c:4,img:20,q:"A felborult cserépben a szárak felfelé kanyarodtak. Melyik két mozgás okozza ezt?",o:["Geotropizmus és fototropizmus","Fotonasztia és termonasztia","Kemotaxis és fototaxis","Csak passzív mozgás"],w:"A szár a gravitációval ellentétesen és a fény felé nő."},
+ {c:4,img:20,q:"Merre kanyarodtak a felborult muskátli szárai?",o:["Felfelé, a gravitációval ellentétesen","Lefelé, a föld felé","Sehova, változatlanok maradtak","A cserép belseje felé"],w:"A szárak újra az ég és a fény felé fordulnak."},
+ {c:4,img:20,q:"Aktív vagy passzív a szárak felfelé kanyarodása?",o:["Aktív","Passzív","A szél hajlította meg","Ez nem mozgás"],w:"A tropizmusok aktív mozgások: a növény maga végzi."},
+];
+
+const FLASH=[
+ ["A taxisok rögzített növényekre jellemzők.",false,"Szabadon mozgó növényekre vagy sejtekre jellemzők."],
+ ["A passzív mozgáshoz a növény nem használ energiát.",true,"A környezeti tényezőkre hagyatkozik."],
+ ["A tropizmusok irányított mozgások.",true,"Az inger iránya határozza meg őket."],
+ ["A tulipán virága hidegben nyílik ki.",false,"Melegben nyílik ki (termonasztia)."],
+ ["A „geo” szó jelentése: víz.",false,"geo = föld, hidro = víz."],
+ ["A gyökér a Föld középpontja felé nő.",true,"Ez a geotropizmus."],
+ ["A nasztiák az inger irányától függenek.",false,"Az ingererősségtől függenek."],
+ ["A kúszónövények felcsavarodását nutációnak nevezzük.",true,"Például borsó, bab, uborka."],
+ ["A hímivarsejtek a fény felé úsznak.",false,"A petesejt kémiai anyagai felé: kemotaxis."],
+ ["A „foto” szó jelentése: fény.",true,"Innen: fototropizmus, fotonasztia, fototaxis."],
+ ["A növények mozgásai általában gyorsak.",false,"Általában lassúak."],
+ ["A hidrotropizmus a gyökerek talajvíz felé irányulása.",true,"hidro = víz."],
+ ["A mimóza érintésre összecsukja levélkéit.",true,"Ez a szeizmonasztia."],
+ ["A gyermekláncfű virágai sötétben nyílnak ki.",false,"Fényben nyílnak ki (fotonasztia)."],
+ ["A gyékény magvait a szél terjeszti.",true,"Ez passzív mozgás."],
+ ["Az aktív mozgásokat a növény vagy egyes részei kezdeményezik.",true,"És energiát használnak hozzájuk."],
+ ["A kemotropizmus a fény felé fordulás.",false,"Az ásványi sókban gazdagabb talajrész felé irányulás."],
+ ["A vízi növények lebegése aktív mozgás.",false,"Passzív: a vízáramlatok sodorják őket."],
+ ["A fototaxis egyes algafajoknál figyelhető meg.",true,"Az algák a fény felé úsznak."],
+ ["A húsevő növény levele a hőmérséklet hatására záródik be.",false,"A rovar érintésére záródik (szeizmonasztia)."],
+ ["A mozgást végző növények lehetnek szabadok vagy rögzítettek.",true,"Például alga (szabad), bab (rögzített)."],
+ ["A szár a gravitáció irányába, lefelé nő.",false,"A szár felfelé nő, a gravitációval ellentétesen."],
+];
+
+/* ============ MENTÉS (csak ezen a telefonon) ============ */
+const KEY="novenymozgas-kaland-v1";
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return {}; } }
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(D)); }catch(e){} }
+let D=Object.assign({stars:[0,0,0,0,0],best:[0,0,0,0,0],mixBest:0,flashBest:0,total:0,mode:"practice"},load());
+
+/* ============ SEGÉDEK ============ */
+const $=s=>document.querySelector(s);
+const app=$("#app");
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;};
+const img=n=>`kepek/${String(n).padStart(2,"0")}.jpg`;
+const starHTML=(n,cls="stars")=>`<span class="${cls}" aria-label="${n} csillag a háromból">${[0,1,2].map(i=>`<i class="${i<n?"on":""}">★</i>`).join("")}</span>`;
+function zoom(src){const z=document.createElement("div");z.className="zoom";z.innerHTML=`<img src="${src}" alt=""><span>Bezár ✕</span>`;z.onclick=()=>z.remove();document.body.appendChild(z);}
+const LEAF=`<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 60V30" stroke="#1F4D29" stroke-width="4" stroke-linecap="round"/><path d="M32 38C18 38 8 28 8 12c16 0 24 10 24 26z" fill="#2E6B3A"/><path d="M32 30c0-14 9-24 26-24 0 16-10 24-26 24z" fill="#E3A008"/></svg>`;
+
+/* ============ KEZDŐKÉPERNYŐ ============ */
+function home(){
+  stopTimer();
+  const totalStars=D.stars.reduce((a,b)=>a+b,0);
+  app.innerHTML=`
+  <header class="hero">${LEAF}<div><h1>Növénymozgás-kaland</h1><p>Hogyan érzékelnek és mozognak a növények?</p></div></header>
+  <div class="stats">
+    <div class="stat"><b>${totalStars}/15</b><span>csillag</span></div>
+    <div class="stat"><b>${D.total}</b><span>összes pont</span></div>
+    <div class="stat"><b>${D.flashBest}</b><span>villám-rekord</span></div>
+  </div>
+  <div class="mode" role="group" aria-label="Játékmód">
+    <button data-mode="practice" aria-pressed="${D.mode==="practice"}">Gyakorlás<small>óra nélkül, nyugodtan</small></button>
+    <button data-mode="challenge" aria-pressed="${D.mode==="challenge"}">Kihívás<small>20 mp, gyorsaságért több pont</small></button>
+  </div>
+  <div class="sect">Témakörök</div>
+  <div class="cards">
+    ${CATS.map((c,i)=>`<button class="card" data-cat="${i}"><img src="${img(c.img)}" alt=""><div><h3>${c.name}</h3><p>${c.sub}</p></div><div style="text-align:right">${starHTML(D.stars[i])}<p style="margin:3px 0 0;font-size:12px;color:var(--ink-soft)">${D.best[i]?`rekord: ${D.best[i]}`:"új"}</p></div></button>`).join("")}
+  </div>
+  <div class="sect">Nagy próba</div>
+  <div class="cards">
+    <button class="card special" id="mix"><span class="ic" style="background:rgba(255,255,255,.15)">${LEAF}</span><div><h3>Vegyes kör</h3><p>10 kérdés az összes témakörből</p></div><div class="rec" style="color:#fff">${D.mixBest||"–"}<small style="color:#D7E6CF">rekord</small></div></button>
+    <button class="card flash" id="flash"><span class="ic" style="background:var(--sun);font-family:var(--display);font-weight:800;font-size:22px;color:var(--ink)">60″</span><div><h3>Villámkör</h3><p>Igaz vagy hamis? 60 másodperc alatt minél többet!</p></div><div class="rec">${D.flashBest||"–"}<small>rekord</small></div></button>
+  </div>
+  <div class="foot">Az eredményeidet ez a telefon jegyzi meg.<br><button id="resetAll">Eredmények törlése</button></div>`;
+  app.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{D.mode=b.dataset.mode;save();home();});
+  app.querySelectorAll("[data-cat]").forEach(b=>b.onclick=()=>startRound(+b.dataset.cat));
+  $("#mix").onclick=()=>startRound(-1);
+  $("#flash").onclick=startFlash;
+  $("#resetAll").onclick=()=>{
+    const f=$(".foot"); f.innerHTML=`<div class="confirm">Biztosan törlöd az összes csillagot és rekordot?<div><button class="secondary" id="no">Mégse</button><button class="primary" id="yes" style="background:var(--no);box-shadow:none">Törlés</button></div></div>`;
+    $("#no").onclick=home; $("#yes").onclick=()=>{D={stars:[0,0,0,0,0],best:[0,0,0,0,0],mixBest:0,flashBest:0,total:0,mode:D.mode};save();home();};
+  };
+  window.scrollTo(0,0);
+}
+
+/* ============ KÖR ============ */
+let R=null, timer=null;
+function stopTimer(){clearInterval(timer);timer=null;}
+
+function pickRound(cat){
+  if(cat>=0){
+    // minden képhez egy kérdés, majd 2 további: 6 kérdés
+    const pool=Q.filter(q=>q.c===cat);
+    const byImg={}; pool.forEach(q=>(byImg[q.img]=byImg[q.img]||[]).push(q));
+    let first=Object.values(byImg).map(a=>shuffle(a)[0]);
+    const rest=shuffle(pool.filter(q=>!first.includes(q))).slice(0,6-first.length);
+    return shuffle(first.concat(rest));
+  }
+  // vegyes: 2 kérdés témakörönként
+  return shuffle([0,1,2,3,4].flatMap(c=>shuffle(Q.filter(q=>q.c===c)).slice(0,2)));
+}
+function startRound(cat,review){
+  const qs=review?shuffle(review):pickRound(cat);
+  R={cat,qs,i:0,score:0,streak:0,results:[],missed:[],review:!!review,challenge:D.mode==="challenge"&&!review};
+  showQ();
+}
+function showQ(){
+  stopTimer();
+  const q=R.qs[R.i];
+  const opts=shuffle(q.o.map((t,k)=>({t,ok:k===0})));
+  R.cur={q,opts,hint:false,answered:false,left:20};
+  app.innerHTML=`
+  <div class="bar"><button class="x" id="quit" aria-label="Kilépés">✕</button>
+    <div class="prog">${R.qs.map((_,k)=>`<i class="${k<R.i?(R.results[k]?"ok":"no"):k===R.i?"cur":""}"></i>`).join("")}</div>
+    ${R.review?"":`<div class="pts" id="pts">${R.score}</div>`}</div>
+  <div class="meta"><span>${R.review?`<span class="review">Hibás kérdések gyakorlása</span>`:(R.cat>=0?CATS[R.cat].name:"Vegyes kör")} · ${R.i+1}/${R.qs.length}</span><span class="streak" id="streak" ${R.streak>=2?"":"hidden"}>${R.streak} jó egymás után</span></div>
+  ${R.challenge?`<div class="timer"><i id="tbar"></i></div>`:""}
+  <div class="pic" id="pic"><img src="${img(q.img)}" alt=""><span class="zoomhint">Nagyítás</span></div>
+  <h2 class="q">${q.q}</h2>
+  <div class="opts">${opts.map((o,k)=>`<button class="opt" data-k="${k}"><span class="l">${"ABCD"[k]}</span><span>${o.t}</span></button>`).join("")}</div>
+  <div class="tools" id="tools"><button class="hint" id="hint">Felező: 2 rossz válasz eltűnik (fél pont)</button></div>
+  <div id="after"></div>`;
+  $("#pic").onclick=()=>zoom(img(q.img));
+  $("#quit").onclick=quitAsk;
+  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(+b.dataset.k));
+  $("#hint").onclick=()=>{
+    if(R.cur.hint||R.cur.answered) return;
+    R.cur.hint=true;
+    const wrong=shuffle(R.cur.opts.map((o,k)=>o.ok?-1:k).filter(k=>k>=0)).slice(0,2);
+    wrong.forEach(k=>{const b=app.querySelector(`.opt[data-k="${k}"]`);b.classList.add("gone");b.disabled=true;});
+    $("#hint").disabled=true;
+  };
+  if(R.challenge){
+    const bar=$("#tbar");
+    timer=setInterval(()=>{R.cur.left-=.25;bar.style.transform=`scaleX(${Math.max(0,R.cur.left)/20})`;bar.classList.toggle("low",R.cur.left<=5);
+      if(R.cur.left<=0){stopTimer();answer(-1);}},250);
+  }
+  window.scrollTo(0,0);
+}
+function answer(k){
+  if(R.cur.answered) return;
+  R.cur.answered=true; stopTimer();
+  const {q,opts}=R.cur;
+  const ok=k>=0&&opts[k].ok;
+  app.querySelectorAll(".opt").forEach(b=>{b.disabled=true;const o=opts[+b.dataset.k];if(o.ok)b.classList.add("right");});
+  if(k>=0&&!ok){const b=app.querySelector(`.opt[data-k="${k}"]`);b.classList.add("wrong","shake");}
+  let gain=0;
+  if(ok){
+    R.streak++;
+    if(!R.review){
+      gain=100;
+      if(R.challenge) gain+=Math.round(R.cur.left*3);
+      if(R.cur.hint) gain=Math.round(gain/2);
+      if(R.streak>=3) gain+=20*(R.streak-2);
+      R.score+=gain;
+    }
+  } else { R.streak=0; R.missed.push(q); }
+  R.results[R.i]=ok;
+  const praise=["Szuper!","Pontosan!","Ez az!","Telitalálat!","Nagyon jó!"];
+  const last=R.i===R.qs.length-1;
+  $("#tools").remove();
+  $("#after").innerHTML=`<div class="fb ${ok?"ok":"no"}" role="status">
+    <h4>${ok?praise[Math.random()*praise.length|0]:(k<0?"Lejárt az idő!":"Nem ez a helyes válasz.")}</h4>
+    ${ok?"":`<p><b>Helyes válasz:</b> ${q.o[0]}</p>`}
+    <p>${q.w}</p>
+    ${gain?`<div class="gain">+${gain} pont${R.streak>=3?` · sorozat-bónusz`:""}</div>`:""}
+  </div>
+  <button class="primary" id="next" style="margin-top:12px">${last?"Eredmény":"Következő kérdés"}</button>`;
+  if(!R.review){$("#pts").textContent=R.score;}
+  const s=$("#streak"); if(s){s.hidden=R.streak<2;s.textContent=`${R.streak} jó egymás után`;}
+  $("#next").onclick=()=>{ if(last) finish(); else {R.i++;showQ();} };
+  $("#next").scrollIntoView({behavior:"smooth",block:"end"});
+}
+function quitAsk(){
+  stopTimer();
+  const a=$("#after"); const tools=$("#tools");
+  if(tools) tools.remove();
+  a.innerHTML=`<div class="confirm">Kilépsz? Ennek a körnek az eredménye elvész.<div><button class="secondary" id="stay">Maradok</button><button class="primary" id="leave">Kilépek</button></div></div>`;
+  a.scrollIntoView({behavior:"smooth",block:"end"});
+  $("#leave").onclick=home;
+  $("#stay").onclick=()=>{ if(R.cur.answered){a.innerHTML="";answerRestore();} else showQ(); };
+}
+function answerRestore(){ // ha válasz után lépett volna ki, visszaadjuk a Tovább gombot
+  const last=R.i===R.qs.length-1;
+  $("#after").innerHTML=`<button class="primary" id="next">${last?"Eredmény":"Következő kérdés"}</button>`;
+  $("#next").onclick=()=>{ if(last) finish(); else {R.i++;showQ();} };
+}
+function finish(){
+  stopTimer();
+  const n=R.qs.length, good=R.results.filter(Boolean).length;
+  if(R.review){
+    const still=R.missed;
+    app.innerHTML=`<div class="result">${LEAF.replace("<svg","<svg width='70' height='70'")}
+      <h2>${still.length?"Még egy kicsit gyakorolj!":"Mindet kijavítottad!"}</h2>
+      <p>${good} / ${n} kérdésre válaszoltál most jól.</p>
+      <div class="btns">${still.length?`<button class="primary" id="again">Újra a hibásakat (${still.length})</button>`:""}<button class="secondary" id="home">Vissza a témakörökhöz</button></div></div>`;
+    if(still.length) $("#again").onclick=()=>startRound(R.cat,still);
+    $("#home").onclick=home; return;
+  }
+  const ratio=good/n;
+  const stars=ratio===1?3:ratio>=.8?2:ratio>=.5?1:0;
+  let record=false;
+  D.total+=R.score;
+  if(R.cat>=0){
+    if(stars>D.stars[R.cat]) D.stars[R.cat]=stars;
+    if(R.score>D.best[R.cat]){D.best[R.cat]=R.score;record=true;}
+  } else if(R.score>D.mixBest){D.mixBest=R.score;record=true;}
+  save();
+  const title=stars===3?"Hibátlan!":stars===2?"Nagyon ügyes!":stars===1?"Jó úton jársz!":"Gyakorolj még egy kicsit!";
+  const missed=R.missed;
+  app.innerHTML=`<div class="result">
+    ${starHTML(stars,"bigstars")}
+    <h2>${title}</h2>
+    <div class="score">${R.score} pont</div>
+    <p>${good} / ${n} helyes válasz${R.challenge?" · Kihívás mód":""}</p>
+    ${record?`<span class="badge">Új rekord!</span>`:""}
+    ${missed.length?`<div class="missed"><h4>Ezeket érdemes átnézni</h4><ul>${missed.map(q=>`<li>${q.q} <b>– ${q.o[0]}</b></li>`).join("")}</ul></div>`:""}
+    <div class="btns">
+      ${missed.length?`<button class="primary" id="rev">Gyakorold a hibásakat (${missed.length})</button>`:""}
+      <button class="${missed.length?"secondary":"primary"}" id="again">Új kör, új kérdésekkel</button>
+      <button class="secondary" id="home">Vissza a témakörökhöz</button>
+    </div></div>`;
+  if(missed.length) $("#rev").onclick=()=>startRound(R.cat,missed);
+  $("#again").onclick=()=>startRound(R.cat);
+  $("#home").onclick=home;
+  window.scrollTo(0,0);
+}
+
+/* ============ VILLÁMKÖR ============ */
+let F=null;
+function startFlash(){
+  stopTimer();
+  F={deck:shuffle(FLASH),i:0,score:0,left:60,lock:false,wrong:[]};
+  app.innerHTML=`
+  <div class="bar"><button class="x" id="quitF" aria-label="Kilépés">✕</button><div style="flex:1;font-family:var(--display);font-weight:800;font-size:20px;color:var(--sun-deep)">Villámkör</div><div class="clock" id="clock">60″</div></div>
+  <div class="timer"><i id="fbar"></i></div>
+  <div class="meta"><span>Helyes: <b id="fs">0</b></span><span>Rekord: ${D.flashBest}</span></div>
+  <div class="flashcard" id="fcard"></div>
+  <div class="tfbtns"><button class="t" data-v="1">IGAZ</button><button class="f" data-v="0">HAMIS</button></div>
+  <div class="flashwhy" id="fwhy">Döntsd el minél gyorsabban!</div>`;
+  $("#quitF").onclick=home;
+  app.querySelectorAll(".tfbtns button").forEach(b=>b.onclick=()=>flashAns(b.dataset.v==="1"));
+  flashShow();
+  const bar=$("#fbar");
+  timer=setInterval(()=>{F.left-=.25;bar.style.transform=`scaleX(${Math.max(0,F.left)/60})`;bar.classList.toggle("low",F.left<=10);
+    $("#clock").textContent=Math.ceil(Math.max(0,F.left))+"″"; if(F.left<=0){stopTimer();flashEnd();}},250);
+}
+function flashShow(){ if(F.i>=F.deck.length){F.deck=F.deck.concat(shuffle(FLASH));} const c=$("#fcard"); c.className="flashcard"; c.textContent=F.deck[F.i][0]; }
+function flashAns(v){
+  if(F.lock||F.left<=0) return;
+  const [s,t,w]=F.deck[F.i]; const ok=v===t;
+  if(ok){F.score++;$("#fs").textContent=F.score;} else if(!F.wrong.find(x=>x[0]===s)) F.wrong.push(F.deck[F.i]);
+  const c=$("#fcard"); c.classList.add(ok?"ok":"no");
+  $("#fwhy").innerHTML=`<b style="color:var(${ok?"--ok":"--no"})">${ok?"Jó!":"Nem."}</b> ${t?"Igaz.":"Hamis."} ${w}`;
+  F.lock=true; setTimeout(()=>{F.lock=false;F.i++;if(F.left>0)flashShow();},ok?550:1300);
+}
+function flashEnd(){
+  let rec=false; if(F.score>D.flashBest){D.flashBest=F.score;rec=true;} save();
+  app.innerHTML=`<div class="result">
+    <div class="score" style="font-size:64px;color:var(--sun-deep)">${F.score}</div>
+    <h2>helyes válasz 60 másodperc alatt</h2>
+    ${rec?`<span class="badge">Új rekord!</span>`:`<p>A rekordod: ${D.flashBest}</p>`}
+    ${F.wrong.length?`<div class="missed"><h4>Ezekben tévedtél</h4><ul>${F.wrong.map(([s,t,w])=>`<li>${s} <b>– ${t?"Igaz":"Hamis"}.</b> ${w}</li>`).join("")}</ul></div>`:""}
+    <div class="btns"><button class="primary" id="again">Még egy villámkör</button><button class="secondary" id="home">Vissza a témakörökhöz</button></div></div>`;
+  $("#again").onclick=startFlash; $("#home").onclick=home;
+}
+
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"){const z=document.querySelector(".zoom"); if(z) z.remove();} });
+home();
+</script>
+
+</body></html>

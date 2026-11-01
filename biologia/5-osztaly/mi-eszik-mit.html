@@ -1,0 +1,647 @@
+<!doctype html><html lang="hu"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Mi eszik mit?</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: egy oszlopos játéktér; kezdőlapon módválasztó + élőhely-csempék, játékban feladatkártya, játékmező, pakli */
+:root{
+  --bg:#e8f1ec; --surface:#ffffff; --ink:#1b2a22; --muted:#56695e; --line:#c5d6cc; --slot:#f2f7f4;
+  --accent:#2c6a4c; --ok:#23804a; --okbg:#d8efe0; --bad:#c23b33; --badbg:#f7dcd9; --gold:#e0a21b;
+  --h-lomb:#c4612a; --h-fenyves:#2d6b4e; --h-ret:#7d9b2c; --h-sivatag:#c98a17; --h-tundra:#4a86b0; --h-kert:#bf3f68;
+  --f-display:"Baloo 2","Trebuchet MS",system-ui,sans-serif;
+  --f-body:"Nunito","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121d18; --surface:#1b2a23; --ink:#e4efe8; --muted:#9db2a6; --line:#2e4238; --slot:#16241e;
+  --accent:#7cc69c; --ok:#6fd18f; --okbg:#1d3a29; --bad:#ff8c82; --badbg:#3e2321; --gold:#f2bf4a;
+  --h-lomb:#e8854b; --h-fenyves:#55b386; --h-ret:#a9c94e; --h-sivatag:#e6ad3e; --h-tundra:#79b5de; --h-kert:#e76a94;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121d18; --surface:#1b2a23; --ink:#e4efe8; --muted:#9db2a6; --line:#2e4238; --slot:#16241e;
+  --accent:#7cc69c; --ok:#6fd18f; --okbg:#1d3a29; --bad:#ff8c82; --badbg:#3e2321; --gold:#f2bf4a;
+  --h-lomb:#e8854b; --h-fenyves:#55b386; --h-ret:#a9c94e; --h-sivatag:#e6ad3e; --h-tundra:#79b5de; --h-kert:#e76a94;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+#app{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.1;margin:0;text-wrap:balance}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.emo{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;line-height:1}
+
+/* Kezdőlap */
+.hero{display:flex;flex-direction:column;gap:10px;padding-top:8px}
+.hero h1{font-size:clamp(2.6rem,9vw,4.4rem);font-weight:800;letter-spacing:-.01em;color:var(--accent)}
+.hero p{margin:0;max-width:58ch;color:var(--muted)}
+.known{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:700;background:var(--surface);
+  border:2px dashed var(--line);border-radius:14px;padding:10px 14px;width:fit-content;max-width:100%}
+.known .emo{font-size:1.5rem}
+.known small{color:var(--muted);font-weight:600;width:100%}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.mode{display:flex;gap:12px;align-items:center;text-align:left;background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:12px 14px}
+.mode svg{width:46px;height:46px;flex:none;color:var(--muted)}
+.mode b{font-family:var(--f-display);font-size:1.2rem;display:block;line-height:1.1}
+.mode small{color:var(--muted);font-weight:700}
+.mode[aria-selected="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 2px var(--accent)}
+.mode[aria-selected="true"] svg,.mode[aria-selected="true"] b{color:var(--accent)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}
+.tile{background:var(--surface);border:2px solid var(--line);border-bottom:6px solid var(--hc);border-radius:18px;
+  padding:16px 14px 14px;text-align:left;display:flex;flex-direction:column;gap:6px;transition:transform .15s}
+.tile:hover{transform:translateY(-3px)}
+.tile .emo{font-size:2.4rem}
+.tile h3{font-size:1.3rem;color:var(--hc)}
+.stars{color:var(--gold);letter-spacing:.08em;font-size:1.05rem}
+.stars .off{color:var(--line)}
+.tile small{color:var(--muted);font-weight:700}
+details.rules{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:12px 16px}
+details.rules summary{font-family:var(--f-display);font-weight:700;font-size:1.15rem;cursor:pointer}
+.rulelist{display:grid;gap:8px;margin-top:10px}
+.rulelist div{display:grid;grid-template-columns:minmax(0,11rem) 1fr;gap:10px;align-items:baseline}
+.new{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;background:var(--gold);color:#2a1d00;border-radius:6px;padding:1px 6px;margin-left:6px;white-space:nowrap}
+
+/* Játék közös */
+.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.back{background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:700}
+.bar h2{font-size:1.6rem;color:var(--hc);flex:1;min-width:0}
+.progress{font-weight:800;color:var(--muted)}
+.steps{display:flex;gap:6px;flex-wrap:wrap}
+.step{font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:4px 10px;border-radius:999px;
+  background:var(--surface);color:var(--muted);border:2px solid var(--line)}
+.step.on{background:var(--hc);color:#fff;border-color:var(--hc)}
+.step.done{color:var(--ok);border-color:var(--ok)}
+.task{background:var(--surface);border-radius:16px;padding:14px 16px;border-left:6px solid var(--hc)}
+.task h3{font-size:1.3rem;margin-bottom:2px}
+.task p{margin:0;color:var(--muted)}
+.counter{display:inline-block;margin-top:6px;font-weight:800;color:var(--hc)}
+
+/* Lánc */
+.chain{display:flex;align-items:stretch;justify-content:center;gap:6px}
+.arrow{display:flex;align-items:center;justify-content:center;color:var(--hc);flex:0 0 26px}
+.arrow svg{width:26px;height:26px}
+.slot{flex:1 1 0;min-width:0;max-width:150px;display:flex;flex-direction:column;gap:6px}
+.place{min-height:118px;border-radius:16px;border:3px dashed var(--line);background:var(--slot);display:flex;align-items:center;
+  justify-content:center;color:var(--muted);font-family:var(--f-display);font-size:1.6rem;font-weight:700;padding:0}
+.card{width:100%;min-height:118px;border-radius:16px;border:3px solid var(--line);background:var(--surface);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:6px;padding:10px 6px;text-align:center;box-shadow:0 3px 0 var(--line);transition:transform .12s}
+.card:hover{transform:translateY(-2px)}
+.card .emo{font-size:2.5rem}
+.card .nm{font-weight:800;font-size:.92rem;line-height:1.2;overflow-wrap:anywhere}
+.card.locked{border-color:var(--ok);box-shadow:0 3px 0 var(--ok);cursor:default}
+.card.locked:hover{transform:none}
+.card.intr{border-color:var(--gold);box-shadow:0 3px 0 var(--gold);cursor:default}
+.card.chosen{border-color:var(--hc);box-shadow:0 0 0 4px color-mix(in srgb,var(--hc) 35%,transparent);transform:translateY(-3px)}
+.roletag{border:2px dashed var(--line);background:var(--slot);border-radius:10px;padding:6px 4px;font-size:.8rem;font-weight:800;line-height:1.15;min-height:44px}
+.roletag.set{border-style:solid;border-color:var(--hc);background:var(--surface)}
+.roletag.ok{border-color:var(--ok);background:var(--okbg);color:var(--ok)}
+.roletag.bad{border-color:var(--bad);background:var(--badbg)}
+.legend{text-align:center;color:var(--muted);font-size:.9rem;margin:-8px 0 0}
+
+.pool{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.pool h3{font-size:1.05rem;color:var(--muted)}
+.poolcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-weight:800;font-size:.95rem}
+.chip[aria-pressed="true"]{background:var(--hc);border-color:var(--hc);color:#fff}
+.habbtns{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.habbtn{border:2px solid var(--line);border-left:6px solid var(--c);background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:800;text-align:left;display:flex;align-items:center;gap:8px}
+.habbtn .emo{font-size:1.4rem}
+.habbtn:disabled{opacity:.45;text-decoration:line-through;cursor:not-allowed}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.go{background:var(--hc);color:#fff;border:0;border-radius:14px;padding:12px 22px;font-family:var(--f-display);font-weight:700;font-size:1.2rem;box-shadow:0 4px 0 rgba(0,0,0,.18)}
+.go:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,.18)}
+.ghost{background:transparent;border:2px solid var(--line);border-radius:14px;padding:10px 18px;font-weight:800}
+.msg{border-radius:12px;padding:10px 14px;font-weight:700;margin:0}
+.msg.ok{background:var(--okbg);color:var(--ok)}
+.msg.bad{background:var(--badbg);color:var(--bad)}
+.msg.info{background:var(--surface);color:var(--muted)}
+.win{background:var(--surface);border:2px solid var(--hc);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.win .big{font-size:2.6rem;color:var(--gold);letter-spacing:.1em}
+.win .big .off{color:var(--line)}
+.fact{background:var(--slot);border-radius:12px;padding:12px 14px;margin:0}
+.fact b{color:var(--hc)}
+
+/* Hálózat */
+.web{position:relative;background:var(--surface);border:2px solid var(--line);border-radius:20px;padding:16px 8px 0;display:flex;flex-direction:column;gap:50px;overflow:hidden}
+.web svg.lines{position:absolute;left:0;top:0;pointer-events:none}
+.wrow{position:relative;z-index:1;display:flex;justify-content:space-around;gap:6px}
+.node{width:min(112px,23%);min-height:84px;border-radius:14px;border:3px solid var(--line);background:var(--surface);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:4px;padding:6px 3px;box-shadow:0 3px 0 var(--line);transition:transform .12s}
+.node .emo{font-size:1.9rem}
+.node .nm{font-weight:800;font-size:.8rem;line-height:1.15;text-align:center;overflow-wrap:anywhere}
+.node.sel{border-color:var(--hc);box-shadow:0 0 0 5px color-mix(in srgb,var(--hc) 35%,transparent);transform:translateY(-3px)}
+.node.picked{border-color:var(--hc);background:color-mix(in srgb,var(--hc) 14%,var(--surface))}
+.node.ok{border-color:var(--ok);background:var(--okbg)}
+.node.bad{border-color:var(--bad);background:var(--badbg)}
+.ground{position:relative;z-index:1;margin:0 -8px;background:var(--slot);border-top:2px dashed var(--line);padding:10px 16px;color:var(--muted);font-weight:700;font-size:.9rem;display:flex;gap:10px;align-items:center}
+.ground .emo{font-size:1.4rem}
+.ln{stroke:var(--muted);stroke-width:2.5;fill:none;opacity:.75}
+.ln.new{stroke:var(--ok);stroke-width:3.5;opacity:1}
+.ln.bad{stroke:var(--bad);stroke-width:3;stroke-dasharray:7 5;opacity:1}
+.ah{fill:var(--muted);opacity:.75}.ah.new{fill:var(--ok);opacity:1}.ah.bad{fill:var(--bad);opacity:1}
+
+/* Piramis */
+.pyr{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--surface);border:2px solid var(--line);border-radius:20px;padding:20px 10px 16px}
+.tier{width:var(--w);max-width:100%;min-height:84px;border:0;clip-path:polygon(8% 0,92% 0,100% 100%,0 100%);
+  background:color-mix(in srgb,var(--hc) var(--a),var(--surface));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 12%;color:var(--ink)}
+.tier .lab{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink);opacity:.7}
+.tier .who{display:flex;align-items:center;gap:8px;font-weight:800;line-height:1.15;text-align:left}
+.tier .who .emo{font-size:1.8rem}
+.tier .empty{font-family:var(--f-display);font-size:1.5rem;font-weight:700;opacity:.55}
+.tier.ok .who::after{content:"✓";color:var(--ok);font-size:1.2rem}
+.tier.target{outline:none;filter:brightness(1.04)}
+.energy{font-size:.85rem;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.pyrnote{color:var(--muted);font-size:.9rem;text-align:center;margin:4px 0 0}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:10px 14px;font-weight:700}
+.opt:disabled{opacity:.5;text-decoration:line-through;cursor:not-allowed}
+.opt.ok,.opt.ok:disabled{border-color:var(--ok);background:var(--okbg);color:var(--ok);opacity:1;text-decoration:none}
+
+.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@keyframes pop{from{transform:scale(.85);opacity:.4}to{transform:none;opacity:1}}
+.card.new-in{animation:pop .2s ease-out}
+
+@media (max-width:700px){
+  .chain{flex-direction:column;align-items:stretch}
+  .slot{max-width:none;flex-direction:row;align-items:stretch}
+  .slot>.place,.slot>.card{flex:1;min-height:72px}
+  .slot .card{flex-direction:row;justify-content:flex-start;gap:12px;padding:8px 14px;text-align:left}
+  .slot .card .emo{font-size:2rem}
+  .slot .card .nm{font-size:1rem}
+  .slot .roletag{flex:0 0 42%}
+  .arrow{transform:rotate(90deg);flex-basis:22px;height:22px}
+  .place{font-size:1.3rem}
+  .web{gap:40px}
+  .node{min-height:74px}
+  .node .emo{font-size:1.6rem}
+  .node .nm{font-size:.72rem}
+  .tier .who{font-size:.85rem}
+  .tier .who .emo{font-size:1.5rem}
+  .rulelist div{grid-template-columns:1fr;gap:0}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div id="app" aria-live="polite"></div>
+
+<script>
+const ROLES={T:"Termelő",E1:"Elsődleges fogyasztó",E2:"Másodlagos fogyasztó",E3:"Harmadlagos fogyasztó",L:"Lebontó"};
+const ROLE_ORDER=["T","E1","E2","E3","L"];
+const c=(n,e,r)=>({n,e,r});
+const DEC=c("Gombák és baktériumok","🍄","L");
+
+const H=[
+ {id:"lomb",name:"Lombhullató erdő",e:"🍂",chains:[
+  {items:[c("Tölgy levele","🌳","T"),c("Gyapjaslepke hernyója","🐛","E1"),c("Széncinege","🐦","E2"),c("Karvaly","🦅","E3"),DEC],
+   fact:"Egy széncinegepár a fiókanevelés idején naponta több száz hernyót hord a fészekbe."},
+  {items:[c("Bükkmakk","🌰","T"),c("Erdei pocok","🐭","E1"),c("Vörös róka","🦊","E2"),DEC],
+   fact:"A pocok elrejti a makkot télire. Az elfelejtett makkokból új fák nőnek."},
+  {items:[c("Lágyszárú növények","🌿","T"),c("Őz","🦌","E1"),c("Farkas","🐺","E2"),DEC],
+   fact:"Az őz kérődző: a lenyelt növényt később visszaöklendezi és újra megrágja."}],
+  web:{nodes:[["Tölgy","🌳",0],["Bükkmakk","🌰",0],["Lágyszárúak","🌿",0],["Lepkehernyó","🐛",1],["Erdei pocok","🐭",1],["Őz","🦌",1],["Vaddisznó","🐗",1],
+    ["Széncinege","🐦",2],["Vörös róka","🦊",2],["Farkas","🐺",2],["Karvaly","🦅",3]],
+   edges:[["Tölgy","Lepkehernyó"],["Tölgy","Vaddisznó"],["Bükkmakk","Erdei pocok"],["Bükkmakk","Vaddisznó"],["Lágyszárúak","Őz"],["Lágyszárúak","Erdei pocok"],
+    ["Lepkehernyó","Széncinege"],["Erdei pocok","Vörös róka"],["Őz","Farkas"],["Vaddisznó","Farkas"],["Széncinege","Karvaly"]],
+   fact:"A vaddisznó mindenevő: makkot, gyökeret, de rovarlárvát és egeret is eszik. Ha kevés a makk, egyszerűen mást keres."}},
+ {id:"fenyves",name:"Tűlevelű erdő",e:"🌲",chains:[
+  {items:[c("Lucfenyő magja","🌲","T"),c("Mókus","🐿️","E1"),c("Nyest","🦡","E2"),c("Hiúz","🐆","E3"),DEC],
+   fact:"A hiúz a Kárpátok fenyveseiben, így a Hargita erdeiben is él."},
+  {items:[c("Áfonya","🫐","T"),c("Siketfajd","🐓","E1"),c("Hiúz","🐆","E2"),DEC],
+   fact:"A siketfajd dürgés közben egy pillanatra nem hall. Innen kapta a nevét."},
+  {items:[c("Fiatal fahajtások","🌱","T"),c("Gímszarvas","🦌","E1"),c("Farkas","🐺","E2"),DEC],
+   fact:"A gímszarvas bika agancsa minden év végén leesik, és tavasszal újranő."}],
+  web:{nodes:[["Lucfenyő magja","🌲",0],["Fahajtások","🌱",0],["Áfonya","🫐",0],["Mókus","🐿️",1],["Keresztcsőrű","🐦",1],["Siketfajd","🐓",1],["Gímszarvas","🦌",1],
+    ["Nyest","🦡",2],["Farkas","🐺",2],["Hiúz","🐆",3]],
+   edges:[["Lucfenyő magja","Mókus"],["Lucfenyő magja","Keresztcsőrű"],["Áfonya","Siketfajd"],["Fahajtások","Siketfajd"],["Fahajtások","Gímszarvas"],
+    ["Mókus","Nyest"],["Keresztcsőrű","Nyest"],["Siketfajd","Hiúz"],["Gímszarvas","Farkas"],["Gímszarvas","Hiúz"],["Nyest","Hiúz"]],
+   fact:"A keresztcsőrű görbe, keresztbe álló csőrével úgy feszíti szét a tobozpikkelyeket, mint egy feszítővas."}},
+ {id:"ret",name:"Rét és sztyepp",e:"🌼",chains:[
+  {items:[c("Pázsitfüvek","🌾","T"),c("Szöcske","🦗","E1"),c("Fürge gyík","🦎","E2"),c("Vörös vércse","🦅","E3"),DEC],
+   fact:"A vörös vércse egy helyben lebegve, szitálva figyeli a zsákmányt a fű között."},
+  {items:[c("Fűmagvak","🌾","T"),c("Mezei egér","🐁","E1"),c("Homoki vipera","🐍","E2"),c("Egerészölyv","🦅","E3"),DEC],
+   fact:"A homoki vipera Románia legmérgezőbb kígyója, és védett faj."},
+  {items:[c("Lóhere","🍀","T"),c("Hörcsög","🐹","E1"),c("Vörös róka","🦊","E2"),DEC],
+   fact:"A hörcsög pofazacskójában hordja haza a magvakat a föld alatti éléskamrájába."}],
+  web:{nodes:[["Pázsitfüvek","🌾",0],["Lóhere","🍀",0],["Szöcske","🦗",1],["Mezei egér","🐁",1],["Hörcsög","🐹",1],["Mezei nyúl","🐇",1],
+    ["Fürge gyík","🦎",2],["Homoki vipera","🐍",2],["Vörös róka","🦊",2],["Vörös vércse","🦅",3],["Egerészölyv","🦅",3]],
+   edges:[["Pázsitfüvek","Szöcske"],["Pázsitfüvek","Mezei egér"],["Pázsitfüvek","Mezei nyúl"],["Lóhere","Hörcsög"],["Lóhere","Mezei nyúl"],
+    ["Szöcske","Fürge gyík"],["Mezei egér","Homoki vipera"],["Mezei egér","Vörös róka"],["Hörcsög","Vörös róka"],["Mezei nyúl","Vörös róka"],
+    ["Fürge gyík","Vörös vércse"],["Mezei egér","Vörös vércse"],["Homoki vipera","Egerészölyv"],["Mezei egér","Egerészölyv"]],
+   fact:"A mezei egér a rét egyik legfontosabb tápláléka: róka, kígyó, ölyv és vércse is vadászik rá."}},
+ {id:"sivatag",name:"Forró sivatag",e:"🌵",chains:[
+  {items:[c("Kaktusz","🌵","T"),c("Ugróegér","🐭","E1"),c("Csörgőkígyó","🐍","E2"),DEC],
+   fact:"A kaktusz tüskéi átalakult levelek. Így sokkal kevesebb vizet párologtat."},
+  {items:[c("Sivatagi fű","🌾","T"),c("Sivatagi sáska","🦗","E1"),c("Sivatagi gyík","🦎","E2"),c("Sólyom","🦅","E3"),DEC],
+   fact:"A sivatagi sáskák milliós rajokban vándorolnak, és mindent letarolnak, amerre járnak."},
+  {items:[c("Kaktuszvirág nektárja","🌺","T"),c("Nektárevő denevér","🦇","E1"),c("Bagoly","🦉","E2"),DEC],
+   fact:"Egyes kaktuszok éjjel nyílnak, és denevérek porozzák be őket, miközben nektárt isznak."}],
+  web:{nodes:[["Sivatagi fű","🌾",0],["Kaktusz","🌵",0],["Kaktuszvirág","🌺",0],["Sivatagi sáska","🦗",1],["Ugróegér","🐭",1],["Denevér","🦇",1],
+    ["Sivatagi gyík","🦎",2],["Bagoly","🦉",2],["Csörgőkígyó","🐍",3],["Sólyom","🦅",3]],
+   edges:[["Kaktusz","Ugróegér"],["Sivatagi fű","Ugróegér"],["Sivatagi fű","Sivatagi sáska"],["Kaktuszvirág","Denevér"],["Sivatagi sáska","Sivatagi gyík"],
+    ["Ugróegér","Csörgőkígyó"],["Sivatagi gyík","Csörgőkígyó"],["Ugróegér","Bagoly"],["Denevér","Bagoly"],["Sivatagi gyík","Sólyom"]],
+   fact:"A sivatagi állatok nagy része éjjel indul táplálékot keresni, amikor nincs olyan forróság."}},
+ {id:"tundra",name:"Tundra",e:"❄️",chains:[
+  {items:[c("Moha","🌿","T"),c("Lemming","🐹","E1"),c("Sarki róka","🦊","E2"),DEC],
+   fact:"A sarki róka bundája télen hófehér, nyáron barnás. Így mindig beleolvad a tájba."},
+  {items:[c("Rénzuzmó","🍃","T"),c("Rénszarvas","🦌","E1"),c("Tundrai farkas","🐺","E2"),DEC],
+   fact:"A rénzuzmó egy gomba és egy alga együttélése. Az alga végzi a fotoszintézist."},
+  {items:[c("Törpefűz rügyei","🌱","T"),c("Tundrai fogoly","🐦","E1"),c("Hóbagoly","🦉","E2"),DEC],
+   fact:"A hóbagoly nappal is vadászik, mert a sarki nyáron a nap le sem megy."}],
+  web:{nodes:[["Moha","🌿",0],["Törpefűz","🌱",0],["Rénzuzmó","🍃",0],["Lemming","🐹",1],["Tundrai fogoly","🐦",1],["Rénszarvas","🦌",1],
+    ["Sarki róka","🦊",2],["Hóbagoly","🦉",2],["Tundrai farkas","🐺",2]],
+   edges:[["Moha","Lemming"],["Törpefűz","Lemming"],["Törpefűz","Tundrai fogoly"],["Törpefűz","Rénszarvas"],["Rénzuzmó","Rénszarvas"],
+    ["Lemming","Sarki róka"],["Lemming","Hóbagoly"],["Tundrai fogoly","Sarki róka"],["Tundrai fogoly","Hóbagoly"],["Rénszarvas","Tundrai farkas"]],
+   fact:"A tundrán kevés a faj, ezért a hálózat sérülékeny. Ha a lemmingek száma lecsökken, a hóbaglyok sem költenek abban az évben."}},
+ {id:"kert",name:"Kert és gyümölcsös",e:"🏡",chains:[
+  {items:[c("Káposzta","🥬","T"),c("Káposztalepke hernyója","🐛","E1"),c("Széncinege","🐦","E2"),c("Karvaly","🦅","E3"),DEC],
+   fact:"A kertészek odút tesznek ki a cinegéknek, mert a cinegék vegyszer nélkül védik a kertet."},
+  {items:[c("Burgonya","🥔","T"),c("Burgonyabogár","🪲","E1"),c("Fácán","🐓","E2"),DEC],
+   fact:"A burgonyabogarat kevés állat eszi meg, mert rossz ízű. A fácán és a gyöngytyúk viszont igen."},
+  {items:[c("Almafa virága","🌸","T"),c("Házi méh","🐝","E1"),c("Gyurgyalag","🐦","E2"),DEC],
+   fact:"A gyurgyalag röptében kapja el a méheket, és evés előtt egy ágon kidörzsöli a fullánkjukat."}],
+  web:{nodes:[["Burgonya","🥔",0],["Káposzta","🥬",0],["Almafa virága","🌸",0],["Burgonyabogár","🪲",1],["Hernyó","🐛",1],["Házi méh","🐝",1],
+    ["Fácán","🐓",2],["Széncinege","🐦",2],["Gyurgyalag","🐦",2],["Karvaly","🦅",3]],
+   edges:[["Káposzta","Hernyó"],["Burgonya","Burgonyabogár"],["Almafa virága","Házi méh"],["Hernyó","Széncinege"],["Hernyó","Fácán"],
+    ["Burgonyabogár","Fácán"],["Házi méh","Gyurgyalag"],["Házi méh","Széncinege"],["Széncinege","Karvaly"]],
+   fact:"Ha a kertben permetezéssel kiirtják a rovarokat, a cinegék és a fácánok tápláléka is eltűnik."}}
+];
+const HC=id=>`var(--h-${id})`;
+const byId=id=>H.find(h=>h.id===id);
+const rand=a=>a[Math.floor(Math.random()*a.length)];
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const art=n=>{const s=n.toLowerCase();return (/^[aáeéiíoóöőuúüű]/.test(s)?"az ":"a ")+s};
+const Art=n=>{const s=art(n);return s[0].toUpperCase()+s.slice(1)};
+const fmt=n=>n.toLocaleString("hu-HU");
+
+const MODES=[
+ {id:"lanc",name:"Táplálékláncok",sub:"Mi mit eszik, sorban?",rounds:3,unit:"3 tápláléklánc",
+  icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="24" r="5"/><circle cx="24" cy="24" r="5"/><circle cx="40" cy="24" r="5"/><path d="M13.5 24h4M29.5 24h4M16 20.5l3 3.5-3 3.5M32 20.5l3 3.5-3 3.5"/></svg>`},
+ {id:"halo",name:"Táplálékhálózat",sub:"Kösd össze a láncokat!",rounds:1,unit:"1 táplálékhálózat",
+  icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="24" cy="8" r="4.5"/><circle cx="10" cy="24" r="4.5"/><circle cx="38" cy="24" r="4.5"/><circle cx="16" cy="40" r="4.5"/><circle cx="34" cy="40" r="4.5"/><path d="M16 37l-4-9M18 36l17-9M32 36L13 27M34 36l3-8M12 20l9-9M36 20l-9-9"/></svg>`},
+ {id:"piramis",name:"Táplálékpiramis",sub:"Mennyi energia jut feljebb?",rounds:3,unit:"3 piramis",
+  icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M24 5L44 42H4z"/><path d="M15 25.5h18M9.5 34h29"/></svg>`}
+];
+const modeOf=id=>MODES.find(m=>m.id===id);
+
+// Betolakodó csak olyan élőlény lehet, amely egyetlen élőhely láncaiban szerepel
+const origin={};
+H.forEach(h=>h.chains.forEach(ch=>ch.items.forEach(it=>{if(it.r==="L")return;(origin[it.n]??=new Set()).add(h.id)})));
+function pickIntruder(h){
+  const cands=[];
+  H.forEach(o=>{if(o.id===h.id)return;o.chains.forEach(ch=>ch.items.forEach(it=>{
+    if(it.r!=="L"&&origin[it.n].size===1&&!cands.some(x=>x.n===it.n))cands.push({...it,from:o.id});}))});
+  return rand(cands);
+}
+
+// Mentés (régi, csak láncos formátum átalakítása)
+const KEY="ki-eszik-kit-v1";
+let progress={lanc:{},halo:{},piramis:{}};
+try{const raw=JSON.parse(localStorage.getItem(KEY))||{};
+  if(raw.lanc||raw.halo||raw.piramis)progress={lanc:{},halo:{},piramis:{},...raw};else progress.lanc=raw;}catch(e){}
+let mode="lanc";
+try{const m=localStorage.getItem(KEY+"-mode");if(modeOf(m))mode=m}catch(e){}
+function saveStars(md,hid,ci,s){const p=progress[md];p[hid]=p[hid]||{};p[hid][ci]=Math.max(p[hid][ci]||0,s);
+  try{localStorage.setItem(KEY,JSON.stringify(progress))}catch(e){}}
+const starsOf=(md,hid)=>Array.from({length:modeOf(md).rounds},(_,i)=>(progress[md][hid]||{})[i]||0).reduce((a,b)=>a+b,0);
+const starStr=(n,max)=>"★".repeat(n)+`<span class="off">${"★".repeat(max-n)}</span>`;
+const starsFor=m=>m===0?3:m<=2?2:1;
+
+let S={view:"home"};
+const app=document.getElementById("app");
+const arrow=`<div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>`;
+const cardHTML=(it,attrs,cls="")=>`<button class="card ${cls}" ${attrs}><span class="emo">${it.e}</span><span class="nm">${it.n}</span></button>`;
+const msgHTML=()=>S.msg?`<p class="msg ${S.mt}">${S.msg}</p>`:"";
+function say(m,t){S.msg=m;S.mt=t}
+
+function openHabitat(hid){
+  if(mode==="halo"){startWeb(hid);return}
+  const s=progress[mode][hid]||{};const first=[0,1,2].find(i=>!s[i]);const ci=first===undefined?0:first;
+  mode==="lanc"?startRound(hid,ci):startPyr(hid,ci);
+}
+
+/* ---------- Kezdőlap ---------- */
+function renderHome(){
+  const m=modeOf(mode),max=6*m.rounds*3,total=H.reduce((t,h)=>t+starsOf(mode,h.id),0);
+  app.innerHTML=`
+  <header class="hero">
+    <h1>Mi eszik mit?</h1>
+    <p>Ezt a táplálékláncot már ismered. Most fedezd fel, mi mit eszik az erdőben, a réten, a sivatagban és a tundrán!</p>
+    <div class="known"><span class="emo">🌾</span>${arrow}<span class="emo">🐇</span>${arrow}<span class="emo">🦊</span>${arrow}<span class="emo">🍄</span>
+      <small>fű → nyúl → róka → gomba</small></div>
+  </header>
+  <div class="modes" role="tablist" aria-label="Játékmód">${MODES.map(x=>`
+    <button class="mode" role="tab" aria-selected="${x.id===mode}" data-a="mode" data-m="${x.id}">${x.icon}
+      <span><b>${x.name}</b><small>${x.sub}</small></span></button>`).join("")}</div>
+  <section style="display:flex;flex-direction:column;gap:12px">
+    <h2 style="font-size:1.5rem">Válassz élőhelyet <span class="progress" style="font-size:1rem;font-family:var(--f-body)">· ${total}/${max} csillag</span></h2>
+    <div class="tiles">${H.map(h=>{const s=starsOf(mode,h.id),mx=m.rounds*3;return`
+      <button class="tile" data-a="open" data-h="${h.id}" style="--hc:${HC(h.id)}">
+        <span class="emo">${h.e}</span><h3>${h.name}</h3>
+        <span class="stars" aria-label="${s} csillag a ${mx}-ből">${starStr(s,mx)}</span>
+        <small>${m.unit}</small></button>`}).join("")}</div>
+  </section>
+  <details class="rules"><summary>Emlékeztető: mit kell tudni?</summary>
+    <div class="rulelist">
+      <div><b>Termelő</b><span>Napfény segítségével maga készíti a táplálékát. Ezek a növények.</span></div>
+      <div><b>Elsődleges fogyasztó</b><span>A termelőt eszi. Növényevő.</span></div>
+      <div><b>Másodlagos fogyasztó</b><span>Az elsődleges fogyasztót eszi.</span></div>
+      <div><b>Harmadlagos fogyasztó<span class="new">új</span></b><span>A másodlagos fogyasztót eszi. Gyakran ő a csúcsragadozó.</span></div>
+      <div><b>Lebontó</b><span>Az elhalt növényeket és állatokat bontja le. Ilyenek a gombák és a baktériumok.</span></div>
+      <div><b>A nyíl</b><span>Attól indul, amit megesznek, és ahhoz mutat, ami megeszi.</span></div>
+      <div><b>Táplálékhálózat<span class="new">új</span></b><span>Egy élőhely egymásba kapcsolódó táplálékláncai. Egy állat többféle táplálékot is ehet, és többen is vadászhatnak rá.</span></div>
+      <div><b>Táplálékpiramis<span class="new">új</span></b><span>Megmutatja, hogy minden szintre csak kb. a tizede jut tovább az energiának. Ezért alul sok a termelő, felül kevés a ragadozó.</span></div>
+    </div></details>`;
+}
+
+function shell(h,progressTxt,steps,stepIdx,taskHTML,body){
+  const st=steps.map((t,i)=>`<span class="step ${i===stepIdx?"on":i<stepIdx?"done":""}">${i<stepIdx?"✓ ":""}${t}</span>`).join("");
+  app.innerHTML=`<div style="--hc:${HC(h.id)};display:flex;flex-direction:column;gap:18px">
+    <div class="bar"><button class="back" data-a="home">← Élőhelyek</button>
+      <h2><span class="emo">${h.e}</span> ${h.name}</h2><span class="progress">${progressTxt}</span></div>
+    <div class="steps">${st}</div>${taskHTML}${body}</div>`;
+}
+const taskBox=(t,p,extra="")=>`<div class="task"><h3>${t}</h3><p>${p}</p>${extra}</div>`;
+function winHTML(stars,fact,nextBtn){
+  return `<section class="win">
+    <span class="big" aria-label="${stars} csillag">${starStr(stars,3)}</span>
+    <h3 style="font-size:1.5rem">${stars===3?"Hibátlan, ügyes vagy!":stars===2?"Szép munka!":"Megcsináltad! Próbáld újra hibátlanul is."}</h3>
+    <p class="fact"><b>Tudtad?</b> ${fact}</p>
+    <div class="actions">${nextBtn}<button class="ghost" data-a="retry">Újra ezt</button><button class="ghost" data-a="home">Élőhelyek</button></div></section>`;
+}
+function nextBtnFor(lastRound){
+  const nextH=H[(H.findIndex(x=>x.id===S.hid)+1)%H.length];
+  return lastRound?`<button class="go" data-a="open" data-h="${nextH.id}" style="--hc:${HC(nextH.id)}">Tovább: ${nextH.name}</button>`
+                  :`<button class="go" data-a="next">Következő</button>`;
+}
+function mcHTML(q){
+  return `<section class="pool"><h3 style="color:var(--ink);font-size:1.15rem">${q.text}</h3><div class="opts">${q.opts.map((o,i)=>
+    `<button class="opt ${S.answered&&i===q.ok?"ok":""}" data-a="opt" data-i="${i}" ${S.answered||S.wrongOpts.includes(i)?"disabled":""}>${o}</button>`).join("")}</div>
+    ${S.answered?`<p class="fact"><b>Miért?</b> ${q.why}</p><div class="actions"><button class="go" data-a="nextq">Tovább</button></div>`:""}</section>`;
+}
+
+/* ---------- 1. Táplálékláncok ---------- */
+function mixedRoles(){let r;do{r=shuffle([...ROLE_ORDER])}while(r.join()===ROLE_ORDER.join()||r[0]==="T");return r}
+function startRound(hid,ci){
+  const ch=byId(hid).chains[ci],n=ch.items.length,intr=pickIntruder(byId(hid));
+  let pool;
+  do{pool=shuffle([...ch.items.map((it,k)=>({...it,pos:k})),{...intr,pos:-1}])}while(pool.slice(0,n).every((p,k)=>p.pos===k));
+  S={view:"lanc",hid,ci,phase:"build",n,slots:Array(n).fill(null),locked:Array(n).fill(false),pool,
+     roles:Array(n).fill(null),roleSt:Array(n).fill(null),sel:null,intr,wrongHab:[],mistakes:0,msg:"",mt:"",lastIn:-1,roleChips:mixedRoles()};
+  render();window.scrollTo({top:0});
+}
+function renderLanc(){
+  const h=byId(S.hid),ch=h.chains[S.ci],P=S.phase;
+  const stepIdx={build:0,roles:1,intruder:2,done:3}[P];
+  const task={
+    build:["Rakd sorba a láncot!","Koppints egy kártyára, és a következő üres helyre kerül. A termelővel kezdd, a lebontóval fejezd be. Vigyázz, egy kártya nem ide tartozik!"],
+    roles:["Melyik élőlény milyen szerepet tölt be?","Válassz egy szerepet, aztán koppints a kártya alatti mezőre."],
+    intruder:["Melyik a betolakodó?","Ez a kártya egy másik élőhelyről szökött ide. Honnan jött?"]}[P];
+  const slots=S.slots.map((it,j)=>{
+    const top=it?cardHTML(it,`data-a="unslot" data-j="${j}" ${S.locked[j]?'aria-disabled="true"':`aria-label="${it.n}, visszatesz"`}`,(S.locked[j]?"locked ":"")+(S.lastIn===j?"new-in":""))
+              :`<div class="place" aria-label="${j+1}. üres hely">${j+1}</div>`;
+    let tag="";
+    if(P!=="build"){const r=S.roles[j],st=S.roleSt[j];
+      tag=`<button class="roletag ${r?"set":""} ${st||""}" data-a="setrole" data-j="${j}" ${P!=="roles"||st==="ok"?"disabled":""}>${r?ROLES[r]:"Szerep?"}</button>`;}
+    return `<div class="slot">${top}${tag}</div>`;
+  }).join(arrow);
+  let below="";
+  if(P==="build")below=`<section class="pool"><h3>Kártyák</h3><div class="poolcards">${S.pool.map((it,i)=>cardHTML(it,`data-a="pick" data-i="${i}"`)).join("")}</div>
+      <div class="actions"><button class="go" data-a="checkBuild">Ellenőrzés</button></div></section>`;
+  else if(P==="roles")below=`<section class="pool"><h3>Szerepek</h3><div class="chips">${S.roleChips.map(r=>`<button class="chip" data-a="sel" data-r="${r}" aria-pressed="${S.sel===r}">${ROLES[r]}</button>`).join("")}</div>
+      <div class="actions"><button class="go" data-a="checkRoles">Ellenőrzés</button></div></section>`;
+  else if(P==="intruder")below=`<section class="pool"><div style="max-width:150px">${cardHTML(S.intr,'aria-disabled="true"',"intr")}</div>
+      <div class="habbtns">${H.filter(o=>o.id!==S.hid).map(o=>`<button class="habbtn" style="--c:${HC(o.id)}" data-a="guess" data-h="${o.id}" ${S.wrongHab.includes(o.id)?"disabled":""}><span class="emo">${o.e}</span>${o.name}</button>`).join("")}</div></section>`;
+  else below=winHTML(S.stars,ch.fact,nextBtnFor(S.ci===2));
+  shell(h,`${S.ci+1}. lánc / 3`,["Lánc","Szerepek","Betolakodó"],stepIdx,P!=="done"?taskBox(task[0],task[1]):"",
+    `<div class="chain" role="list">${slots}</div><p class="legend">A nyíl ahhoz mutat, ami megeszi.</p>${msgHTML()}${below}`);
+  S.lastIn=-1;
+}
+function lancClick(a,b){
+  if(a==="pick"){const j=S.slots.indexOf(null);
+    if(j<0){say("Minden hely foglalt. Koppints egy kártyára a láncban, hogy visszavedd.","info");return}
+    S.slots[j]=S.pool.splice(+b.dataset.i,1)[0];S.lastIn=j;say("","");return}
+  if(a==="unslot"){const j=+b.dataset.j;if(S.locked[j]||!S.slots[j])return;S.pool.push(S.slots[j]);S.slots[j]=null;say("","");return}
+  if(a==="checkBuild"){
+    if(S.slots.includes(null)){say("Még van üres hely a láncban.","info");return}
+    let wrong=0;S.slots.forEach((it,j)=>{if(it.pos===j)S.locked[j]=true;else{wrong++;S.pool.push(it);S.slots[j]=null}});
+    if(wrong){S.mistakes++;say(`${wrong} kártya rossz helyre került, visszatettem őket. A zölddel keretezettek jók!`,"bad");return}
+    S.phase="roles";say("Szuper, a lánc a helyén van!","ok");return}
+  if(a==="sel"){S.sel=b.dataset.r;return}
+  if(a==="setrole"){if(!S.sel){say("Előbb válassz egy szerepet lent!","info");return}
+    const j=+b.dataset.j;S.roles[j]=S.sel;S.roleSt[j]=null;say("","");return}
+  if(a==="checkRoles"){
+    if(S.roles.includes(null)){say("Még nem adtál meg minden élőlénynek szerepet.","info");return}
+    let wrong=0;S.slots.forEach((it,j)=>{if(S.roles[j]===it.r)S.roleSt[j]="ok";else{wrong++;S.roleSt[j]="bad";S.roles[j]=null}});
+    if(wrong){S.mistakes++;say(`${wrong} szerep nem stimmel. Gondold végig: mit eszik az az élőlény?`,"bad");return}
+    S.phase="intruder";say("Minden szerep stimmel!","ok");return}
+  if(a==="guess"){
+    if(b.dataset.h===S.intr.from){S.phase="done";S.stars=starsFor(S.mistakes);saveStars("lanc",S.hid,S.ci,S.stars);say("","");return}
+    S.mistakes++;S.wrongHab.push(b.dataset.h);say(`${Art(S.intr.n)} nem onnan jött. Próbáld újra!`,"bad");return}
+}
+
+/* ---------- 2. Táplálékhálózat ---------- */
+function startWeb(hid){
+  const w=byId(hid).web;
+  const nodes=w.nodes.map(([n,e,l])=>({n,e,l}));
+  const idx=n=>nodes.findIndex(x=>x.n===n);
+  const edges=w.edges.map(([a,b])=>({a:idx(a),b:idx(b)}));
+  const k=edges.length>10?4:3;
+  const hidden=new Set(shuffle(edges.map((_,i)=>i)).slice(0,k));
+  S={view:"halo",hid,ci:0,phase:"draw",nodes,edges,hidden,found:new Set(),sel:null,bad:null,badNodes:[],
+     qs:makeWebQs(nodes,edges),qi:0,picked:new Set(),answered:false,wrongOpts:[],mistakes:0,msg:"",mt:""};
+  render();window.scrollTo({top:0});
+}
+function makeWebQs(nodes,edges){
+  const prey=i=>edges.filter(e=>e.b===i).map(e=>e.a), eaters=i=>edges.filter(e=>e.a===i).map(e=>e.b);
+  const all=nodes.map((_,i)=>i),qs=[];
+  const p1=all.filter(i=>prey(i).length>=2);
+  if(p1.length){const p=rand(p1);qs.push({t:"sel",text:`Miket eszik ${art(nodes[p].n)}? Koppints mindegyikre!`,ans:prey(p),focus:p,
+    why:`${Art(nodes[p].n)} felé ${prey(p).length} nyíl mutat, tehát ${prey(p).length}-féle táplálékot eszik ebben a hálózatban.`});}
+  const p2=all.filter(i=>eaters(i).length>=2);
+  if(p2.length){const q=rand(p2);qs.push({t:"sel",text:`Minek a tápláléka ${art(nodes[q].n)}? Koppints mindegyikre!`,ans:eaters(q),focus:q,
+    why:`${Art(nodes[q].n)} felől ${eaters(q).length} nyíl indul, tehát ${eaters(q).length} állat is eszi.`});}
+  const pairs=edges.filter(e=>nodes[e.a].l>0);
+  const e1=rand(pairs);
+  qs.push({t:"mc",text:`Ha eltűnne ${art(nodes[e1.b].n)}, mi lenne ${art(nodes[e1.a].n)} sorsa?`,
+    opts:["Elszaporodna, mert kevesebb ellensége lenne.","Kipusztulna, mert nem lenne mit ennie.","Semmi sem változna."],ok:0,
+    why:`${Art(nodes[e1.a].n)} ragadozója ${art(nodes[e1.b].n)}. Ha nincs, ami vadászik rá, egyre több lesz belőle. Aztán a sok növényevő a növényeket is jobban lerágja.`});
+  const only=edges.filter(e=>prey(e.b).length===1);
+  if(only.length){const e2=rand(only);
+    qs.push({t:"mc",text:`Ha eltűnne ${art(nodes[e2.a].n)}, mi lenne ${art(nodes[e2.b].n)} sorsa?`,
+      opts:["Elszaporodna.","Megfogyatkozna vagy elvándorolna, mert elfogyna a tápláléka.","Semmi sem változna."],ok:1,
+      why:`Ebben a hálózatban ${art(nodes[e2.b].n)} egyetlen tápláléka ${art(nodes[e2.a].n)}. Amelyik állatnak többféle tápláléka van, az könnyebben átvészeli az ilyet.`});}
+  return qs;
+}
+function renderHalo(){
+  const h=byId(S.hid),P=S.phase,q=S.qs[S.qi];
+  const missing=[...S.hidden].filter(k=>!S.found.has(k)).length;
+  const levels=Math.max(...S.nodes.map(n=>n.l));
+  const nodeCls=i=>{
+    if(P==="draw")return (S.sel===i?"sel ":"")+(S.badNodes.includes(i)?"bad":"");
+    if(P==="q"&&q.t==="sel"){
+      if(i===q.focus)return "sel";
+      if(S.answered&&q.ans.includes(i))return "ok";
+      if(S.badNodes.includes(i))return "bad";
+      return S.picked.has(i)?"picked":"";}
+    if(P==="q"&&q.t==="mc"&&!S.answered)return "";
+    return "";
+  };
+  let rows="";
+  for(let l=levels;l>=0;l--){
+    rows+=`<div class="wrow">${S.nodes.map((n,i)=>n.l!==l?"":`<button class="node ${nodeCls(i)}" data-a="node" data-i="${i}"><span class="emo">${n.e}</span><span class="nm">${n.n}</span></button>`).join("")}</div>`;
+  }
+  const web=`<div class="web" id="web"><svg class="lines" aria-hidden="true"></svg>${rows}
+    <div class="ground"><span class="emo">🍄</span><span>Lebontók: a gombák és a baktériumok minden élőlény maradványát lebontják.</span></div></div>`;
+  let task="",below="";
+  if(P==="draw"){
+    task=taskBox("Rajzold be a hiányzó nyilakat!","Koppints előbb arra, amit megesznek, aztán arra, ami megeszi.",
+      `<span class="counter">Még ${missing} nyíl hiányzik</span>`);
+    below=`<div class="actions"><button class="ghost" data-a="hint">Súgó</button></div>`;
+  }else if(P==="q"){
+    task=taskBox(`Kérdés ${S.qi+1}/${S.qs.length}`,q.t==="sel"?"Koppints a hálózatban az élőlényekre, aztán ellenőrizd.":"Nézd meg a hálózatot, és válaszolj!");
+    below=q.t==="sel"?`<section class="pool"><h3 style="color:var(--ink);font-size:1.15rem">${q.text}</h3>
+      ${S.answered?`<p class="fact"><b>Miért?</b> ${q.why}</p><div class="actions"><button class="go" data-a="nextq">Tovább</button></div>`
+                  :`<div class="actions"><button class="go" data-a="checkSel">Ellenőrzés</button></div>`}</section>`:mcHTML(q);
+  }else below=winHTML(S.stars,byId(S.hid).web.fact,nextBtnFor(true));
+  shell(h,"Táplálékhálózat",["Nyilak","Mi lenne, ha…?"],P==="draw"?0:P==="q"?1:2,task,
+    P==="q"?below+msgHTML()+web:web+msgHTML()+below);
+  requestAnimationFrame(drawLines);
+}
+function drawLines(){
+  const web=document.getElementById("web");if(!web||S.view!=="halo")return;
+  const svg=web.querySelector("svg"),W=web.clientWidth,Hh=web.clientHeight,wr=web.getBoundingClientRect();
+  svg.setAttribute("viewBox",`0 0 ${W} ${Hh}`);svg.setAttribute("width",W);svg.setAttribute("height",Hh);
+  const R=S.nodes.map((_,i)=>{const r=web.querySelector(`.node[data-i="${i}"]`).getBoundingClientRect();
+    return{x:r.left-wr.left+r.width/2,top:r.top-wr.top,bot:r.bottom-wr.top}});
+  const vis=S.edges.map((e,k)=>({...e,k,cls:S.found.has(k)?"new":""})).filter(e=>!S.hidden.has(e.k)||S.found.has(e.k)||S.phase!=="draw");
+  if(S.bad)vis.push({...S.bad,cls:"bad"});
+  const outs={},ins={};
+  vis.forEach(e=>{(outs[e.a]??=[]).push(e);(ins[e.b]??=[]).push(e)});
+  const sortX=(list,key)=>list.sort((p,q)=>R[p[key]].x-R[q[key]].x);
+  Object.values(outs).forEach(l=>sortX(l,"b"));Object.values(ins).forEach(l=>sortX(l,"a"));
+  const off=(list,e)=>{const i=list.indexOf(e);return (i-(list.length-1)/2)*11};
+  let out="";
+  vis.forEach(e=>{
+    const x1=R[e.a].x+off(outs[e.a],e),y1=R[e.a].top-2,x2=R[e.b].x+off(ins[e.b],e),y2=R[e.b].bot+3;
+    const ang=Math.atan2(y2-y1,x2-x1),L=11,ex=x2-Math.cos(ang)*L,ey=y2-Math.sin(ang)*L;
+    const p1=[ex+Math.cos(ang+Math.PI/2)*6,ey+Math.sin(ang+Math.PI/2)*6],p2=[ex-Math.cos(ang+Math.PI/2)*6,ey-Math.sin(ang+Math.PI/2)*6];
+    out+=`<line class="ln ${e.cls}" x1="${x1}" y1="${y1}" x2="${ex}" y2="${ey}"/><polygon class="ah ${e.cls}" points="${x2},${y2} ${p1} ${p2}"/>`;
+  });
+  svg.innerHTML=out;
+}
+new ResizeObserver(()=>drawLines()).observe(app);
+function haloClick(a,b){
+  const P=S.phase;
+  if(a==="node"&&P==="draw"){
+    const i=+b.dataset.i;S.bad=null;S.badNodes=[];
+    if(S.sel===null){S.sel=i;say(`${S.nodes[i].n} kiválasztva. Most koppints arra, ami megeszi!`,"info");return}
+    if(S.sel===i){S.sel=null;say("","");return}
+    const from=S.sel,to=i;S.sel=null;
+    const k=S.edges.findIndex(e=>e.a===from&&e.b===to);
+    if(k>=0){
+      if(!S.hidden.has(k)||S.found.has(k)){say("Ez a nyíl már megvan.","info");return}
+      S.found.add(k);
+      if(S.found.size===S.hidden.size){S.phase="q";say("Kész a hálózat! Most jöjjenek a kérdések.","ok")}
+      else say(`Jó! ${S.nodes[from].n} → ${S.nodes[to].n}`,"ok");
+      return}
+    S.mistakes++;S.bad={a:from,b:to};S.badNodes=[from,to];
+    const rev=S.edges.some(e=>e.a===to&&e.b===from);
+    say(rev?"Fordítva! A nyíl attól indul, amit megesznek.":"Ilyen nyíl nincs ebben a hálózatban. Próbáld újra!","bad");
+    return}
+  if(a==="hint"&&P==="draw"){
+    const k=[...S.hidden].find(k=>!S.found.has(k));S.mistakes++;
+    say(`Tipp: van egy hiányzó nyíl, ami ${art(S.nodes[S.edges[k].a].n)} felől indul.`,"info");return}
+  if(a==="node"&&P==="q"){const q=S.qs[S.qi];if(q.t!=="sel"||S.answered)return;const i=+b.dataset.i;if(i===q.focus)return;
+    S.badNodes=[];S.picked.has(i)?S.picked.delete(i):S.picked.add(i);say("","");return}
+  if(a==="checkSel"){
+    const q=S.qs[S.qi],ans=new Set(q.ans),wrong=[...S.picked].filter(i=>!ans.has(i)),miss=q.ans.filter(i=>!S.picked.has(i));
+    if(!wrong.length&&!miss.length){S.answered=true;say("Pontosan!","ok");return}
+    S.mistakes++;S.badNodes=wrong;wrong.forEach(i=>S.picked.delete(i));
+    say(wrong.length?`${wrong.length} rossz választás (pirossal jelöltem).${miss.length?" És még hiányzik egy élőlény!":""} Kövesd a nyilakat!`:"Még hiányzik egy élőlény! Kövesd a nyilakat!","bad");return}
+  if(a==="opt"){const q=S.qs[S.qi],i=+b.dataset.i;
+    if(i===q.ok){S.answered=true;say("Így van!","ok")}else{S.mistakes++;S.wrongOpts.push(i);say("Nem egészen. Gondold végig újra!","bad")}return}
+  if(a==="nextq"){S.qi++;S.answered=false;S.wrongOpts=[];S.picked=new Set();S.badNodes=[];say("","");
+    if(S.qi>=S.qs.length){S.phase="done";S.stars=starsFor(S.mistakes);saveStars("halo",S.hid,0,S.stars)}return}
+}
+
+/* ---------- 3. Táplálékpiramis ---------- */
+function startPyr(hid,ci){
+  const items=byId(hid).chains[ci].items.filter(it=>it.r!=="L").map((it,k)=>({...it,lvl:k}));
+  const n=items.length,top=items[n-1],below=items[n-2];
+  const qs=[
+    {t:"mc",text:"Melyik szinten van a legtöbb energia?",opts:items.map(it=>it.n),ok:0,
+     why:`${Art(items[0].n)} közvetlenül a Napból kapja az energiát. Minden szinttel feljebb egyre kevesebb jut.`},
+    {t:"mc",text:`Ha ${art(items[0].n)} szintjén 10 000 egységnyi energia van, kb. mennyi jut belőle ${art(items[2].n)} szintjére?`,
+     opts:["10 000","5 000","1 000","100"],ok:3,
+     why:`Minden szintre csak kb. a tizede jut tovább: 10 000 → 1 000 → 100. A többit az élőlények mozgásra, növekedésre és testük melegen tartására használják el.`},
+    {t:"mc",text:`Miért él kevesebb ${top.n.toLowerCase()} egy területen, mint ahány ${below.n.toLowerCase()}?`,
+     opts:["Mert felfelé egyre kevesebb energia jut, így kevesebb ragadozót tud eltartani a terület.",`Mert ${art(top.n)} nem szeret másokkal együtt élni.`,`Mert ${art(top.n)} kisebb testű.`],ok:0,
+     why:"A piramis csúcsán élő állatnak sok zsákmányra van szüksége ahhoz, hogy elég energiát kapjon. Ezért a csúcsragadozókból mindig kevés van."}
+  ];
+  let pool;do{pool=shuffle([...items])}while(pool.every((p,k)=>p.lvl===k));
+  S={view:"piramis",hid,ci,phase:"build",items,n,tiers:Array(n).fill(null),locked:Array(n).fill(false),pool,chosen:null,
+     qs,qi:0,answered:false,wrongOpts:[],mistakes:0,msg:"",mt:""};
+  render();window.scrollTo({top:0});
+}
+function renderPyr(){
+  const h=byId(S.hid),P=S.phase,n=S.n,ch=h.chains[S.ci];
+  let tiers="";
+  for(let l=n-1;l>=0;l--){
+    const w=100-l*(62/(n-1)),a=18+l*(32/(n-1)),it=S.tiers[l];
+    const role=ROLES[ROLE_ORDER[l]];
+    tiers+=`<button class="tier ${S.locked[l]?"ok":""}" style="--w:${w}%;--a:${a}%" data-a="tier" data-l="${l}" aria-label="${role} szint${it?": "+it.n:", üres"}">
+      <span class="lab">${role}</span>
+      ${it?`<span class="who"><span class="emo">${it.e}</span>${it.n}</span>`:`<span class="empty">?</span>`}
+      ${P!=="build"?`<span class="energy">⚡ ${fmt(10000/10**l)} egység</span>`:""}</button>`;
+  }
+  const pyr=`<div class="pyr">${tiers}<p class="pyrnote">${P==="build"?"Alul a legszélesebb szint, felül a legkeskenyebb.":"Felfelé minden szintre csak kb. a tizede jut az energiának."}</p></div>`;
+  let task="",below="";
+  if(P==="build"){
+    task=taskBox("Építsd fel a piramist!","Koppints egy kártyára, aztán arra a szintre, ahová való. A termelők kerülnek alulra, a legszélesebb szintre.");
+    below=`<section class="pool"><h3>Kártyák</h3><div class="poolcards">${S.pool.map((it,i)=>cardHTML(it,`data-a="pchoose" data-i="${i}" aria-pressed="${S.chosen===i}"`,S.chosen===i?"chosen":"")).join("")}</div>
+      <div class="actions"><button class="go" data-a="checkPyr">Ellenőrzés</button></div></section>`;
+  }else if(P==="q"){task=taskBox(`Kérdés ${S.qi+1}/${S.qs.length}`,"Nézd meg a piramist és az energiát a szinteken!");below=mcHTML(S.qs[S.qi]);}
+  else below=winHTML(S.stars,ch.fact,nextBtnFor(S.ci===2));
+  shell(h,`${S.ci+1}. piramis / 3`,["Építés","Energia"],P==="build"?0:P==="q"?1:2,task,pyr+msgHTML()+below);
+}
+function pyrClick(a,b){
+  if(a==="pchoose"){const i=+b.dataset.i;S.chosen=S.chosen===i?null:i;say("","");return}
+  if(a==="tier"&&S.phase==="build"){const l=+b.dataset.l;
+    if(S.locked[l])return;
+    if(S.chosen===null){
+      if(S.tiers[l]){S.pool.push(S.tiers[l]);S.tiers[l]=null;say("","");return}
+      say("Előbb válassz egy kártyát lent!","info");return}
+    if(S.tiers[l])S.pool.push(S.tiers[l]);
+    S.tiers[l]=S.pool.splice(S.chosen,1)[0];S.chosen=null;say("","");return}
+  if(a==="checkPyr"){
+    if(S.tiers.includes(null)){say("Még van üres szint a piramisban.","info");return}
+    let wrong=0;S.tiers.forEach((it,l)=>{if(it.lvl===l)S.locked[l]=true;else{wrong++;S.pool.push(it);S.tiers[l]=null}});
+    if(wrong){S.mistakes++;say(`${wrong} kártya rossz szintre került, visszatettem őket.`,"bad");return}
+    S.phase="q";say("Kész a piramis! Nézd, mennyi energia jut az egyes szintekre.","ok");return}
+  if(a==="opt"){const q=S.qs[S.qi],i=+b.dataset.i;
+    if(i===q.ok){S.answered=true;say("Így van!","ok")}else{S.mistakes++;S.wrongOpts.push(i);say("Nem egészen. Gondold végig újra!","bad")}return}
+  if(a==="nextq"){S.qi++;S.answered=false;S.wrongOpts=[];say("","");
+    if(S.qi>=S.qs.length){S.phase="done";S.stars=starsFor(S.mistakes);saveStars("piramis",S.hid,S.ci,S.stars)}return}
+}
+
+/* ---------- Vezérlés ---------- */
+function render(){({home:renderHome,lanc:renderLanc,halo:renderHalo,piramis:renderPyr})[S.view]()}
+app.addEventListener("click",e=>{
+  const b=e.target.closest("[data-a]");if(!b||b.disabled)return;
+  const a=b.dataset.a;
+  if(a==="home"){S={view:"home"};render();window.scrollTo({top:0});return}
+  if(a==="mode"){mode=b.dataset.m;try{localStorage.setItem(KEY+"-mode",mode)}catch(err){}render();return}
+  if(a==="open"){openHabitat(b.dataset.h);return}
+  if(a==="next"){S.view==="lanc"?startRound(S.hid,S.ci+1):startPyr(S.hid,S.ci+1);return}
+  if(a==="retry"){S.view==="lanc"?startRound(S.hid,S.ci):S.view==="halo"?startWeb(S.hid):startPyr(S.hid,S.ci);return}
+  if(S.view==="lanc")lancClick(a,b);else if(S.view==="halo")haloClick(a,b);else if(S.view==="piramis")pyrClick(a,b);
+  render();
+  if(a==="checkBuild"&&S.mt==="bad")document.querySelector(".poolcards")?.classList.add("shake");
+});
+render();
+</script>
+
+</body></html>

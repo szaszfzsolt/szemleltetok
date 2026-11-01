@@ -1,0 +1,452 @@
+<!doctype html><html lang="hu"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Sententiae Tabula</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Alegreya:ital,wght@0,400;0,600;1,400&family=Alegreya+Sans:wght@400;500;700&display=swap">
+<style>
+/* Layout: full-screen board for a 16:9 smartboard; scoreboard strip on top, one huge question in the middle, 2x2 answer slabs reachable by hand */
+:root{
+  --bg:#eceee9; --surface:#fbfcf9; --line:#cfd5cb; --ink:#1c2330; --muted:#5b6470;
+  --accent:#2b4a8b; --accent-soft:#e1e7f4; --gold:#a8822a;
+  --good:#2d7a4c; --good-soft:#dff0e5; --bad:#b0383a; --bad-soft:#f7e1e0;
+  --t1:#2b4a8b; --t2:#b0383a; --t3:#2d7a4c; --t4:#a8822a;
+  --f-display:"Cinzel","Trajan Pro",Georgia,serif;
+  --f-latin:"Alegreya",Georgia,"Times New Roman",serif;
+  --f-body:"Alegreya Sans","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12161d; --surface:#1a2029; --line:#2d3542; --ink:#e7eaef; --muted:#9aa3b0;
+  --accent:#8ca8e8; --accent-soft:#223152; --gold:#d8b55c;
+  --good:#6cc493; --good-soft:#173528; --bad:#ec8a88; --bad-soft:#3d1d1f;
+  --t1:#8ca8e8; --t2:#ec8a88; --t3:#6cc493; --t4:#d8b55c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161d; --surface:#1a2029; --line:#2d3542; --ink:#e7eaef; --muted:#9aa3b0;
+  --accent:#8ca8e8; --accent-soft:#223152; --gold:#d8b55c;
+  --good:#6cc493; --good-soft:#173528; --bad:#ec8a88; --bad-soft:#3d1d1f;
+  --t1:#8ca8e8; --t2:#ec8a88; --t3:#6cc493; --t4:#d8b55c; color-scheme:dark}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:clamp(16px,1.35vw,26px);line-height:1.4;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+.app{height:100%;display:grid;grid-template-rows:auto 1fr;max-width:1800px;margin:0 auto}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation}
+button:focus-visible,input:focus-visible{outline:4px solid var(--accent);outline-offset:3px}
+
+/* top strip */
+.top{display:flex;align-items:center;gap:1.2em;flex-wrap:wrap;padding-block:.7em;border-bottom:1px solid var(--line)}
+.brand{font-family:var(--f-display);font-weight:700;letter-spacing:.14em;font-size:1.15em;white-space:nowrap}
+.brand small{display:block;font-family:var(--f-body);font-weight:400;letter-spacing:.02em;font-size:.6em;color:var(--muted)}
+.board{display:flex;gap:.6em;flex-wrap:wrap;flex:1;justify-content:center;min-width:0}
+.chip{display:flex;align-items:center;gap:.5em;border:2px solid var(--line);border-radius:.6em;padding:.25em .8em;background:var(--surface);transition:transform .2s}
+.chip .nm{font-weight:700}
+.chip .pt{font-family:var(--f-display);font-weight:700;font-size:1.3em;font-variant-numeric:tabular-nums}
+.chip.on{transform:scale(1.08);box-shadow:0 0 0 3px var(--c) inset}
+.chip i{width:.8em;height:.8em;border-radius:50%;background:var(--c)}
+.tools{display:flex;gap:.5em}
+.tbtn{border:1px solid var(--line);background:var(--surface);border-radius:.5em;padding:.4em .8em;font-size:.8em}
+
+/* stage */
+main{min-height:0;display:flex;flex-direction:column;gap:1.1em;padding-block:1.2em}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:1em;color:var(--muted);font-variant-numeric:tabular-nums}
+.turn{font-weight:700;color:var(--c,var(--ink));font-size:1.25em}
+.timer{height:.45em;background:var(--line);border-radius:1em;overflow:hidden}
+.timer i{display:block;height:100%;background:var(--accent);width:100%}
+.timer.low i{background:var(--bad)}
+.task{margin:0;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-size:.85em}
+.prompt{font-family:var(--f-latin);font-size:clamp(28px,3.6vw,72px);line-height:1.2;margin:0;text-wrap:balance}
+.prompt.latin{font-style:italic}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.8em;flex:1;min-height:0;align-content:start}
+.opt{border:2px solid var(--line);background:var(--surface);border-radius:.7em;padding:.8em 1em;min-height:3.6em;
+  display:flex;align-items:center;gap:.8em;text-align:left;font-size:clamp(18px,1.9vw,38px);line-height:1.25}
+.opt .k{font-family:var(--f-display);font-weight:700;color:var(--accent);min-width:1em}
+.opt.lat .t{font-family:var(--f-latin);font-style:italic}
+.opt .t{min-width:0}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft);opacity:.85}
+@media (hover:hover){.opt:hover:not(:disabled){border-color:var(--accent)}}
+
+.panel{display:flex;gap:1.2em;align-items:center;justify-content:space-between;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:.9em}
+.fb{display:flex;flex-direction:column;gap:.15em;min-width:0;flex:1 1 30em}
+.fb .verdict{font-weight:700;font-size:1.2em}
+.fb.ok .verdict{color:var(--good)} .fb.no .verdict{color:var(--bad)}
+.fb .lat{font-family:var(--f-latin);font-style:italic;font-size:1.25em}
+.fb .row{color:var(--muted)} .fb .row b{color:var(--ink);font-size:.75em;letter-spacing:.08em;margin-right:.4em}
+.btns{display:flex;gap:.6em;flex-wrap:wrap}
+.btn{border:2px solid var(--accent);background:var(--accent);color:var(--surface);border-radius:.6em;padding:.6em 1.3em;font-weight:700;font-size:1.05em;min-height:2.8em}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.warn{border-color:var(--bad);background:transparent;color:var(--bad)}
+.btn:disabled{opacity:.4;cursor:default}
+
+/* puzzle */
+.slot{min-height:3.4em;border:3px dashed var(--line);border-radius:.7em;padding:.5em;display:flex;flex-wrap:wrap;gap:.5em;align-content:flex-start}
+.slot.right{border-style:solid;border-color:var(--good);background:var(--good-soft)}
+.slot.wrong{border-style:solid;border-color:var(--bad);background:var(--bad-soft)}
+.slot .empty{color:var(--muted);align-self:center;padding-left:.4em}
+.pool{display:flex;flex-wrap:wrap;gap:.6em}
+.tile{font-family:var(--f-latin);font-style:italic;font-size:clamp(20px,2.2vw,44px);border:2px solid var(--line);background:var(--surface);
+  border-radius:.4em;padding:.2em .6em;box-shadow:0 .15em 0 var(--line)}
+.slot .tile{border-color:var(--accent)}
+.tile:disabled{cursor:default}
+
+/* setup */
+.setup{display:grid;grid-template-columns:1fr 1fr;gap:1.4em 2.4em;align-content:start;max-width:1400px;width:100%;margin:0 auto}
+.setup h2{grid-column:1/-1;font-family:var(--f-display);font-size:clamp(26px,2.6vw,52px);letter-spacing:.1em;margin:0;text-wrap:balance}
+.setup h2 small{display:block;font-family:var(--f-body);letter-spacing:0;font-size:.45em;color:var(--muted);font-weight:400}
+.field{display:flex;flex-direction:column;gap:.5em;min-width:0}
+.field>span{text-transform:uppercase;letter-spacing:.1em;font-size:.8em;color:var(--muted)}
+.seg{display:flex;flex-wrap:wrap;gap:.4em}
+.seg button{border:2px solid var(--line);background:var(--surface);border-radius:.5em;padding:.5em .9em;min-height:2.6em}
+.seg button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:700}
+.teams{display:grid;grid-template-columns:1fr 1fr;gap:.5em}
+.teams label{display:flex;align-items:center;gap:.5em;border:2px solid var(--line);border-radius:.5em;padding:.3em .6em;background:var(--surface)}
+.teams i{width:.9em;height:.9em;border-radius:50%;background:var(--c);flex:none}
+.teams input,.name input{border:0;background:transparent;width:100%;min-width:0;padding:.3em 0}
+.name input{border:2px solid var(--line);background:var(--surface);border-radius:.5em;padding:.5em .7em}
+.start{grid-column:1/-1;display:flex;justify-content:flex-end}
+.start .btn{font-size:1.4em;padding:.6em 2em}
+.note{color:var(--muted);font-size:.85em;margin:0}
+
+/* end */
+.end{display:flex;flex-direction:column;align-items:center;gap:1em;text-align:center;margin:auto;width:100%;max-width:1200px}
+.end .big{font-family:var(--f-display);font-size:clamp(48px,7vw,140px);line-height:1;font-variant-numeric:tabular-nums}
+.end .word{font-family:var(--f-latin);font-style:italic;font-size:1.6em}
+.podium{display:flex;gap:1em;align-items:flex-end;justify-content:center;flex-wrap:wrap;width:100%}
+.pod{flex:0 1 14em;border:2px solid var(--c);border-radius:.6em .6em 0 0;background:var(--surface);padding:.8em;display:flex;flex-direction:column;justify-content:flex-end;gap:.2em}
+.pod .pl{font-family:var(--f-display);font-weight:700;color:var(--c);font-size:1.4em}
+.pod .nm{font-weight:700;font-size:1.2em}
+.pod .pt{font-family:var(--f-display);font-size:2em;font-variant-numeric:tabular-nums}
+.rank{width:100%;max-width:900px;border-collapse:collapse;text-align:left}
+.rank th{font-size:.75em;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;padding:.4em;border-bottom:2px solid var(--line)}
+.rank td{padding:.45em;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.rank tr.me td{background:var(--accent-soft);font-weight:700}
+.rank-wrap{width:100%;overflow-x:auto;display:flex;justify-content:center}
+
+@media (max-width:800px){
+  .opts{grid-template-columns:1fr}
+  .setup{grid-template-columns:1fr}
+  .teams{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="app">
+  <div class="top">
+    <div class="brand">SENTENTIAE LATINAE<small>Tanári tábla · okostáblára</small></div>
+    <div class="board" id="board"></div>
+    <div class="tools">
+      <button class="tbtn" id="btn-setup">Beállítások</button>
+      <button class="tbtn" id="btn-fs">Teljes képernyő</button>
+    </div>
+  </div>
+  <main id="stage" aria-live="polite"></main>
+</div>
+
+<script>
+const P=[
+ {la:"Veni, vidi, vici.",hu:"Jöttem, láttam, győztem.",ro:"Am venit, am văzut, am învins.",bad:["Veni, vidi, vinci.","Vene, vidi, vici.","Veni, vidit, vici."],g:"A venio, video, vinco igék múlt ideje (perfectum), egyes szám 1. személyben."},
+ {la:"Cogito, ergo sum.",hu:"Gondolkodom, tehát vagyok.",ro:"Cuget, deci exist.",bad:["Cogito, ergo est.","Cogitas, ergo sum.","Cogito, ergo sumus."],g:"Mindkét ige egyes szám 1. személy: cogito (gondolkodom), sum (vagyok)."},
+ {la:"Alea iacta est.",hu:"A kocka el van vetve.",ro:"Zarurile au fost aruncate.",bad:["Alea iactus est.","Aleam iacta est.","Alea iactum est."],g:"Az alea nőnemű alany, ezért a melléknévi igenév is nőnemű: iacta."},
+ {la:"In vino veritas.",hu:"Borban az igazság.",ro:"În vin e adevărul.",bad:["In vinum veritas.","In vino veritatis.","In vini veritas."],g:"Az in helyhatározói jelentésben ablativust kíván: vino; a veritas alanyeset."},
+ {la:"Nil terribile nisi ipse timor.",hu:"Nincs mitől félni, csak magától a félelemtől.",ro:"Nimic nu e de temut, decât frica însăși.",bad:["Nil terribilis nisi ipse timor.","Nil terribile nisi ipsa timor.","Nil terribile nisi ipse timorem."],g:"A nil semleges nemű, ezért terribile; a timor hímnemű alanyeset, ezért ipse."},
+ {la:"Si vis amari, ama.",hu:"Ha azt akarod, hogy szeressenek, szeress.",ro:"Dacă vrei să fii iubit, iubește.",bad:["Si vis amaris, ama.","Si vi amari, ama.","Si vis amari, amat."],g:"Amari szenvedő főnévi igenév (szeretve lenni), ama felszólító mód (szeress!)."},
+ {la:"Fiat iustitia, pereat mundus.",hu:"Legyen igazság, vagy vesszen a világ!",ro:"Să se facă dreptate, chiar de-ar pieri lumea!",bad:["Fiat iustitiam, pereat mundus.","Fiat iustitia, pereat mundum.","Fiant iustitia, pereant mundus."],g:"Fiat és pereat kötőmód (coniunctivus), egyes szám 3. személy; az alanyok alanyesetben."},
+ {la:"Medicus curat, natura sanat.",hu:"Az orvos kezel, a természet gyógyít.",ro:"Medicul tratează, natura vindecă.",bad:["Medicus curat, naturam sanat.","Medicum curat, natura sanat.","Medicus curant, natura sanat."],g:"Medicus és natura az alanyok (alanyeset), az igék egyes szám 3. személyűek."},
+ {la:"Repetitio est mater studiorum.",hu:"Az ismétlés a tudás anyja.",ro:"Repetiția este mama învățăturii.",bad:["Repetitio est mater studiis.","Repetitio est matrem studiorum.","Repetitio sunt mater studiorum."],g:"Mater alanyeset (névszói állítmány), studiorum többes számú birtokos eset."},
+ {la:"Verba volant, scripta manent.",hu:"A szó elszáll, az írás megmarad.",ro:"Vorbele zboară, scrisul rămâne.",bad:["Verba volat, scripta manent.","Verbum volant, scripta manent.","Verba volant, scriptam manent."],g:"Verba és scripta semleges nemű többes szám, ezért az ige többes 3. személy: volant, manent."},
+ {la:"Fortes fortuna adiuvat.",hu:"A bátraké a szerencse.",ro:"Norocul îi ajută pe cei curajoși.",bad:["Fortes fortunam adiuvat.","Fortes fortuna adiuvant.","Fortibus fortuna adiuvat."],g:"Fortuna az alany, fortes többes számú tárgyeset (a bátrakat segíti), adiuvat egyes szám 3. személy."},
+ {la:"Carpe diem.",hu:"Élj a mának! (Ragadd meg a napot!)",ro:"Trăiește clipa! (Prinde ziua!)",bad:["Carpe dies.","Carpe die.","Carpi diem."],g:"Carpe felszólító mód, diem a dies (nap) tárgyesete."},
+ {la:"Errare humanum est.",hu:"Tévedni emberi dolog.",ro:"A greși este omenește.",bad:["Errare humanus est.","Errare humanum sunt.","Errat humanum est."],g:"Az alanyként álló főnévi igenév semleges nemű, ezért humanum; est egyes szám."},
+ {la:"Mens sana in corpore sano.",hu:"Ép testben ép lélek.",ro:"Minte sănătoasă într-un corp sănătos.",bad:["Mens sana in corpus sanum.","Mens sanus in corpore sano.","Mentem sanam in corpore sano."],g:"Mens nőnemű alanyeset: sana; az in helyhatározóként ablativusszal áll: corpore sano."},
+ {la:"Per aspera ad astra.",hu:"Rögös úton a csillagokig.",ro:"Prin greutăți spre stele.",bad:["Per asperam ad astra.","Per aspera ad astris.","Per aspera ad astrorum."],g:"A per és az ad is tárgyesetet (accusativust) kíván: aspera, astra (semleges többes)."},
+ {la:"Historia est magistra vitae.",hu:"A történelem az élet tanítómestere.",ro:"Istoria este învățătoarea vieții.",bad:["Historia est magistra vita.","Historia est magister vitae.","Historiam est magistra vitae."],g:"Historia nőnemű, ezért a nőnemű magistra illik hozzá; vitae birtokos eset."},
+ {la:"Divide et impera.",hu:"Oszd meg és uralkodj!",ro:"Dezbină și stăpânește!",bad:["Dividi et impera.","Divide et imperare.","Divida et impera."],g:"Két felszólító módú ige egyes szám 2. személyben: divide, impera."},
+ {la:"Ars longa, vita brevis.",hu:"A művészet hosszú (örök), az élet rövid.",ro:"Arta e lungă, viața e scurtă.",bad:["Ars longus, vita brevis.","Ars longa, vita breve.","Artis longa, vita brevis."],g:"Ars és vita nőnemű alanyeset: longa, brevis (a brevis hím- és nőnemben azonos)."},
+ {la:"Non scholae, sed vitae discimus.",hu:"Nem az iskolának, hanem az életnek tanulunk.",ro:"Nu învățăm pentru școală, ci pentru viață.",bad:["Non scholae, sed vitae discimur.","Non scholae, sed vitam discimus.","Non scholarum, sed vitae discimus."],g:"Scholae és vitae részes eset (kinek, minek a javára); discimus többes szám 1. személy."},
+ {la:"Dum spiro, spero.",hu:"Amíg élek (lélegzem), remélek.",ro:"Cât timp respir, sper.",bad:["Dum spiri, spero.","Dum spiro, spere.","Dum spirro, sperro."],g:"Spiro és spero jelen idő, egyes szám 1. személy."}
+];
+const TYPES={
+  alak:{name:"Helyes latin alak",task:"Melyik a nyelvtanilag helyes latin alak?"},
+  jelentes:{name:"Magyar jelentés",task:"Mit jelent magyarul?"},
+  roman:{name:"Román fordítás",task:"Ce înseamnă în română? · Mi a román jelentése?"},
+  kirako:{name:"Kirakó",task:"Rakjátok ki latinul! Két szó felesleges."},
+  vegyes:{name:"Vegyes"}
+};
+const TEAM_COLORS=["var(--t1)","var(--t2)","var(--t3)","var(--t4)"];
+const WORDS=[[100,"Optime! Kiváló!"],[80,"Bene! Szép munka!"],[50,"Satis. Megy ez!"],[0,"Repetitio est mater studiorum."]];
+
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+             set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+const DEF={play:"csapat",type:"vegyes",n:10,timer:30,teamCount:2,teamNames:["Rómaiak","Dákok","Gallok","Görögök"],player:"",steal:true};
+let cfg=Object.assign({},DEF,store.get("slt-cfg",{}));
+let st=null, timerRAF=null;
+const stage=document.getElementById("stage"), board=document.getElementById("board");
+
+/* ---------- setup ---------- */
+function seg(id,key,opts){
+  return `<div class="seg" id="${id}">${opts.map(([v,l])=>`<button type="button" data-k="${key}" data-v="${v}" aria-pressed="${String(cfg[key])===String(v)}">${l}</button>`).join("")}</div>`;
+}
+function showSetup(){
+  stopTimer(); st=null; drawBoard();
+  stage.innerHTML=`<div class="setup">
+    <h2>Új játék<small>Állítsd be, majd indítsd a táblán.</small></h2>
+    <div class="field"><span>Játékforma</span>${seg("s-play","play",[["egyeni","Egyéni"],["csapat","Csapatjáték"]])}</div>
+    <div class="field"><span>Feladattípus</span>${seg("s-type","type",[["alak","Latin alak"],["jelentes","Jelentés"],["roman","Román"],["kirako","Kirakó"],["vegyes","Vegyes"]])}</div>
+    <div class="field"><span>Kérdések száma</span>${seg("s-n","n",[[5,"5"],[10,"10"],[15,"15"],[20,"20"]])}</div>
+    <div class="field"><span>Időkorlát kérdésenként</span>${seg("s-timer","timer",[[0,"Nincs"],[20,"20 mp"],[30,"30 mp"],[45,"45 mp"]])}</div>
+    <div class="field" id="f-team" ${cfg.play==="csapat"?"":"hidden"}>
+      <span>Csapatok</span>${seg("s-tc","teamCount",[[2,"2 csapat"],[3,"3 csapat"],[4,"4 csapat"]])}
+      <div class="teams">${cfg.teamNames.map((n,i)=>`<label ${i<cfg.teamCount?"":"hidden"} style="--c:${TEAM_COLORS[i]}"><i></i><input id="team-${i}" value="${esc(n)}" maxlength="20" aria-label="${i+1}. csapat neve"></label>`).join("")}</div>
+    </div>
+    <div class="field" id="f-steal" ${cfg.play==="csapat"?"":"hidden"}>
+      <span>Ha egy csapat hibáz</span>${seg("s-steal","steal",[[true,"A következő csapat próbálhatja"],[false,"Rögtön jön a megoldás"]])}
+      <p class="note">A csapatok felváltva kapják a kérdéseket. A helyes válasz 1 pont, a „megszerzett” kérdés is 1 pont.</p>
+    </div>
+    <div class="field name" id="f-player" ${cfg.play==="egyeni"?"":"hidden"}>
+      <span>A diák neve</span><input id="player" value="${esc(cfg.player)}" maxlength="30" placeholder="pl. Kovács Anna">
+      <p class="note">Az eredmény bekerül az óra ranglistájába ezen a gépen.</p>
+    </div>
+    <div class="start"><button class="btn" id="go">Indítás</button></div>
+  </div>`;
+  stage.querySelectorAll(".seg button").forEach(b=>b.addEventListener("click",()=>{
+    readInputs();
+    const k=b.dataset.k, v=b.dataset.v;
+    cfg[k]=(k==="play"||k==="type")?v:(k==="steal"?v==="true":+v);
+    store.set("slt-cfg",cfg); showSetup();
+  }));
+  document.getElementById("go").addEventListener("click",()=>{readInputs();store.set("slt-cfg",cfg);start()});
+}
+function readInputs(){
+  for(let i=0;i<4;i++){const el=document.getElementById("team-"+i); if(el) cfg.teamNames[i]=el.value.trim()||DEF.teamNames[i];}
+  const p=document.getElementById("player"); if(p) cfg.player=p.value.trim();
+}
+
+/* ---------- game ---------- */
+function start(){
+  const ids=shuffle(P.map((_,i)=>i)).slice(0,cfg.n);
+  const kinds=["alak","jelentes","roman","kirako"];
+  const teams=cfg.play==="csapat"?cfg.teamNames.slice(0,cfg.teamCount).map((name,i)=>({name,score:0,c:TEAM_COLORS[i]}))
+                                  :[{name:cfg.player||"Diák",score:0,c:"var(--accent)"}];
+  st={ids,types:ids.map(()=>cfg.type==="vegyes"?kinds[Math.floor(Math.random()*4)]:cfg.type),pos:0,teams,correct:0,done:false};
+  ask();
+}
+const curType=()=>st.types[st.pos];
+const ownerIdx=()=>st.pos%st.teams.length;
+
+function drawBoard(){
+  if(!st){board.innerHTML="";return}
+  board.innerHTML=st.teams.map((t,i)=>`<div class="chip ${!st.done&&i===st.turn?"on":""}" style="--c:${t.c}"><i></i><span class="nm">${esc(t.name)}</span><span class="pt">${t.score}</span></div>`).join("");
+}
+
+function options(type,qi){
+  const q=P[qi];
+  if(type==="alak") return shuffle([{t:q.la,ok:true},...q.bad.map(t=>({t,ok:false}))]);
+  const key=type==="jelentes"?"hu":"ro";
+  const others=shuffle(P.map((_,i)=>i).filter(i=>i!==qi)).slice(0,3);
+  return shuffle([{t:q[key],ok:true},...others.map(i=>({t:P[i][key],ok:false}))]);
+}
+
+function metaHTML(){
+  const t=st.teams[st.turn];
+  const who=cfg.play==="csapat"?`<span class="turn" style="--c:${t.c}">${st.stealing?"Átvétel: ":"Soron: "}${esc(t.name)}</span>`:`<span class="turn">${esc(t.name)}</span>`;
+  return `<div class="meta" id="meta">${who}<span>${st.pos+1}. kérdés / ${st.ids.length} · ${TYPES[curType()].name}</span></div>`;
+}
+
+function ask(){
+  st.turn=ownerIdx(); st.stealing=false; st.stolen=false; st.answered=false;
+  const qi=st.ids[st.pos], q=P[qi], type=curType();
+  drawBoard();
+  const timer=cfg.timer?`<div class="timer" id="timer"><i></i></div>`:"";
+  if(type==="kirako"){
+    const words=q.la.split(" "), set=new Set(words);
+    const decoys=shuffle([...new Set(q.bad.flatMap(b=>b.split(" ")).filter(w=>!set.has(w)))]).slice(0,2);
+    st.pz={words,tiles:shuffle([...words,...decoys].map((w,i)=>({w,id:i}))),picked:[]};
+    stage.innerHTML=`${metaHTML()}${timer}
+      <p class="task">${TYPES.kirako.task}</p>
+      <p class="prompt">${esc(q.hu)}</p>
+      <div class="slot" id="slot"></div>
+      <div class="pool" id="pool"></div>
+      <div class="panel" id="panel"><div class="fb"></div><div class="btns">
+        <button class="btn ghost" id="pz-clear">Újrakezdés</button>
+        <button class="btn" id="pz-check" disabled>Ellenőrzés</button>
+        <button class="btn ghost" id="skip">Megoldás</button></div></div>`;
+    document.getElementById("pz-clear").addEventListener("click",()=>{if(!st.answered){st.pz.picked=[];drawPuzzle()}});
+    document.getElementById("pz-check").addEventListener("click",checkPuzzle);
+    document.getElementById("skip").addEventListener("click",()=>reveal(false,null));
+    drawPuzzle();
+  } else {
+    st.opts=options(type,qi);
+    const latinPrompt=type!=="alak";
+    stage.innerHTML=`${metaHTML()}${timer}
+      <p class="task">${TYPES[type].task}</p>
+      <p class="prompt ${latinPrompt?"latin":""}">${esc(latinPrompt?q.la:q.hu)}</p>
+      <div class="opts">${st.opts.map((o,i)=>`<button class="opt ${type==="alak"?"lat":""}" id="opt-${i}" data-i="${i}"><span class="k">${"ABCD"[i]}</span><span class="t">${esc(o.t)}</span></button>`).join("")}</div>
+      <div class="panel" id="panel"><div class="fb"></div><div class="btns"><button class="btn ghost" id="skip">Megoldás</button></div></div>`;
+    stage.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>choose(+b.dataset.i)));
+    document.getElementById("skip").addEventListener("click",()=>reveal(false,null));
+  }
+  startTimer();
+}
+
+function drawPuzzle(){
+  const pz=st.pz, slot=document.getElementById("slot"), pool=document.getElementById("pool");
+  const w=id=>pz.tiles.find(t=>t.id===id).w;
+  slot.innerHTML=pz.picked.length?pz.picked.map(id=>`<button class="tile" data-id="${id}">${esc(w(id))}</button>`).join(""):`<span class="empty">Érintsd meg a szavakat a helyes sorrendben.</span>`;
+  pool.innerHTML=pz.tiles.filter(t=>!pz.picked.includes(t.id)).map(t=>`<button class="tile" data-id="${t.id}">${esc(t.w)}</button>`).join("");
+  slot.querySelectorAll(".tile").forEach(b=>b.addEventListener("click",()=>{if(st.answered)return;pz.picked=pz.picked.filter(x=>x!==+b.dataset.id);drawPuzzle()}));
+  pool.querySelectorAll(".tile").forEach(b=>b.addEventListener("click",()=>{if(st.answered)return;pz.picked.push(+b.dataset.id);drawPuzzle()}));
+  const c=document.getElementById("pz-check"); if(c) c.disabled=pz.picked.length!==pz.words.length;
+}
+function checkPuzzle(){
+  if(st.answered) return;
+  const built=st.pz.picked.map(id=>st.pz.tiles.find(t=>t.id===id).w).join(" ");
+  const ok=built===P[st.ids[st.pos]].la;
+  if(ok) return reveal(true,null);
+  if(canSteal()){ document.getElementById("slot").classList.add("wrong"); return offerSteal(); }
+  reveal(false,null);
+}
+
+function canSteal(){ return cfg.play==="csapat"&&cfg.steal&&!st.stolen&&st.teams.length>1; }
+
+function choose(i){
+  if(st.answered) return;
+  const ok=st.opts[i].ok;
+  if(ok) return reveal(true,i);
+  document.getElementById("opt-"+i).classList.add("wrong");
+  document.getElementById("opt-"+i).disabled=true;
+  if(canSteal()) return offerSteal();
+  reveal(false,i);
+}
+
+function offerSteal(){
+  stopTimer();
+  const nextIdx=(st.turn+1)%st.teams.length, t=st.teams[nextIdx];
+  stage.querySelectorAll(".opt:not(.wrong), .tile").forEach(b=>b.disabled=true);
+  const panel=document.getElementById("panel");
+  panel.innerHTML=`<div class="fb no"><span class="verdict">Non recte. Nem talált.</span><span class="row">Átadhatod a kérdést a következő csapatnak.</span></div>
+    <div class="btns"><button class="btn" id="steal" style="background:${t.c};border-color:${t.c}">Átadás: ${esc(t.name)}</button>
+    <button class="btn ghost" id="skip">Megoldás</button></div>`;
+  document.getElementById("steal").addEventListener("click",()=>{
+    st.turn=nextIdx; st.stealing=true; st.stolen=true;
+    document.getElementById("meta").outerHTML=metaHTML(); drawBoard();
+    stage.querySelectorAll(".opt:not(.wrong)").forEach(b=>b.disabled=false);
+    if(curType()==="kirako"){
+      document.getElementById("slot").classList.remove("wrong"); st.pz.picked=[]; drawPuzzle();
+      panel.innerHTML=`<div class="fb"></div><div class="btns"><button class="btn ghost" id="pz-clear">Újrakezdés</button><button class="btn" id="pz-check" disabled>Ellenőrzés</button><button class="btn ghost" id="skip">Megoldás</button></div>`;
+      document.getElementById("pz-clear").addEventListener("click",()=>{if(!st.answered){st.pz.picked=[];drawPuzzle()}});
+      document.getElementById("pz-check").addEventListener("click",checkPuzzle);
+    } else {
+      panel.innerHTML=`<div class="fb"></div><div class="btns"><button class="btn ghost" id="skip">Megoldás</button></div>`;
+    }
+    document.getElementById("skip").addEventListener("click",()=>reveal(false,null));
+    startTimer();
+  });
+  document.getElementById("skip").addEventListener("click",()=>reveal(false,null));
+}
+
+function reveal(ok,i){
+  if(st.answered) return; st.answered=true; stopTimer();
+  const q=P[st.ids[st.pos]], type=curType();
+  if(ok){st.teams[st.turn].score++; st.correct++;}
+  if(type==="kirako"){
+    const slot=document.getElementById("slot");
+    slot.classList.remove("wrong"); slot.classList.add(ok?"right":"wrong");
+    stage.querySelectorAll(".tile").forEach(b=>b.disabled=true);
+  } else {
+    stage.querySelectorAll(".opt").forEach((b,j)=>{b.disabled=true; if(st.opts[j].ok) b.classList.add("right"); else if(j===i) b.classList.add("wrong");});
+  }
+  drawBoard();
+  const last=st.pos===st.ids.length-1;
+  const gram=(type==="alak"||type==="kirako")?`<span class="row">${esc(q.g)}</span>`:"";
+  const who=ok&&cfg.play==="csapat"?` +1 pont: ${esc(st.teams[st.turn].name)}`:"";
+  document.getElementById("panel").innerHTML=`
+    <div class="fb ${ok?"ok":"no"}"><span class="verdict">${ok?"Recte! Helyes."+who:(i===null&&!st.timedOut?"A megoldás:":"Non recte. Nem talált.")}</span>
+      <span class="lat">${esc(q.la)}</span>
+      <span class="row"><b>HU</b>${esc(q.hu)}</span><span class="row"><b>RO</b>${esc(q.ro)}</span>${gram}</div>
+    <div class="btns"><button class="btn" id="next">${last?"Eredményhirdetés":"Következő kérdés"}</button></div>`;
+  st.timedOut=false;
+  const nx=document.getElementById("next"); nx.addEventListener("click",next); nx.focus({preventScroll:true});
+}
+
+function next(){ if(!st||!st.answered) return; st.pos++; st.pos<st.ids.length?ask():finish(); }
+
+/* ---------- timer ---------- */
+function startTimer(){
+  stopTimer(); if(!cfg.timer) return;
+  const el=document.getElementById("timer"); if(!el) return;
+  const bar=el.querySelector("i"), t0=performance.now(), dur=cfg.timer*1000;
+  el.classList.remove("low");
+  const tick=now=>{
+    const left=Math.max(0,1-(now-t0)/dur);
+    bar.style.width=(left*100)+"%";
+    if(left<.25) el.classList.add("low");
+    if(left<=0){ timerRAF=null; timeUp(); return; }
+    timerRAF=requestAnimationFrame(tick);
+  };
+  timerRAF=requestAnimationFrame(tick);
+}
+function stopTimer(){ if(timerRAF) cancelAnimationFrame(timerRAF); timerRAF=null; }
+function timeUp(){
+  if(st.answered) return;
+  if(canSteal()) return offerSteal();
+  st.timedOut=true; reveal(false,null);
+}
+
+/* ---------- end ---------- */
+function finish(){
+  st.done=true; stopTimer(); drawBoard();
+  const n=st.ids.length;
+  if(cfg.play==="csapat"){
+    const sorted=st.teams.slice().sort((a,b)=>b.score-a.score);
+    const top=sorted[0].score, winners=sorted.filter(t=>t.score===top);
+    const heights=[11,8,6,5];
+    let place=0,prev=null;
+    stage.innerHTML=`<div class="end">
+      <p class="task">Eredményhirdetés</p>
+      <div class="word">${winners.length>1?"Döntetlen! Gratulálunk mindenkinek.":"Victoria! Győzött: "+esc(winners[0].name)}</div>
+      <div class="podium">${sorted.map((t,i)=>{ if(t.score!==prev){place=i+1;prev=t.score}
+        return `<div class="pod" style="--c:${t.c};min-height:${heights[place-1]}em"><span class="pl">${place}.</span><span class="nm">${esc(t.name)}</span><span class="pt">${t.score} pont</span></div>`}).join("")}</div>
+      <div class="btns"><button class="btn ghost" id="setup2">Beállítások</button><button class="btn" id="again">Visszavágó</button></div></div>`;
+  } else {
+    const pct=Math.round(st.correct/n*100), word=WORDS.find(w=>pct>=w[0])[1];
+    const rec={name:st.teams[0].name,score:st.correct,n,pct,type:TYPES[cfg.type].name,t:Date.now()};
+    const list=store.get("slt-board",[]); list.push(rec); store.set("slt-board",list);
+    const ranked=list.slice().sort((a,b)=>b.pct-a.pct||b.score-a.score||a.t-b.t).slice(0,10);
+    stage.innerHTML=`<div class="end">
+      <p class="task">${esc(rec.name)} eredménye</p>
+      <div class="big">${st.correct} / ${n}</div>
+      <div class="word">${word}</div>
+      <div class="rank-wrap"><table class="rank"><thead><tr><th>Hely</th><th>Név</th><th>Eredmény</th><th>Feladat</th></tr></thead>
+        <tbody>${ranked.map((r,i)=>`<tr class="${r.t===rec.t?"me":""}"><td>${i+1}.</td><td>${esc(r.name)}</td><td>${r.score}/${r.n} (${r.pct}%)</td><td>${esc(r.type)}</td></tr>`).join("")}</tbody></table></div>
+      <div class="btns"><button class="btn warn" id="clear">Ranglista törlése</button><button class="btn ghost" id="setup2">Következő diák</button><button class="btn" id="again">Újra ugyanő</button></div></div>`;
+    const cl=document.getElementById("clear");
+    cl.addEventListener("click",()=>{
+      if(cl.dataset.armed){store.set("slt-board",[]);cl.textContent="Törölve";cl.disabled=true;stage.querySelector(".rank tbody").innerHTML="";}
+      else{cl.dataset.armed="1";cl.textContent="Biztosan törlöd? Érintsd meg újra";}
+    });
+  }
+  document.getElementById("setup2").addEventListener("click",showSetup);
+  document.getElementById("again").addEventListener("click",start);
+}
+
+/* ---------- chrome ---------- */
+document.getElementById("btn-setup").addEventListener("click",showSetup);
+document.getElementById("btn-fs").addEventListener("click",()=>{
+  try{ const d=document; if(d.fullscreenElement){d.exitFullscreen&&d.exitFullscreen().catch(()=>{})}
+       else {const r=d.documentElement.requestFullscreen&&d.documentElement.requestFullscreen(); r&&r.catch&&r.catch(()=>{})} }catch(e){}
+});
+document.addEventListener("keydown",e=>{
+  if(!st||st.done||/INPUT|SELECT/.test(e.target.tagName)) return;
+  if(!st.answered&&curType()!=="kirako"&&/^[1-4]$/.test(e.key)){const b=document.getElementById("opt-"+(+e.key-1)); if(b&&!b.disabled) choose(+e.key-1); e.preventDefault();}
+  else if(st.answered&&e.key==="Enter"&&document.activeElement.id!=="next"){next();e.preventDefault();}
+});
+showSetup();
+</script>
+
+</body></html>

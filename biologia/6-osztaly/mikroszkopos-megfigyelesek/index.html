@@ -1,0 +1,254 @@
+<!doctype html><html lang="hu"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Mikroszkópos megfigyelések</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: kivetítős diavetítő; felül cím, középen 16:9 kép feliratréteggel, alul vezérlők */
+:root{
+  --bg:#E9EEE6; --panel:#F6F8F3; --ink:#17251F; --muted:#56675E; --line:#C9D3C6; --accent:#2F7D4F; --on-accent:#F6F8F3;
+  --f-display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  /* a képek mindig világosak, ezért a képen lévő feliratok színe rögzített */
+  --paper:#F7F7ED; --tag:#17251F; --tag-ink:#F7F7ED; --step:#2F7D4F;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0F1713; --panel:#16211B; --ink:#E4ECE4; --muted:#97AA9E; --line:#2B3B32; --accent:#6CC48C; --on-accent:#0F1713; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0F1713; --panel:#16211B; --ink:#E4ECE4; --muted:#97AA9E; --line:#2B3B32; --accent:#6CC48C; --on-accent:#0F1713; color-scheme:dark }
+html,body{height:100%}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-display);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px}
+.app{height:100%;display:flex;flex-direction:column;gap:10px;max-width:1700px;margin:0 auto}
+.app:fullscreen{background:var(--bg);padding:12px 20px}
+.head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.head .n{font-family:var(--f-mono);font-size:1rem;color:var(--muted)}
+.head h1{margin:0;font-weight:800;font-size:clamp(1.3rem,2.6vw,2.2rem);line-height:1.1;text-wrap:balance}
+.stagewrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.stage{position:relative;aspect-ratio:1376/768;width:min(100%, calc((100dvh - 150px) * 1376 / 768));max-width:100%;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--paper)}
+.app:fullscreen .stage{width:min(100%, calc((100vh - 130px) * 1376 / 768))}
+.stage img,.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+button{font-family:var(--f-display);font-weight:600;font-size:1rem;border-radius:999px;padding:9px 18px;cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+button:hover{border-color:var(--ink)}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+button:disabled{opacity:.4;cursor:default}
+button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.spacer{flex:1}
+.hint{font-family:var(--f-mono);font-size:.75rem;color:var(--muted)}
+/* SVG-feliratok */
+.tag rect{fill:var(--tag)}
+.tag text{fill:var(--tag-ink);font-family:var(--f-display);font-weight:600;font-size:24px}
+.tag text.sub{font-size:17px;font-weight:500;opacity:.8}
+.magbg{fill:#FFFFFF;fill-opacity:.88;stroke:#17251F;stroke-opacity:.18;stroke-width:1.5}
+.mag text{fill:#17251F;font-family:var(--f-display)}
+.mag .mh{font-size:24px;font-weight:800}
+.mag .mf{font-size:20px;font-weight:600;fill:#2F7D4F}
+.mag .mm{font-family:var(--f-mono);font-size:21px;font-weight:500}
+.mag .mr{font-size:21px;font-weight:600}
+.mag .mn{font-size:16px;fill:#56675E}
+.mrule{stroke:#17251F;stroke-opacity:.2;stroke-width:1.5}
+.lead{fill:none;stroke-linecap:round}
+.lead.halo{stroke:#FFFFFF;stroke-width:6;opacity:.85}
+.lead.core{stroke:var(--tag);stroke-width:2.5}
+.dot{fill:var(--tag);stroke:#FFFFFF;stroke-width:2.5}
+.step circle{fill:var(--step)}
+.step .num{fill:#FFFFFF;font-family:var(--f-mono);font-size:17px;font-weight:500}
+.step .cap{fill:#17251F;font-family:var(--f-display);font-weight:600;font-size:21px}
+.step .capbg{fill:var(--paper);opacity:.9}
+#labels{transition:opacity .4s}
+#labels.off{opacity:0}
+@media (prefers-reduced-motion:reduce){#labels{transition:none}}
+/* Kezdőlap */
+.home{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:22px;padding-block:8px 4px}
+.home header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.home .eyebrow{font-family:var(--f-mono);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.home h1{margin:4px 0 0;font-weight:800;font-size:clamp(2rem,4.6vw,3.6rem);line-height:1;letter-spacing:-.01em;text-wrap:balance}
+.home .sub{margin:8px 0 0;color:var(--muted);font-size:1.05rem}
+.start{background:var(--accent);color:var(--on-accent);border-color:var(--accent);font-size:1.1rem;padding:12px 24px}
+.start:hover{border-color:var(--ink)}
+.tiles{list-style:none;margin:auto 0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:26px 22px}
+.tiles li{width:clamp(130px,min(14.5vw,26vh),240px)}
+.tile{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;text-align:center;border-radius:16px;padding:8px 6px}
+.tile:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.tile .lens{width:100%;aspect-ratio:1;max-width:100%;border-radius:50%;overflow:hidden;border:7px solid #141A17;box-shadow:0 0 0 2px var(--line),0 6px 16px rgba(0,0,0,.18);transition:transform .2s ease}
+.tile .lens img{width:100%;height:100%;object-fit:cover;display:block}
+.tile:hover .lens,.tile:focus-visible .lens{transform:scale(1.05)}
+.tile .t{display:flex;flex-direction:column;gap:2px;align-items:center;font-weight:600;font-size:1rem;line-height:1.2;color:var(--ink);text-wrap:balance}
+.tile .t span{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);font-weight:500}
+@media (prefers-reduced-motion:reduce){.tile .lens{transition:none}}
+.is-home .head,.is-home .stagewrap,.is-home .slide-only{display:none!important}
+.app:not(.is-home) .home{display:none}
+</style>
+
+<div class="app" id="app">
+  <section class="home" id="home" aria-label="Kezdőlap">
+    <header>
+      <div>
+        <div class="eyebrow">6. osztály · biológia · 11 kísérlet</div>
+        <h1>Mikroszkópos megfigyelések</h1>
+        <p class="sub">Válassz egy kísérletet, vagy nézd végig sorban.</p>
+      </div>
+      <button class="start" id="start" type="button">Kezdés →</button>
+    </header>
+    <ol class="tiles" id="tiles"></ol>
+  </section>
+  <div class="head"><span class="n" id="num"></span><h1 id="title"></h1></div>
+  <div class="stagewrap">
+    <div class="stage">
+      <img id="img" alt="">
+      <svg id="svg" viewBox="0 0 1376 768" aria-hidden="true">
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#FFFFFF"/></marker></defs><g id="mask"></g><g id="steps"></g><g id="labels"></g>
+      </svg>
+    </div>
+  </div>
+  <nav class="controls" aria-label="Diák vezérlése">
+    <button id="homeBtn" class="slide-only" type="button">⌂ Kezdőlap</button>
+    <button id="prev" class="slide-only" type="button">← Előző</button>
+    <button id="next" class="slide-only" type="button">Következő →</button>
+    <button id="tl" class="slide-only" type="button" aria-pressed="true">Feliratok</button>
+    <span class="hint slide-only">Nyilak: lapozás · F: feliratok · Esc: kezdőlap</span>
+    <span class="spacer"></span>
+    <button id="fs" type="button">Teljes képernyő</button>
+  </nav>
+</div>
+
+<script>
+(function(){
+const NS="http://www.w3.org/2000/svg";
+const SLIDES=[
+ {no:0,title:"A mikroszkóp részei",img:"mikroszkop.jpg",steps:[],box:true,
+  labels:[["okulár\nszemlencse",560,62,850,90],["tubus",560,160,855,240],["revolver\nrevolverfej",560,258,820,345],["objektív\ntárgylencse",560,358,755,375],["tárgyasztal",560,455,760,470],["fényrekesz\nblende",560,548,830,540],["tükör",560,640,830,610],
+   ["fogasléc",1240,105,897,175],["makrocsavar\ndurva élességállító",1240,205,915,262],["kar\nállvány",1240,305,1020,300],["mikrocsavar\nfinom élességállító",1240,400,948,333],["rögzítőfül\ntárgylemez-leszorító",1240,495,905,446],["csukló",1240,590,968,548],["talp",1240,690,1010,690]]},
+ {no:1,title:"Vöröshagyma védőszövete tintával",img:"hagyma.jpg",
+  steps:[[1,"Húzd le a belső hártyát",175,224],[2,"Tedd vízcseppbe",500,318],[3,"Cseppents rá tintát",190,494],[4,"Fedd le, itasd fel a vizet",520,550],[5,"Figyeljétek meg párban",250,742]],
+  labels:[["sejtfal",760,40,1014,300],["sejtmag",1275,40,1135,200],["sejtplazma (citoplazma)",1200,722,1198,264],["sejtüreg (vakuólum)",735,722,860,560]]},
+ {no:2,title:"Lilahagyma: sejtek sós vízben",img:"lilahagyma.jpg",maskFill:"#F9F7EA",
+  mask:[[0,0,1376,88],[680,0,18,768]],
+  steps:[[1,"Húzd le a lila hártyát",190,232],[2,"Vízcsepp, fedőlemez",500,320],[3,"Készíts sós vizet",175,515],[4,"Szívasd alá a sós vizet",500,527],[5,"Figyeljétek meg párban",230,742]],
+  labels:[["vízben",1275,240],["sós vízben",1280,570],["sejtfal",780,150,965,205],["lila sejtnedv",790,300,1110,285],["elvált sejttartalom",795,520,1000,580],["sejtfal",780,690,1060,600]]},
+ {no:3,title:"Átokhínár levele",img:"atokhinar.jpg",maskFill:"#F7F4EB",
+  mask:[[690,0,686,84],[680,0,18,768]],
+  steps:[[1,"Csípj le egy fiatal levélkét",192,350],[2,"Vízcseppbe a tárgylemezen",500,300],[3,"Fedőlemez rá",490,492],[4,"Melegítsd egy kicsit lámpával",205,686],[5,"Figyeljétek meg párban",510,742]],
+  arcs:[[1030,385,30,72,22]],
+  labels:[["sejtfal",790,60,870,260],["zöld színtest",1265,60,1110,300],["sejtüreg (vakuólum)",810,722,1030,385],["plazmaáramlás",1250,722,1058,396]]},
+ {no:4,title:"Paradicsom húsa",img:"paradicsom.jpg",maskFill:"#F9F9EF",
+  mask:[[680,0,18,768]],
+  steps:[[1,"Vágd ketté a paradicsomot",190,247],[2,"Végy ki egy kis húst",510,264],[3,"Kend szét vízcseppben",200,452],[4,"Fedd le, nyomd meg finoman",520,537],[5,"Figyeljétek meg párban",240,742]],
+  labels:[["sejtfal",780,60,930,390],["színes színtest",1245,60,1220,270],["sejtüreg (vakuólum)",790,722,1010,400],["sejtközötti járat",1240,705,1100,370]]},
+ {no:5,title:"Burgonya keményítője jóddal",img:"burgonya.jpg",
+  mask:[[0,0,1376,80]],
+  steps:[[1,"Vágd ketté a krumplit",185,272],[2,"Kaparj le egy kis levet",540,312],[3,"Kend a tárgylemezre",420,458],[4,"Cseppents rá hígított jódot",195,628],[5,"Figyeljétek meg párban",510,748]],
+  labels:[["keményítőszemcse",735,118,972,415],["rétegzettség",770,738,868,470],["sejtfal-maradvány",1225,742,1192,422]]},
+ {no:6,title:"Gázcserenyílások lenyomata",img:"gazcsere.jpg",
+  steps:[[1,"Körömlakk a levél fonákjára",205,282],[2,"Hagyd megszáradni",455,318],[3,"Nyomj rá celluxot",190,500],[4,"Húzd le, ragaszd a tárgylemezre",500,540],[5,"Figyeljétek meg párban",340,742]],
+  labels:[["gázcserenyílás",745,52,965,212],["zárósejt",1285,58,1203,192],["bőrszövet sejtje",1225,735,1095,600]]},
+ {no:7,title:"Szájnyálkahártya sejtjei",img:"szaj2.jpg",
+  steps:[[1,"Kenet a szájüreg belső faláról",200,290],[2,"Kend szét vízcseppben",540,292],[3,"Cseppents rá metilénkéket",215,475],[4,"Fedd le, a pálcát dobd ki",205,742],[5,"Figyeljétek meg párban",560,742]],
+  labels:[["sejthártya",790,60,948,197],["sejtmag",1280,60,1215,300],["sejtplazma (citoplazma)",905,722,805,425],["baktériumok",1260,722,1026,356]]},
+ {no:8,title:"Hajszálak és textilszálak",img:"szalak.jpg",maskFill:"#F4F4EA",
+  mask:[[760,10,580,72],[405,298,250,56]],
+  steps:[[1,"Ősz hajszál (felnőtt)",160,238],[2,"Sötét hajszál (gyerek)",520,238],[3,"Csipesszel a tárgylemezre",195,470],[4,"Mellé: gyapjú, pamut, műszál",512,326],[5,"Vízcsepp, fedőlemez",190,630],[6,"Figyeljétek meg párban",480,745]],
+  labels:[["ősz hajszál",790,45,870,270],["velő",950,45,1038,140],["sötét hajszál",1120,45,1100,222],["gyapjú",1300,122,1215,240],["pamut",880,742,930,610],["műszál",1300,652,1250,450]]},
+ {no:9,title:"Toll és lepkeszárny",img:"toll2.jpg",
+  steps:[[1,"Vágj le egy kis tolldarabot",190,268],[2,"Tárgylemezre, fedőlemezzel",500,262],[3,"Csipesszel egy kis szárnydarab",215,524],[4,"Ezt is fedd le",515,514],[5,"Kész a két preparátum",185,710],[6,"Figyeljétek meg párban",510,742]],
+  labels:[["madártoll",1290,90],["sugarak",1290,185,1090,180],["tollág",1290,280,1140,240],["horgocskák",775,170,1000,160],["lepkeszárny",1270,470],["pikkelyek",775,620,950,620]]},
+ {no:10,title:"Szénaáztatás: egysejtűek",img:"szena.jpg",maskFill:"#F6F6EA",
+  mask:[[680,0,18,768]],
+  steps:[[1,"Széna és tóvíz az ablakban",200,314],[2,"Várj kb. egy hetet",515,268],[3,"Csepp a felszíni hártyából",215,500],[4,"Pamutszál, fedőlemez",520,457],[5,"Kész a preparátum",210,674],[6,"Figyeljétek meg párban",540,742]],
+  labels:[["papucsállatka",790,722,930,580],["lüktető űröcske",790,60,858,357],["csillók",1265,60,1120,150],["sejtszáj",1300,122,1175,255],["táplálékűröcske",1250,707,1105,530]]},
+ {no:11,title:"Kenyérpenész",img:"penesz.jpg",
+  mask:[[0,0,688,74,"#F8FAEF"],[688,0,688,74,"#F1F1E5"]],
+  steps:[[1,"Nedves kenyér",165,234],[2,"Zacskóban, sötét helyen",500,274],[3,"Várj kb. 5 napot",170,434],[4,"Megjelenik a penész",430,464],[5,"Celluxszal a tanár veszi le",190,667],[6,"Figyeljétek meg párban",510,744]],
+  labels:[["spóratartó",790,60,970,230],["spórák",1100,40,1120,220],["gombafonal",760,722,870,520],["gyökérszerű fonalak",1225,722,1000,560]]},
+];
+let i=-1,show=true;
+const $=id=>document.getElementById(id);
+function el(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}
+function textW(s,px){return s.length*px*0.56}
+function render(){
+  const s=SLIDES[i];
+  $("num").textContent=s.no?s.no+" / 11":"Alapok";$("title").textContent=s.title;
+  $("img").src=s.img;$("img").alt=s.no?s.title+": előkészítés és mikroszkópos kép":"Iskolai fénymikroszkóp tükörrel, a részek megnevezésével";
+  ["mask","steps","labels"].forEach(id=>$(id).innerHTML="");
+  if(s.mask)s.mask.forEach(([x,y,w,h,f])=>el("rect",{x,y,width:w,height:h,fill:f||s.maskFill||"#F7F7ED"},$("mask")));
+  s.steps.forEach(([n,cap,x,y])=>{
+    const g=el("g",{class:"step"},$("steps"));
+    const w=textW(cap,21)+44, x0=x-w/2;
+    el("rect",{class:"capbg",x:x0-6,y:y-17,width:w+12,height:34,rx:17},g);
+    el("circle",{cx:x0+14,cy:y,r:14},g);
+    const t=el("text",{class:"num",x:x0+14,y:y+6,"text-anchor":"middle"},g);t.textContent=n;
+    const c=el("text",{class:"cap",x:x0+36,y:y+7},g);c.textContent=cap;
+  });
+  s.labels.forEach(([txt,lx,ly,ax,ay])=>{
+    const g=$("labels");
+    if(ax!=null){
+    el("line",{class:"lead halo",x1:lx,y1:ly,x2:ax,y2:ay},g);
+    el("line",{class:"lead core",x1:lx,y1:ly,x2:ax,y2:ay},g);
+    el("circle",{class:"dot",cx:ax,cy:ay,r:7},g);}
+    const [l1,l2]=txt.split("\n"),tg=el("g",{class:"tag"},g);
+    if(l2){
+      const w=Math.max(textW(l1,24),textW(l2,17))+36;
+      el("rect",{x:lx-w/2,y:ly-30,width:w,height:60,rx:20},tg);
+      const t=el("text",{x:lx,y:ly-3,"text-anchor":"middle"},tg);t.textContent=l1;
+      const t2=el("text",{x:lx,y:ly+20,"text-anchor":"middle",class:"sub"},tg);t2.textContent=l2;
+    }else{
+      const w=textW(l1,24)+32;
+      el("rect",{x:lx-w/2,y:ly-21,width:w,height:42,rx:21},tg);
+      const t=el("text",{x:lx,y:ly+8,"text-anchor":"middle"},tg);t.textContent=l1;
+    }
+  });
+  if(s.box){
+    const g=el("g",{class:"mag"},$("steps")),X=34,Y=455,W=350,H=285;
+    el("rect",{x:X,y:Y,width:W,height:H,rx:18,class:"magbg"},g);
+    const T=(x,y,str,cls,anchor)=>{const t=el("text",{x,y,class:cls,"text-anchor":anchor||"start"},g);t.textContent=str};
+    T(X+22,Y+40,"A nagyítás kiszámítása","mh");
+    T(X+22,Y+76,"nagyítás = okulár × objektív","mf");
+    el("line",{x1:X+22,y1:Y+94,x2:X+W-22,y2:Y+94,class:"mrule"},g);
+    [["10 × 4","40-szeres"],["10 × 10","100-szoros"],["10 × 40","400-szoros"]].forEach(([a,b],k)=>{
+      const y=Y+130+k*38;T(X+22,y,a,"mm");T(X+128,y,"=","mm");T(X+W-22,y,b,"mr","end");});
+    T(X+22,Y+H-36,"A számok rá vannak írva","mn");T(X+22,Y+H-14,"az okulárra és az objektívekre.","mn");
+  }
+  if(s.arcs)s.arcs.forEach(([cx,cy,rx,ry,rot])=>{
+    const r=rot*Math.PI/180,pts=[];
+    for(let t=0.5;t<=Math.PI*2-0.2;t+=0.08){const x=rx*Math.cos(t),y=ry*Math.sin(t);
+      pts.push((cx+x*Math.cos(r)-y*Math.sin(r)).toFixed(1)+","+(cy+x*Math.sin(r)+y*Math.cos(r)).toFixed(1))}
+    el("polyline",{points:pts.join(" "),fill:"none",stroke:"#17251F","stroke-width":8,"stroke-linecap":"round",opacity:.55},$("labels"));
+    el("polyline",{points:pts.join(" "),fill:"none",stroke:"#FFFFFF","stroke-width":4,"stroke-linecap":"round","marker-end":"url(#ah)"},$("labels"));
+  });
+  $("labels").classList.toggle("off",!show);
+  $("prev").disabled=i===0;$("next").disabled=i===SLIDES.length-1;
+}
+function showHome(){i=-1;$("app").classList.add("is-home");document.title="Mikroszkópos megfigyelések"}
+const hid=s=>s.no?"k"+s.no:"mikroszkop";
+function go(n){
+  if(n<0){showHome();setHash("");return}
+  i=Math.min(SLIDES.length-1,n);$("app").classList.remove("is-home");render();setHash(hid(SLIDES[i]));
+}
+function setHash(h){try{if(location.hash.slice(1)!==h)location.hash=h}catch(e){}}
+function fromHash(){const h=location.hash.slice(1),n=SLIDES.findIndex(s=>hid(s)===h);if(n>=0){i=n;$("app").classList.remove("is-home");render()}else showHome()}
+const tiles=$("tiles");
+SLIDES.forEach((s,n)=>{
+  const li=document.createElement("li"),b=document.createElement("button");
+  b.type="button";b.className="tile";
+  b.innerHTML='<span class="lens"><img alt="" loading="lazy" src="thumbs/t'+String(s.no).padStart(2,"0")+'.jpg"></span><span class="t"><span>'+(s.no||"alapok")+'</span>'+s.title+'</span>';
+  b.addEventListener("click",()=>go(n));li.appendChild(b);tiles.appendChild(li);
+});
+$("start").onclick=()=>go(0);$("homeBtn").onclick=()=>go(-1);
+window.addEventListener("hashchange",fromHash);
+function toggle(){show=!show;$("tl").setAttribute("aria-pressed",String(show));$("labels").classList.toggle("off",!show)}
+$("prev").onclick=()=>{if(i>0)go(i-1)};$("next").onclick=()=>go(i+1);$("tl").onclick=toggle;
+$("fs").onclick=()=>{try{const p=document.fullscreenElement?document.exitFullscreen():$("app").requestFullscreen();if(p&&p.catch)p.catch(()=>{})}catch(e){}};
+document.addEventListener("keydown",e=>{
+  if(e.key==="ArrowRight"||e.key==="PageDown"){if(i<SLIDES.length-1)go(i+1)}
+  else if(e.key==="ArrowLeft"||e.key==="PageUp"){if(i>0)go(i-1)}
+  else if(e.key==="Escape"||e.key==="Home"){if(i>=0)go(-1)}
+  else if((e.key==="f"||e.key==="F")&&i>=0)toggle();
+});
+fromHash();
+})();
+</script>
+
+</body></html>

@@ -1,0 +1,198 @@
+<!doctype html><html lang="hu"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Mikroszkópos kísérletek promptjai</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Literata:opsz,wght@7..72,400;7..72,600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: munkafüzet-oldal; felül használati útmutató, alatta kísérletenként egy kártya: bal oldalon magyar összefoglaló, jobb oldalon a másolható prompt */
+:root{
+  --bg:#E9EEE6; --panel:#F6F8F3; --ink:#17251F; --muted:#56675E; --line:#C9D3C6; --accent:#2F7D4F; --on-accent:#F6F8F3;
+  --code:#EEF2EA; --chip:#E3EBDB; --warn:#8A5A12; --warn-bg:#F6EBD3;
+  --f-display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --f-body:"Literata",Georgia,"Times New Roman",serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0F1713; --panel:#16211B; --ink:#E4ECE4; --muted:#97AA9E; --line:#2B3B32; --accent:#6CC48C; --on-accent:#0F1713;
+  --code:#111A15; --chip:#22301F; --warn:#F0C27A; --warn-bg:#2E2614; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0F1713; --panel:#16211B; --ink:#E4ECE4; --muted:#97AA9E; --line:#2B3B32; --accent:#6CC48C; --on-accent:#0F1713;
+  --code:#111A15; --chip:#22301F; --warn:#F0C27A; --warn-bg:#2E2614; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16.5px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 40px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(1.7rem,3.4vw,2.6rem);line-height:1.05;margin:0;text-wrap:balance}
+.lead{margin:6px 0 0;color:var(--muted);max-width:70ch}
+.meta{font-family:var(--f-mono);font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.guide{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px 28px}
+.guide h3{font-family:var(--f-display);font-weight:600;font-size:1.05rem;margin:0 0 4px}
+.guide p{margin:0;font-size:.95rem;color:var(--muted)}
+.jump{display:flex;flex-wrap:wrap;gap:8px}
+.jump a{font-family:var(--f-display);font-weight:600;font-size:.92rem;text-decoration:none;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+.jump a:hover{border-color:var(--ink)}
+.jump a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.jump .n{font-family:var(--f-mono);color:var(--muted);margin-right:6px;font-weight:400}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:22px;scroll-margin-top:16px}
+@media (max-width:860px){.exp{grid-template-columns:minmax(0,1fr)}}
+.exp header{grid-column:1/-1;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.num{font-family:var(--f-mono);font-size:.85rem;color:var(--muted)}
+.exp h2{font-family:var(--f-display);font-weight:800;font-size:clamp(1.35rem,2.4vw,1.8rem);margin:0;line-height:1.1;text-wrap:balance}
+.tag{font-family:var(--f-mono);font-size:.72rem;padding:3px 9px;border-radius:999px;background:var(--chip);color:var(--muted)}
+.info{display:flex;flex-direction:column;gap:14px;min-width:0}
+.info h4{font-family:var(--f-mono);font-weight:500;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 4px}
+.info p{margin:0}
+.labels{display:flex;flex-wrap:wrap;gap:6px}
+.labels span{font-family:var(--f-display);font-weight:600;font-size:.88rem;padding:3px 10px;border-radius:6px;border:1px solid var(--line)}
+.info ul{margin:0;padding-left:1.15em;display:flex;flex-direction:column;gap:3px;font-size:.95rem}
+.note{background:var(--warn-bg);color:var(--warn);border-radius:10px;padding:8px 12px;font-size:.92rem}
+.promptbox{display:flex;flex-direction:column;gap:10px;min-width:0}
+.promptbox .bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+pre{margin:0;background:var(--code);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-family:var(--f-mono);font-size:.8rem;line-height:1.6;white-space:pre-wrap;word-break:break-word;max-height:420px;overflow:auto}
+button{font-family:var(--f-display);font-weight:600;font-size:.95rem;border-radius:999px;padding:8px 16px;cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:var(--on-accent)}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+button.done{background:var(--panel);color:var(--accent)}
+footer{color:var(--muted);font-size:.92rem;max-width:75ch}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="meta">6. osztály · biológia · mikroszkópos gyakorlat</div>
+    <h1>Mikroszkópos kísérletek képpromptjai</h1>
+    <p class="lead">Tizenegy prompt a Nano Banana 2-höz, kísérletenként egy kivetíthető 16:9-es képhez. Balra vázlatos rajzok mutatják az előkészítést, jobbra valósághű, NatGeo-stílusú kép a mikroszkópban látható részletekkel. A képeken nincs szöveg, a magyar feliratokat utólag tesszük rá.</p>
+  </header>
+
+  <section class="guide" aria-label="Használati útmutató">
+    <div><h3>Másold és illeszd be</h3><p>A promptok angolul vannak, mert a képgeneráló így pontosabb. A Másolás gomb a teljes promptot vágólapra teszi.</p></div>
+    <div><h3>Állítsd 16:9-re</h3><p>Ha a felületen választható a képarány, válaszd a 16:9-et. A prompt is kéri, de a beállítás biztosabb.</p></div>
+    <div><h3>Kérj 2–3 változatot</h3><p>Válaszd ki a legpontosabbat. Ha mégis kerül szöveg a képre, kérd így: „Remove all text, letters and numbers from the image.”</p></div>
+    <div><h3>Ellenőrizd a biológiát</h3><p>Minden kártyán van egy rövid lista arról, mit nézz meg a kész képen. A generált kép lehet szép, de hibás is.</p></div>
+  </section>
+
+  <nav class="jump" id="jump" aria-label="Ugrás kísérlethez"></nav>
+
+  <main id="list" style="display:flex;flex-direction:column;gap:18px"></main>
+
+  <footer>Ha megvannak a kiválasztott képek, töltsd fel őket ide a beszélgetésbe. Utána elkészítem belőlük a kivetíthető bemutatót a magyar feliratokkal.</footer>
+</div>
+
+<script>
+(function(){
+const STYLE=(steps,view,twoFields)=>`Create a wide 16:9 educational slide image for a 6th-grade biology lesson that will be projected on a classroom smartboard.
+
+COMPOSITION: two clearly separated halves on a clean, warm off-white paper background.
+
+LEFT HALF (about 45% of the width) – PREPARATION, as ${steps.length} small sequential sketches arranged from top to bottom in a gentle zigzag, connected by simple hand-drawn arrows. Style: loose pencil-and-ink line sketches with light watercolor washes, like pages from a scientist's field notebook. Draw hands, tools and glassware simply and clearly, with plenty of white space around each sketch. The sketches, in order:
+${steps.map((s,i)=>`${i+1}. ${s}`).join("\n")}
+
+RIGHT HALF (about 55% of the width) – WHAT YOU SEE IN THE MICROSCOPE: ${twoFields?"two circular microscope fields of view stacked vertically, each":"one large circular microscope field of view"} with a soft dark vignette edge, showing a razor-sharp, photorealistic brightfield light-microscope photograph in National Geographic photography quality: rich but natural colors, crisp structures, perfect focus in the center, scientifically accurate shapes, proportions and scale.
+${view}
+
+The contrast between the hand-drawn left half and the photographic right half is intentional. Leave generous empty margins around the circle${twoFields?"s":""} and around every sketch, so that labels can be added later.
+
+ABSOLUTELY NO TEXT anywhere in the image: no letters, no words, no numbers, no step numbers, no labels, no captions, no scale bars, no watermarks, no logos.`;
+
+const KIDS="Two 12-year-old students sharing one school light microscope at a classroom desk: one looks into the eyepiece, the other draws what they see in a notebook.";
+
+const EXP=[
+ {t:"Vöröshagyma bőrszövete tintával",tag:"a ti kísérletetek",
+  see:"Balra: hagymahártya lehúzása, vízcsepp, tinta, fedőlemez. Jobbra: téglafalszerű sejtsorok, kékre festett sejtmagokkal.",
+  labels:["sejtfal","sejtmag","sejtplazma","sejtüreg"],
+  check:["Egyetlen sejtréteg, téglafalszerű sorokban.","Minden sejtben pontosan egy sejtmag van.","Nincs zöld színtest, mert a hagymahártyában nincs."],
+  steps:["An onion cut into quarters; tweezers peeling the very thin, transparent inner skin from the inner surface of one fleshy onion scale.","The tiny piece of skin placed flat into a drop of water on a glass microscope slide.","A dropper adding one drop of diluted blue ink onto the onion skin.","A cover slip being lowered at an angle with a needle so that no air bubbles form; a strip of paper towel blotting the extra liquid at the edge.",KIDS],
+  view:"Onion bulb epidermis at about 400x magnification, stained with blue ink: a single layer of elongated, rectangular, brick-like cells arranged in neat rows like a brick wall, with thin but clearly visible cell walls. Each cell contains exactly one rounded-oval nucleus stained deep blue, often lying near the side of the cell, sometimes with one or two small darker nucleoli inside. The rest of the cell is pale and mostly transparent because of the large vacuole, with a faint blue tint. No chloroplasts, no green color."},
+ {t:"Lilahagyma: sejtek sós vízben",tag:"plazmolízis",
+  see:"Balra: a lila hártya lehúzása, vízcsepp, majd sós víz beszívatása papírtörlővel. Jobbra két kép: a sejtek vízben és sós vízben.",
+  labels:["sejtfal","sejtüreg (lila sejtnedv)","összezsugorodott sejttartalom","vízben","sós vízben"],
+  check:["A sejtfal sós vízben is ép marad, ugyanakkora.","Csak a lila belső tartalom húzódik össze, és válik el a faltól.","A felső képen a lila szín a sejtfalig ér."],
+  steps:["Tweezers peeling a small piece of the thin purple outer skin from a red onion scale.","The purple skin placed into a drop of water on a glass slide and covered with a cover slip.","A glass of water, a spoon and a pinch of salt being stirred to make salt water.","A dropper placing a drop of salt water at one edge of the cover slip while a strip of paper towel at the opposite edge draws the liquid under the cover slip.",KIDS],
+  twoFields:true,
+  view:"TOP circle: red onion epidermis in plain water at about 200x: elongated rectangular cells completely filled with vivid magenta-purple cell sap, the purple color reaching all the way to the cell walls; cells look full and firm.\nBOTTOM circle: the same kind of cells after salt water: the purple cell contents have shrunk and pulled away from the cell walls into rounded or irregular, darker purple masses in the middle of each cell, with clear colorless gaps between the shrunken contents and the intact rectangular cell walls. The cell walls keep exactly their original size and shape."},
+ {t:"Átokhínár levele",tag:"zöld színtestek",
+  see:"Balra: egy fiatal levélke letépése, vízcsepp, fedőlemez, lámpa. Jobbra: hosszúkás sejtek, a fal mentén sorakozó zöld színtestekkel.",
+  labels:["sejtfal","zöld színtest","sejtüreg","plazmaáramlás iránya"],
+  check:["A színtestek a sejtfal mentén sorakoznak, a sejt közepe világosabb.","A sejtek szögletesek, nem gömbölyűek.","A színtestek sok kicsi, lencse alakú test, nem egy nagy folt."],
+  steps:["A sprig of the aquarium plant Elodea in a glass jar of water; tweezers picking one small young leaf from the very tip of the sprig.","The leaf placed flat into a drop of water on a glass slide.","A cover slip gently lowered onto the leaf.","A desk lamp shining on the slide for a minute to warm it slightly.",KIDS],
+  view:"Elodea leaf at about 400x: elongated rectangular cells in orderly rows, clearly outlined by thin cell walls. Each cell is filled with many small, bright green, lens-shaped chloroplasts arranged mostly along the inner side of the cell walls, around a clearer central vacuole. A subtle soft motion blur on some chloroplasts suggests that they are flowing in a circle along the cell walls (cytoplasmic streaming). Fresh, crisp, vivid green."},
+ {t:"Paradicsom húsa",tag:"színes színtestek",
+  see:"Balra: paradicsom kettévágása, egy csipetnyi hús szétkenése vízcseppben. Jobbra: nagy, laza, kerekded sejtek narancsvörös szemcsékkel.",
+  labels:["sejtfal","színes színtest","sejtüreg"],
+  check:["A sejtek kerekdedek és lazán állnak, nem szoros sorokban.","A szemcsék narancsvörösek, nem zöldek.","Néhány sejt lehet szétnyomva, ez természetes."],
+  steps:["A ripe red tomato cut in half on a cutting board.","The tip of a toothpick taking a tiny amount of tomato pulp.","The pulp spread very thinly in a drop of water on a glass slide.","A cover slip gently pressed down with a fingertip.",KIDS],
+  view:"Ripe tomato fruit flesh at about 400x: large, rounded-oval, thin-walled cells, loosely arranged, some separated from each other and some partly burst. The cells are translucent and contain many small orange-red, granular and slightly needle-shaped bodies (chromoplasts) scattered inside, which give the cells their orange-red color. Clear watery spaces between the cells."},
+ {t:"Burgonya keményítője jóddal",tag:"keményítő kimutatása",
+  see:"Balra: krumpli kettévágása, a vágott felület lekaparása, Lugol-oldat cseppentése. Jobbra: kék-fekete, ovális keményítőszemcsék.",
+  labels:["keményítőszemcse","rétegzettség"],
+  check:["A szemcsék különállók, ovális vagy tojás alakúak, különböző méretűek.","A színük kék-ibolya vagy fekete, a háttér halványsárga-barna.","A rétegek csak a világosabb szemcséken látszanak."],
+  steps:["A raw potato cut in half on a cutting board.","The edge of a knife scraping the cut surface, producing a small milky drop.","The milky drop smeared onto a glass slide.","A dropper bottle of brown iodine solution adding one drop onto the smear.",KIDS],
+  view:"Potato starch grains at about 400x, stained with iodine: many separate oval and egg-shaped grains of different sizes, deep blue-violet to almost black. The lighter, less stained grains show fine concentric growth layers like rings around an off-center point. The grains are scattered on a pale yellow-brown background with a few fragments of thin, broken cell walls."},
+ {t:"Gázcserenyílások lenyomata",tag:"körömlakkos módszer",
+  see:"Balra: körömlakk a levél fonákjára, száradás, celluxszal lehúzás, tárgylemezre ragasztás. Jobbra: színtelen lenyomat, babszem alakú zárósejtekkel.",
+  labels:["gázcserenyílás","zárósejt","bőrszövet sejtje"],
+  check:["A zárósejtek mindig párban vannak, babszem alakúak.","Közöttük egy kis rés, a nyílás látszik.","A lenyomat színtelen vagy szürkés, nem zöld."],
+  steps:["A small brush painting a thin layer of clear nail polish onto the underside of a houseplant leaf.","The leaf resting while the polish dries, with a small clock nearby to show waiting time.","A strip of clear adhesive tape pressed onto the dried polish.","The tape peeled off, carrying the transparent polish imprint, and stuck onto a glass slide.",KIDS],
+  view:"Clear nail-polish imprint of a leaf underside at about 400x, an almost colorless, grayish-beige relief image that looks like a cast: wavy, jigsaw-puzzle-shaped outlines of epidermal cells, and scattered pairs of bean-shaped guard cells, each pair surrounding a small lens-shaped pore (stoma); some pores open, some nearly closed. Soft embossed 3D look, no green color."},
+ {t:"Szájnyálkahártya sejtjei",tag:"állati sejt",
+  see:"Balra: az arc belső oldalának óvatos megkaparása fogpiszkálóval, szétkenés, metilénkék, fedőlemez. Jobbra: lapos, szabálytalan, halványkék sejtek kis sejtmaggal.",
+  labels:["sejthártya","sejtplazma","sejtmag"],
+  check:["Nincs sejtfal és nincs színtest.","A sejtek szabálytalan, lapos sokszögek, nem téglaszerű sorok.","Egy sejtben egy kicsi, sötétebb sejtmag, nagyjából középen."],
+  steps:["A student gently rubbing the inside of their own cheek with the flat end of a clean wooden toothpick.","The toothpick smearing the sample into a small drop of water on a glass slide.","A dropper adding one drop of blue methylene blue stain.","A cover slip placed on top; the used toothpick going into a small waste bin.",KIDS],
+  view:"Human cheek epithelial cells at about 400x, stained with methylene blue: flat, thin, irregular polygonal cells with smooth outlines, some lying alone, some overlapping or slightly folded. Pale light-blue cytoplasm; each cell has one small, round, darker blue nucleus roughly in the center. A few tiny dark dots of bacteria on the cell surfaces. No cell walls, no chloroplasts, no green color."},
+ {t:"Hajszálak és textilszálak",tag:"ősz és sötét hajszál",
+  see:"Balra: a tanári ősz hajszál és egy gyerek sötét hajszála egymás mellé, mellé gyapjú, pamut és műszál. Jobbra: öt szál egymással párhuzamosan.",
+  labels:["ősz hajszál","sötét hajszál","gyapjú","pamut","műszál","pikkelyek","velő"],
+  check:["Az ősz hajszálban nincs festékanyag, középen sötét, levegővel telt csík lehet.","A gyapjún feltűnőek a pikkelyek, a pamut csavart szalag, a műszál teljesen sima.","Az öt szál sorrendje egyezzen azzal, amit a feliratokhoz megadsz."],
+  steps:["An adult's hand pulling out one gray-white hair and a child's hand pulling out one dark brown hair.","Tweezers laying the two hairs side by side on a glass slide.","Short pieces of wool yarn, cotton thread and a synthetic fiber placed next to the hairs.","A drop of water and a cover slip placed on top.",KIDS],
+  view:"One circular field at about 200x showing five fibers lying parallel, diagonally across the field, clearly separated from each other, in this order from top-left to bottom-right:\n(1) an adult's gray-white human hair: thick, translucent, almost colorless, with fine overlapping cuticle-scale edges on the surface and a dark, air-filled line running down its center (medulla);\n(2) a child's dark brown human hair: about the same thickness, evenly filled with brown pigment granules, fine flat cuticle scales, no visible central line;\n(3) a sheep wool fiber: thinner, slightly wavy, with prominent raised overlapping scales;\n(4) a cotton fiber: a flat, twisted ribbon with regular twists along its length;\n(5) a polyester synthetic fiber: perfectly smooth, uniform, glass-like cylinder with no scales and no twists."},
+ {t:"Toll és lepkeszárny",tag:"két kép egy lapon",
+  see:"Balra: egy kis toll és egy elhullott lepke szárnydarabkája a tárgylemezre. Jobbra két kép: a tollágak horgocskái és a lepkeszárny pikkelyei.",
+  labels:["tollszár","tollág","horgocskák","pikkelyek"],
+  check:["A tollágak párhuzamosak, a kis sugarak horgokkal kapaszkodnak egymásba.","A lepkeszárny pikkelyei tetőcserépszerűen fedik egymást.","Élő lepke ne szerepeljen a rajzokon."],
+  steps:["A small bird feather found on the ground, held with tweezers; scissors cutting a tiny piece from its vane.","The feather piece placed dry on a glass slide under a cover slip.","A dead butterfly from an old school collection; tweezers carefully taking a tiny fragment of its wing.","The wing fragment placed on a second slide under a cover slip.",KIDS],
+  twoFields:true,
+  view:"TOP circle: bird feather vane at about 60x: parallel barbs branching from a central shaft, each barb carrying rows of fine barbules that interlock with tiny hooks like a zipper; warm brown-gray natural tones.\nBOTTOM circle: butterfly wing at about 60x: rows of tiny flat scales overlapping like roof tiles, each scale with a slightly toothed tip, in vivid natural colors (orange, black and a patch of iridescent blue)."},
+ {t:"Szénaáztatás: egysejtűek",tag:"egy héttel előtte indítsd",
+  see:"Balra: üveg szénával és tóvízzel, egy hét várakozás, csepp a felszíni hártyából, pár pamutszál a lassításhoz. Jobbra: papucsállatkák csillókkal.",
+  labels:["papucsállatka","csillók","lüktető űröcske","táplálékűröcske","sejtszáj"],
+  check:["A papucsállatka papucs alakú, a szélén finom csillószegély.","Nincs rajta láb vagy csáp.","Az egysejtűek mérete a háttérhez képest reális."],
+  steps:["A glass jar with dried hay and pond water, standing uncovered on a sunny windowsill.","A small paper calendar with several days crossed out to show about one week of waiting.","A pipette taking a drop from the cloudy surface film of the water.","The drop placed on a glass slide with a few wisps of cotton fiber to slow the organisms down, then a cover slip.",KIDS],
+  view:"A drop of hay infusion at about 200x: several Paramecium, translucent and slipper-shaped, with a fine fringe of cilia around the whole body, a visible oral groove, small round food vacuoles tinted in different colors, and a star-shaped contractile vacuole. One Paramecium shows a slight motion blur as it swims. A few smaller round protists, tiny bacteria, bits of plant debris and one cotton fiber crossing the field."},
+ {t:"Kenyérpenész",tag:"egy héttel előtte indítsd",
+  see:"Balra: benedvesített kenyér zárt zacskóban, sötét, meleg helyen, a mintát a tanár veszi celluxszal. Jobbra: fehér fonalak, fekete gömbös spóratartókkal.",
+  labels:["gombafonal","spóratartó","spórák"],
+  check:["Fekete gömbök állnak vékony, felálló szálak tetején.","Az alap egy fehér, áttetsző fonalhálózat.","A rajzon a zacskó zárva van, a mintát kesztyűs felnőtt kéz veszi."],
+  steps:["A slice of bread sprinkled with a little water.","The bread sealed inside a clear zip bag and placed in a warm, dark cupboard.","A small paper calendar with about five days crossed out; the closed bag now showing fuzzy mold on the bread.","An adult's hands in gloves touching a strip of clear adhesive tape to the mold and sticking it onto a glass slide.",KIDS],
+  view:"Black bread mold (Rhizopus) at about 60x: a tangled network of fine, white-transparent hyphae threads; many upright stalks, each topped with a round black-gray sporangium full of tiny spores; one or two burst sporangia releasing dark spores; a few root-like rhizoids at the base."},
+];
+
+const jump=document.getElementById("jump"),list=document.getElementById("list");
+EXP.forEach((e,i)=>{
+  const id="k"+(i+1),prompt=STYLE(e.steps,e.view,!!e.twoFields);
+  const a=document.createElement("a");a.href="#"+id;a.innerHTML=`<span class="n">${i+1}</span>${e.t}`;jump.appendChild(a);
+  const s=document.createElement("section");s.className="exp";s.id=id;
+  s.innerHTML=`<header><span class="num">${String(i+1).padStart(2,"0")} / ${EXP.length}</span><h2>${e.t}</h2><span class="tag">${e.tag}</span></header>
+  <div class="info">
+    <div><h4>Mit mutat a kép</h4><p>${e.see}</p></div>
+    <div><h4>Feliratok, amelyeket utólag teszünk rá</h4><div class="labels">${e.labels.map(l=>`<span>${l}</span>`).join("")}</div></div>
+    <div><h4>Ellenőrizd a kész képen</h4><ul>${e.check.map(c=>`<li>${c}</li>`).join("")}</ul></div>
+  </div>
+  <div class="promptbox">
+    <div class="bar"><h4 class="meta" style="margin:0">Prompt · Nano Banana 2</h4><button type="button" id="copy-${id}">Másolás</button></div>
+    <pre id="p-${id}"></pre>
+  </div>`;
+  list.appendChild(s);
+  const pre=s.querySelector("pre");pre.textContent=prompt;
+  const btn=s.querySelector("button");
+  btn.addEventListener("click",()=>{
+    const ok=()=>{btn.textContent="Másolva ✓";btn.classList.add("done");setTimeout(()=>{btn.textContent="Másolás";btn.classList.remove("done")},2200)};
+    const fallback=()=>{const r=document.createRange();r.selectNodeContents(pre);const sel=getSelection();sel.removeAllRanges();sel.addRange(r);btn.textContent="Kijelölve, Ctrl+C";};
+    try{navigator.clipboard.writeText(prompt).then(ok,fallback)}catch(err){fallback()}
+  });
+});
+})();
+</script>
+
+</body></html>
