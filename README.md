@@ -23,7 +23,7 @@ Kezdőlap: https://szaszfzsolt.github.io/szemleltetok/
 - Az Űrszótár fényképei a NASA, az ESA és a JPL szabadon felhasználható felvételei; a forrás minden képnél fel van tüntetve.
 - A növényi sejt ábrája Mariana Ruiz Villarreal (LadyofHats) közkincs rajza a Wikimedia Commonsról, Németh László magyar fordításával.
 - A glaciális és a karszt lap fotói többnyire a Wikimedia Commonsról származnak; a szerzők és a licencek a lapok alján vannak felsorolva.
-- A Románia domborzatának kialakulása térképe nyílt adatokból készült: a tájhatárok B. Candrea, P. Candrea és M. D. Niță adatkészletéből (geo-spatial.org, 2008; Posea–Badea 1984 nyomán; CC BY-SA 3.0), az országhatár és a települések az ANCPI-től (nyílt kormányzati licenc). A forrás a lapon is fel van tüntetve.
+- A Románia domborzatának kialakulása térképe nyílt adatokból készült: a tájhatárok B. Candrea, P. Candrea és M. D. Niță adatkészletéből (geo-spatial.org, 2008; Posea–Badea 1984 nyomán; CC BY-SA 3.0), az országhatár és a települések az ANCPI-től (nyílt kormányzati licenc). A forrás a lapon is fel van tüntetve. Ugyanezekből az adatokból készült a glaciális lap kis térképe is.
 - A Növénymozgás-kaland és a Mikroszkópos megfigyelések illusztrációi mesterséges intelligenciával (Nano Banana) készültek.
 
 ## Szerkezet
