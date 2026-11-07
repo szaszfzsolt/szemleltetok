@@ -12,6 +12,8 @@ Kezdőlap: https://szaszfzsolt.github.io/szemleltetok/
 | Földrajz | 5. | A Föld mozgásai (telefon) | `foldrajz/5-osztaly/fold-mozgasai-telefon.html` |
 | Földrajz | 5. | A Naprendszer (okostábla) | `foldrajz/5-osztaly/naprendszer.html` |
 | Földrajz | 5. | A Naprendszer (telefon) | `foldrajz/5-osztaly/naprendszer-telefon.html` |
+| Földrajz | 6. | Antroposzféra (okostábla, táblavázlatokkal) | `foldrajz/6-osztaly/antroposzfera.html` |
+| Földrajz | 6. | Antroposzféra (telefon) | `foldrajz/6-osztaly/antroposzfera-telefon.html` |
 | Földrajz | 8. | Románia glaciális formakincse (A4 lap) | `foldrajz/8-osztaly/glacialis-formakincs.png` |
 | Földrajz | 8. | Románia karsztformakincsei (A4 lap) | `foldrajz/8-osztaly/karszt-formakincs.png` |
 | Földrajz | 8. | Románia domborzatának kialakulása | `foldrajz/8-osztaly/romania-domborzat.html` |
@@ -32,6 +34,7 @@ Kezdőlap: https://szaszfzsolt.github.io/szemleltetok/
 - A glaciális és a karszt lap fotói többnyire a Wikimedia Commonsról származnak; a szerzők és a licencek a lapok alján vannak felsorolva.
 - A Románia domborzatának kialakulása térképe nyílt adatokból készült: a tájhatárok B. Candrea, P. Candrea és M. D. Niță adatkészletéből (geo-spatial.org, 2008; Posea–Badea 1984 nyomán; CC BY-SA 3.0), az országhatár és a települések az ANCPI-től (nyílt kormányzati licenc). A forrás a lapon is fel van tüntetve. Ugyanezekből az adatokból készült a glaciális lap kis térképe is.
 - A genetikai anyag szemléltető fotói a Wikimedia Commonsról származnak (közkincs, CC0, CC BY és CC BY-SA licenccel; köztük az NHGRI kariotípusa és Bolzer és mtsai. PLoS Biology-felvétele); a szerző és a licenc minden képnél fel van tüntetve. A borsófilm (D. Bornand és mtsai., CC BY-SA 3.0) gyorsítva és kivágva szerepel.
+- Az Antroposzféra Föld-képei a NASA Blue Marble és Black Marble közkincs textúrái. A házak fényképei a Wikimedia Commonsról származnak (CC BY-SA és közkincs), a szerző és a licenc a képek alatt áll. A térképek nyílt adatokból készültek: Copernicus DEM, ESA WorldCover 2021, Copernicus HRL Grasslands, OpenStreetMap-közreműködők, INS (2021-es népszámlálás), a források a térképeken is fel vannak tüntetve. A székely ház fotója még hiányzik, mert a forrásához engedély kell.
 - A Növénymozgás-kaland és a Mikroszkópos megfigyelések illusztrációi mesterséges intelligenciával (Nano Banana) készültek.
 - A Naprendszer szemléltető illusztrációi és háttérképei mesterséges intelligenciával (Google Nano Banana) készültek, ezt a képaláírások is jelzik; a 14. dia forgatható Földje a NASA Blue Marble és Black Marble közkincs textúráját használja.
 
