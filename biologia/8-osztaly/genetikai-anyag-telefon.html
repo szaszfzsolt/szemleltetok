@@ -457,6 +457,11 @@ html.phone .gbadge{width:5rem;height:5rem}
 html.phone .gres-p{font-size:2.2rem}
 html.phone .gmiss{max-height:none}
 
+/* egyéni (telefonos) záró küldetés */
+html.phone .gtop.solo{grid-template-columns:1fr auto}
+html.phone .gres.solo{grid-template-columns:1fr}
+html.phone .gmi span{max-width:55%}
+
 </style>
 </head>
 <body>
@@ -1701,6 +1706,7 @@ const LVN = ['Könnyű', 'Közepes', 'Nehéz'], LVC = [C.green, C.cyan, C.orange
 
 // ===== Záró küldetés – csapatverseny (JÁTÉKMESTER-szabályok) =====
 const GAME = (() => {
+  const SOLO = PHONE;                                   // telefonon egyéni játék
   const TIME = 20, TEAMS = [{ n: 'Spirál', c: C.cyan }, { n: 'Kromatida', c: C.orange }];
   const MIX = { 8: [2, 4, 2], 12: [4, 4, 4], 16: [6, 6, 4] };       // nehézségi szintenként, csapatonként páros
   const RANKS = ['Gyakornok', 'Laboráns', 'Kutató', 'Genetikus', 'Vezető genetikus'];
@@ -1745,12 +1751,12 @@ const GAME = (() => {
       <div class="gsetup">
         <div class="titlebox gtitle"><i></i><i></i><i></i><i></i>
           <div class="kicker">Öröklődés és változékonyság · Záró küldetés</div>
-          <h2>Genetikai <em>csapatverseny</em></h2>
+          <h2>Genetikai <em>${SOLO ? 'próba' : 'csapatverseny'}</em></h2>
         </div>
-        <p class="glead">Két csapat felváltva felel. Minden kérdésre <b>${TIME} másodperc</b> jut. A nehezebb kérdés többet ér, a helyes sorozatért kombóbónusz jár, és csapatonként egyszer bevethető a <b>Felező</b>, a <b>Duplázás</b> és a <b>Pontlopás</b>.</p>
-        <div class="gteams">${TEAMS.map((t, i) => `<div class="gteam panel" style="--tc:${t.c}"><span>${i ? 'B' : 'A'} csapat</span><b>${t.n}</b></div>`).join('<div class="gvs">VS</div>')}</div>
+        <p class="glead">${SOLO ? `Egyedül játszol. Minden kérdésre <b>${TIME} másodperc</b> jut. A nehezebb kérdés többet ér, a helyes sorozatért kombóbónusz jár, és egyszer bevethető a <b>Felező</b> és a <b>Duplázás</b>. A végén megkapod a rangodat és a hibáid magyarázatát.` : `Két csapat felváltva felel. Minden kérdésre <b>${TIME} másodperc</b> jut. A nehezebb kérdés többet ér, a helyes sorozatért kombóbónusz jár, és csapatonként egyszer bevethető a <b>Felező</b>, a <b>Duplázás</b> és a <b>Pontlopás</b>.`}</p>
+        <div class="gteams"${SOLO ? ' style="display:none"' : ''}>${TEAMS.map((t, i) => `<div class="gteam panel" style="--tc:${t.c}"><span>${i ? 'B' : 'A'} csapat</span><b>${t.n}</b></div>`).join('<div class="gvs">VS</div>')}</div>
         <div class="dtitle" style="justify-content:center">Hány kérdés legyen?</div>
-        <div class="glen">${[8, 12, 16].map(n => `<button class="glenb panel hud" data-n="${n}"><b>${n}</b><span>kérdés · kb. ${Math.round(n * 0.7)} perc</span></button>`).join('')}</div>
+        <div class="glen">${[8, 12, 16].map(n => `<button class="glenb panel hud" data-n="${n}"><b>${n}</b><span>kérdés · kb. ${Math.round(n * (SOLO ? 0.5 : 0.7))} perc</span></button>`).join('')}</div>
         <div class="grules">
           <div><b style="color:${LVC[0]}">Könnyű</b> 1 pont · <b style="color:${LVC[1]}">Közepes</b> 2 pont · <b style="color:${LVC[2]}">Nehéz</b> 3 pont</div>
           <div>Kombó: 3 helyes egymás után +1 · 5 helyes +2 · 7-től minden páratlannál +1</div>
@@ -1767,22 +1773,22 @@ const GAME = (() => {
     mix.forEach((k, lv) => { const d = draw(lv, k, used); d.forEach(i => used.add(i)); qs.push(...d); });
     st = { n, qs, k: 0, turn: 0, score: [0, 0], combo: [0, 0], base: [0, 0], maxBase: [0, 0], right: [0, 0],
       tac: [{ f: 1, d: 1, p: 1 }, { f: 1, d: 1, p: 1 }], miss: [], phase: 'q' };
-    qs.forEach((qi, k) => st.maxBase[k % 2] += QB[qi].s + 1);
+    qs.forEach((qi, k) => st.maxBase[SOLO ? 0 : k % 2] += QB[qi].s + 1);
     render(); ask();
   }
   function render() {
     $g('#gw').innerHTML = `
-      <div class="gtop">
-        ${[0, 1].map(t => `<div class="gsc panel" id="gsc${t}" style="--tc:${TEAMS[t].c}">
-          <div class="gsc-h"><span>${t ? 'B' : 'A'} csapat</span><b>${TEAMS[t].n}</b></div>
+      <div class="gtop${SOLO ? ' solo' : ''}">
+        ${(SOLO ? [0] : [0, 1]).map(t => `<div class="gsc panel" id="gsc${t}" style="--tc:${TEAMS[t].c}">
+          <div class="gsc-h"><span>${SOLO ? 'Egyéni játék' : (t ? 'B' : 'A') + ' csapat'}</span><b>${SOLO ? 'Te' : TEAMS[t].n}</b></div>
           <div class="gsc-pts" id="gpts${t}">0</div>
           <div class="gsc-combo" id="gcmb${t}"></div>
           <div class="gtacs">
             <button class="gtac" data-t="${t}" data-k="f" title="Két rossz válasz eltűnik">${TI.f}<span>Felező</span></button>
             <button class="gtac" data-t="${t}" data-k="d" title="Helyes: dupla pont · rossz: −1">${TI.d}<span>Duplázás</span></button>
-            <button class="gtac" data-t="${t}" data-k="p" title="Helyes: az ellenfél −1 · rossz: saját −1">${TI.p}<span>Pontlopás</span></button>
+            ${SOLO ? '' : `<button class="gtac" data-t="${t}" data-k="p" title="Helyes: az ellenfél −1 · rossz: saját −1">${TI.p}<span>Pontlopás</span></button>`}
           </div>
-        </div>`).join(`<div class="gmid"><div class="gprog" id="gprog"></div><div class="gnum" id="gnum"></div></div>`)}
+        </div>`).join(`<div class="gmid"><div class="gprog" id="gprog"></div><div class="gnum" id="gnum"></div></div>`)}${SOLO ? `<div class="gmid"><div class="gprog" id="gprog"></div><div class="gnum" id="gnum"></div></div>` : ''}
       </div>
       <div class="gq panel hud" id="gq">
         <div class="gq-head"><span class="glv" id="glv"></span><span class="gturn" id="gturn"></span><div class="gtimer" id="gtimer"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19" class="tr-bg"/><circle cx="22" cy="22" r="19" class="tr" id="gtr"/></svg><b id="gtn">${TIME}</b></div></div>
@@ -1801,14 +1807,15 @@ const GAME = (() => {
     const t = st.turn;
     $g('#gq').style.setProperty('--kc', TEAMS[t].c);
     $g('#glv').innerHTML = `<i style="background:${LVC[Q.s]}"></i>${LVN[Q.s]} · ${Q.s + 1} pont`;
-    $g('#gturn').innerHTML = `Felel: <b style="color:${TEAMS[t].c}">${TEAMS[t].n}</b>`;
+    $g('#gturn').innerHTML = SOLO ? `Pontjaid: <b style="color:${TEAMS[0].c}">${st.score[0]}</b>` : `Felel: <b style="color:${TEAMS[t].c}">${TEAMS[t].n}</b>`;
     $g('#gqt').textContent = Q.q;
     $g('#gopts').innerHTML = st.order.map((oi, j) => `<button class="gopt" data-j="${j}"><span class="gl">${'ABCD'[j]}</span><span class="gtx">${Q.o[oi]}</span></button>`).join('');
     root.querySelectorAll('.gopt').forEach(b => b.onclick = () => answer(+b.dataset.j));
     $g('#gfb').innerHTML = ''; $g('#gfb').className = 'gfb';
     $g('#gnum').textContent = `${st.k + 1} / ${st.n}`;
-    $g('#gprog').innerHTML = st.qs.map((q, k) => `<i style="${k < st.k ? `background:${rgba(TEAMS[k % 2].c, .55)}` : k === st.k ? `background:${TEAMS[k % 2].c};box-shadow:0 0 .5rem ${TEAMS[k % 2].c}` : ''}"></i>`).join('');
-    [0, 1].forEach(x => $g('#gsc' + x).classList.toggle('act', x === t));
+    const pc = k => TEAMS[SOLO ? 0 : k % 2].c;
+    $g('#gprog').innerHTML = st.qs.map((q, k) => `<i style="${k < st.k ? `background:${rgba(pc(k), .55)}` : k === st.k ? `background:${pc(k)};box-shadow:0 0 .5rem ${pc(k)}` : ''}"></i>`).join('');
+    [0, 1].forEach(x => { const s = $g('#gsc' + x); if (s) s.classList.toggle('act', x === t); });
     updTac(); startTimer();
   }
   function updTac() {
@@ -1867,10 +1874,11 @@ const GAME = (() => {
   function next() {
     if (!st || st.phase !== 'fb') return;
     if (st.k >= st.n - 1) return result();
-    st.k++; st.turn = 1 - st.turn; ask();
+    st.k++; if (!SOLO) st.turn = 1 - st.turn; ask();
   }
   function updScore() {
-    [0, 1].forEach(t => {
+    if (SOLO && $g('#gturn')) $g('#gturn').innerHTML = `Pontjaid: <b style="color:${TEAMS[0].c}">${st.score[0]}</b>`;
+    (SOLO ? [0] : [0, 1]).forEach(t => {
       $g('#gpts' + t).textContent = st.score[t];
       const c = Math.min(st.combo[t], 7);
       $g('#gcmb' + t).innerHTML = `<span>Kombó</span>${[...Array(7)].map((_, i) => `<i class="${i < c ? 'on' : ''}"></i>`).join('')}`;
@@ -1925,8 +1933,9 @@ const GAME = (() => {
   }
   function result() {
     clearTimer(); st.phase = 'end';
-    const [a, b] = st.score, win = a === b ? -1 : a > b ? 0 : 1;
+    const [a, b] = st.score, win = SOLO ? 0 : a === b ? -1 : a > b ? 0 : 1;
     const miss = st.miss.map(i => QB[i]);
+    if (SOLO) return soloResult(miss);
     $g('#gw').innerHTML = `
       <div class="gend">
         <div class="kicker" style="text-align:center">Záró küldetés · eredmény</div>
@@ -1942,6 +1951,24 @@ const GAME = (() => {
       </div>`;
     $g('#gagain').onclick = setup; $g('#ghome').onclick = () => goHome();
     if (win >= 0) for (let i = 0; i < 3; i++) setTimeout(() => burstEnd(win), i * 350);
+  }
+  function soloResult(miss) {
+    const n = stars(0), pct = Math.round(st.right[0] / st.n * 100);
+    $g('#gw').innerHTML = `
+      <div class="gend">
+        <div class="kicker" style="text-align:center">Egyéni próba · eredmény</div>
+        <h2 class="gwin"><span style="color:${C.orange}">${RANKS[n - 1]}</span></h2>
+        <div class="gres solo"><div class="gresc panel hud win" style="--tc:${TEAMS[0].c};--kc:${TEAMS[0].c}">
+          ${badge(n, TEAMS[0].c)}<div><span class="gres-n">Eredményed</span><b class="gres-p">${st.score[0]} pont</b>
+          <span class="gres-r">${RANKS[n - 1]}</span><span class="gres-s">${st.right[0]} / ${st.n} helyes válasz (${pct}%)</span></div></div></div>
+        <div class="gmiss panel">
+          <div class="dtitle">${miss.length ? `Ezeket érdemes átnézni (${miss.length})` : 'Hibátlan kör – nincs átnéznivaló!'}</div>
+          ${miss.map(Q => `<div class="gmi"><b>${Q.q}</b><span>${Q.o[0]}<br><small style="color:var(--dim);font-weight:400">${Q.e}</small></span></div>`).join('')}
+        </div>
+        <div class="gendb"><button class="btn o" id="gagain">${I.reset}Új próba – új kérdésekkel</button><button class="btn" id="ghome">Kezdőlap</button></div>
+      </div>`;
+    $g('#gagain').onclick = setup; $g('#ghome').onclick = () => goHome();
+    if (n >= 3) for (let i = 0; i < 3; i++) setTimeout(() => burstEnd(0), i * 350);
   }
   function burstEnd(t) {
     const host = $g('.gend'); if (!host) return; const r = host.getBoundingClientRect();

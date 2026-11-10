@@ -20,9 +20,9 @@ Kezdőlap: https://szaszfzsolt.github.io/szemleltetok/
 | Biológia | 5. | Mi eszik mit? | `biologia/5-osztaly/mi-eszik-mit.html` |
 | Biológia | 7. | Növénymozgás-kaland | `biologia/7-osztaly/novenymozgas-kaland/` |
 | Biológia | 8. | A genetikai anyag (okostábla, záró csapatversennyel) | `biologia/8-osztaly/genetikai-anyag.html` |
-| Biológia | 8. | A genetikai anyag (telefon) | `biologia/8-osztaly/genetikai-anyag-telefon.html` |
+| Biológia | 8. | A genetikai anyag (telefon, egyéni próbával) | `biologia/8-osztaly/genetikai-anyag-telefon.html` |
 | Biológia | 8. | A genetikai anyag átörökítése (okostábla, záró csapatversennyel) | `biologia/8-osztaly/genetikai-anyag-atorokitese.html` |
-| Biológia | 8. | A genetikai anyag átörökítése (telefon) | `biologia/8-osztaly/genetikai-anyag-atorokitese-telefon.html` |
+| Biológia | 8. | A genetikai anyag átörökítése (telefon, egyéni próbával) | `biologia/8-osztaly/genetikai-anyag-atorokitese-telefon.html` |
 | Biológia | 6. | Mikroszkópos megfigyelések | `biologia/6-osztaly/mikroszkopos-megfigyelesek/` |
 | Biológia | 6. + érettségi | A növényi sejt felépítése (két szinten) | `biologia/6-osztaly/novenyi-sejt.html` |
 | Biológia | 6. | Mikroszkópos kísérletek képpromptjai (tanári) | `biologia/6-osztaly/mikroszkopos-megfigyelesek/promptok.html` |
