@@ -1,0 +1,79 @@
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas>
+
+<svg id="badge" viewBox="0 0 120 120" aria-label="Kezdőlap">
+  <defs>
+    <radialGradient id="bgB" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#0d2550"/><stop offset="1" stop-color="#040b1c"/></radialGradient>
+    <path id="arcTop" d="M 17 60 A 43 43 0 0 1 103 60"/>
+    <path id="arcBot" d="M 14 60 A 46 46 0 0 0 106 60"/>
+    <clipPath id="inner"><circle cx="60" cy="60" r="29"/></clipPath>
+  </defs>
+  <circle cx="60" cy="60" r="57" fill="url(#bgB)" stroke="#ff8a1e" stroke-width="3"/>
+  <circle cx="60" cy="60" r="50.5" fill="none" stroke="#ff8a1e" stroke-width="1" opacity=".55"/>
+  <circle cx="60" cy="60" r="31" fill="#061634" stroke="#3fd3ff" stroke-width="1.2" opacity=".95"/>
+  <text font-family="Barlow Condensed" font-weight="700" font-size="11" letter-spacing="2.1" fill="#eef5ff">
+    <textPath href="#arcTop" startOffset="50%" text-anchor="middle">SZÁSZ FERENC ZSOLT</textPath></text>
+  <text font-family="Barlow Condensed" font-weight="700" font-size="10" letter-spacing="1.6" fill="#ff8a1e">
+    <textPath href="#arcBot" startOffset="50%" text-anchor="middle" dominant-baseline="hanging">★ BIOLÓGIA ★</textPath></text>
+  <g clip-path="url(#inner)" id="badgeHelix"></g>
+</svg>
+
+<header id="top">
+  <div class="ttl"><b>A genetikai anyag</b><span>Biológia · 8. osztály</span></div>
+  <nav id="crumbs"></nav>
+  <button class="tbtn" id="bHome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>Kezdőlap</button>
+  <button class="tbtn" id="bFull"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span>Teljes képernyő</span></button>
+</header>
+
+<section class="view" id="home">
+  <canvas id="homeHelix"></canvas>
+  <div class="wrap">
+    <div class="titlebox"><i></i><i></i><i></i><i></i>
+      <div class="kicker">Öröklődés és változékonyság · 1. lecke</div>
+      <h1>A genetikai<br><em>anyag</em></h1>
+    </div>
+    <p class="lead">Minden sejtünk sejtmagjában ott van egy hosszú „használati utasítás”: a <b>DNS</b>. Ez hordozza az <b>örökletes információt</b>, ez irányítja a sejt működését, és ezt adják tovább a szülők az utódaiknak.</p>
+    <div class="gates" id="gates"></div>
+  </div>
+  <div class="hint">Billentyűk: <kbd>Szóköz</kbd> indítás/megállítás · <kbd>←</kbd> <kbd>→</kbd> lapozás · <kbd>F</kbd> teljes képernyő · <kbd>Esc</kbd> vissza</div>
+  <div id="fsTip">Tipp: koppints a <b>Teljes képernyő</b> gombra, így nagyobb lesz minden.</div>
+</section>
+
+<section class="view" id="gate"><div class="wrap">
+  <div class="kicker" id="gKick"></div>
+  <h2 id="gTitle"></h2>
+  <p class="lead" id="gLead"></p>
+  <div class="chips" id="gChips"></div>
+  <div class="scards" id="gCards"></div>
+</div></section>
+
+<section class="view" id="scene"><div class="grid">
+  <div class="left">
+    <div class="panel lhead hud">
+      <div class="kicker" id="sKick"></div>
+      <h3 id="sTitle"></h3>
+      <div class="txt" id="sTxt"></div>
+    </div>
+    <div class="panel data" id="sData"></div>
+  </div>
+  <div class="panel hud" id="stagewrap">
+    <div id="prog"></div>
+    <div id="stage"></div>
+    <div id="ctrl"></div>
+  </div>
+  <div class="panel" id="think"></div>
+</div></section>
+
+<section class="view" id="game"></section>
+
+<div id="rotate">
+  <svg viewBox="0 0 120 120" class="ph"><rect x="38" y="18" width="44" height="84" rx="7" fill="none" stroke="#eef5ff" stroke-width="4"/><circle cx="60" cy="93" r="3" fill="#eef5ff"/></svg>
+  <b>Fordítsd el a telefonod!</b>
+  <p>A szemléltető fekvő helyzetben működik. Ha nem fordul el a kép, kapcsold be az automatikus elforgatást.</p>
+  <button class="btn o" id="bRotFull">Teljes képernyő</button>
+</div>
+
+<script>
+'use strict';

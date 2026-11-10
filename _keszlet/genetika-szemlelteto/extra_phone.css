@@ -1,0 +1,2 @@
+html.phone .gates{grid-template-columns:repeat(3,1fr)}
+html.phone .gate .d{display:none}

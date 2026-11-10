@@ -1,0 +1,112 @@
+/* ===== Telefonos (fekvő) változat ===== */
+html.phone{font-size:clamp(8px,2.35vh,11px)}
+html.phone #top{height:4.6rem;padding-left:6.2rem;gap:.6rem}
+html.phone #badge{width:5.2rem;height:5.2rem;left:.4rem;top:.3rem}
+html.phone #top .ttl b{font-size:1.6rem}
+html.phone #crumbs{display:none}
+html.phone .tbtn{height:3.6rem;padding:0 .9rem;font-size:1.1rem}
+html.phone #bHome{margin-left:auto}
+html.phone .view{top:4.6rem}
+
+html.phone #home .wrap{left:4vw;width:62%;top:3%;bottom:3%}
+html.phone #home .titlebox{padding:.9rem 1.2rem}
+html.phone #home h1{font-size:4.6rem}
+html.phone #home .lead{font-size:1.25rem;margin:.7rem 0 1rem;line-height:1.4}
+html.phone .gates{gap:.7rem}
+html.phone .gate{padding:.8rem .9rem;gap:.3rem}
+html.phone .gate .n{font-size:2rem}
+html.phone .gate .t{font-size:1.4rem}
+html.phone .gate .d{font-size:1.05rem}
+html.phone #homeHelix{width:34%;right:0;height:80%}
+html.phone #home .hint{display:none}
+html.phone #fsTip{display:block;position:absolute;right:3vw;bottom:3%;width:30%;font-size:1.05rem;color:var(--dim);text-align:center;line-height:1.35}
+html.phone #fsTip b{color:var(--orange)}
+
+html.phone #gate .wrap{top:3%;bottom:3%;overflow:auto}
+html.phone #gate h2{font-size:3.2rem}
+html.phone #gate .lead{font-size:1.2rem}
+html.phone .chips{margin:.8rem 0 1rem;gap:.5rem}
+html.phone .chip{padding:.45rem .8rem}
+html.phone .chip b{font-size:1.4rem}
+html.phone .chip span{font-size:1rem}
+html.phone .scards{grid-template-columns:repeat(2,1fr);gap:.7rem}
+html.phone .scard{padding:.9rem 1rem}
+html.phone .scard .n{font-size:2.4rem}
+html.phone .scard .t{font-size:1.4rem}
+html.phone .scard .d{font-size:1.1rem}
+
+html.phone #scene .grid{inset:.6rem;grid-template-columns:37vw 1fr;gap:.6rem}
+html.phone #scene .left{overflow-y:auto;gap:.6rem;-webkit-overflow-scrolling:touch}
+html.phone #scene .lhead{padding:.9rem 1rem}
+html.phone #scene h3{font-size:2.1rem}
+html.phone #scene .txt{font-size:1.25rem;line-height:1.42}
+html.phone #scene .data{margin-top:0;padding:.8rem 1rem}
+html.phone .drow span{font-size:1.15rem}
+html.phone .drow b{font-size:1.4rem}
+html.phone .dsub{font-size:1.15rem}
+html.phone #think{overflow:visible;padding:.9rem 1rem;flex:none}
+html.phone .q .qt,html.phone .q .qa,html.phone .tip{font-size:1.2rem}
+html.phone #ctrl{padding:.5rem .6rem;gap:.5rem;min-height:0}
+html.phone .seg button{height:3.6rem;font-size:1.15rem;padding:0 .55rem;letter-spacing:.05em}
+html.phone .btn{height:3.6rem;font-size:1.15rem;padding:0 .8rem}
+html.phone .nav{width:3.6rem;height:3.6rem}
+html.phone .play{width:4rem;height:4rem}
+html.phone .slider{gap:.4rem;font-size:1.05rem}
+html.phone .toggle{height:3.6rem;font-size:1.15rem}
+html.phone input[type=range]{width:9rem}
+html.phone .puz{gap:.8rem}
+html.phone .puz .row,html.phone .puz .bonds{gap:.4rem}
+html.phone .puz .cell,html.phone .puz .bonds i{width:3.8rem}
+html.phone .puz .cell{height:3.8rem;font-size:2.2rem}
+html.phone .puz .bonds i{height:1.4rem}
+html.phone .puz .rlab{font-size:1.05rem;text-align:center}
+html.phone .puz .score{font-size:1.6rem}
+
+#rotate{position:fixed;inset:0;z-index:100;background:#030814;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px}
+#rotate .ph{width:110px;height:110px;animation:rot 2.4s ease-in-out infinite}
+#rotate b{font-family:'Barlow Condensed';font-weight:700;font-size:28px;letter-spacing:.06em;text-transform:uppercase}
+#rotate p{color:var(--dim);font-size:16px;line-height:1.45;max-width:320px}
+#rotate .btn{font-size:16px;height:46px}
+@keyframes rot{0%,20%{transform:rotate(0)}50%,75%{transform:rotate(-90deg)}100%{transform:rotate(0)}}
+@media (orientation:portrait){html.phone #rotate{display:flex}}
+html.phone .photo{padding:.7rem .8rem .5rem;gap:.35rem}
+html.phone .pcap{font-size:1.1rem;line-height:1.3}
+html.phone .psrc{font-size:.95rem}
+html.phone .plab{font-size:1rem;bottom:.4rem}
+html.phone .gates{grid-template-columns:repeat(4,1fr)}
+html.phone .gate.gquest .d{display:none}
+html.phone .gwrap{padding:.6rem .8rem .8rem}
+html.phone .gsetup{gap:.6rem}
+html.phone .gtitle{padding:.6rem 1.2rem}
+html.phone .gtitle h2{font-size:3rem}
+html.phone .glead{font-size:1.15rem;line-height:1.35}
+html.phone .gteam{padding:.4rem 1.2rem}
+html.phone .gteam b{font-size:1.6rem}
+html.phone .glenb{padding:.5rem 1.4rem}
+html.phone .glenb b{font-size:2.4rem}
+html.phone .grules{font-size:1.05rem}
+html.phone .gtop{gap:.5rem}
+html.phone .gsc{padding:.4rem .6rem;column-gap:.5rem}
+html.phone .gsc-h b{font-size:1.4rem}
+html.phone .gsc-pts{font-size:2.6rem}
+html.phone .gtacs{flex-direction:row}
+html.phone .gtac{height:3.4rem;padding:0 .5rem}
+html.phone .gtac span{display:none}
+html.phone .gtac svg{width:1.5rem;height:1.5rem}
+html.phone .gmid{min-width:7rem}
+html.phone .gnum{font-size:1.5rem}
+html.phone .gq{margin-top:.5rem;padding:.6rem .8rem;gap:.5rem}
+html.phone .gtimer{width:3.6rem;height:3.6rem}
+html.phone .gq-text{font-size:1.6rem}
+html.phone .gopts{gap:.45rem}
+html.phone .gopt{min-height:3.8rem;font-size:1.25rem;padding:.4rem .7rem}
+html.phone .gq-text{margin-top:0}
+html.phone .gq::after{display:none}
+html.phone .gopt .gl{width:2.2rem;height:2.2rem}
+html.phone .gfb{gap:.6rem;padding:.4rem .7rem}
+html.phone .gfb-t b{font-size:1.3rem}
+html.phone .gfb-e{font-size:1.1rem;line-height:1.3}
+html.phone .gwin{font-size:3rem}
+html.phone .gbadge{width:5rem;height:5rem}
+html.phone .gres-p{font-size:2.2rem}
+html.phone .gmiss{max-height:none}

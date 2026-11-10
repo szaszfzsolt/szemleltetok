@@ -29,6 +29,9 @@ Kezdőlap: https://szaszfzsolt.github.io/szemleltetok/
 | Latin | – | Sententiae Latinae (diák, telefon) | `latin/sententiae-latinae.html` |
 | Latin | – | Sententiae Tabula (tanári, okostábla) | `latin/sententiae-tabula.html` |
 
+## Építőkészlet
+A `_keszlet/` mappában vannak a szemléltetők forrásai, amelyekből a kész oldalak épülnek (jelenleg: `_keszlet/genetika-szemlelteto/`, a genetikai szemléltetők egyfájlos kerete). Ez a mappa nem jelenik meg a weboldalon; a használatát a benne lévő README írja le.
+
 ## Képek
 - A Föld mozgásai szemléltető Föld-képei a NASA Blue Marble közkincs felvételei (nappali és éjszakai textúra); a Barlow betűtípus SIL OFL licencű.
 - Az Űrszótár fényképei a NASA, az ESA és a JPL szabadon felhasználható felvételei; a forrás minden képnél fel van tüntetve.
