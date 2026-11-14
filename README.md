@@ -23,6 +23,8 @@ Kezdőlap: https://szaszfzsolt.github.io/szemleltetok/
 | Biológia | 8. | A genetikai anyag (telefon, egyéni próbával) | `biologia/8-osztaly/genetikai-anyag-telefon.html` |
 | Biológia | 8. | A genetikai anyag átörökítése (okostábla, záró csapatversennyel) | `biologia/8-osztaly/genetikai-anyag-atorokitese.html` |
 | Biológia | 8. | A genetikai anyag átörökítése (telefon, egyéni próbával) | `biologia/8-osztaly/genetikai-anyag-atorokitese-telefon.html` |
+| Biológia | 6. | Növényi és állati szövetek (okostábla, táblavázlatokkal, záró csapatversennyel) | `biologia/6-osztaly/szovetek.html` |
+| Biológia | 6. | Növényi és állati szövetek (telefon, egyéni próbával) | `biologia/6-osztaly/szovetek-telefon.html` |
 | Biológia | 6. | Mikroszkópos megfigyelések | `biologia/6-osztaly/mikroszkopos-megfigyelesek/` |
 | Biológia | 6. + érettségi | A növényi sejt felépítése (két szinten) | `biologia/6-osztaly/novenyi-sejt.html` |
 | Biológia | 6. | Mikroszkópos kísérletek képpromptjai (tanári) | `biologia/6-osztaly/mikroszkopos-megfigyelesek/promptok.html` |
@@ -44,6 +46,7 @@ A `_keszlet/` mappában vannak a szemléltetők forrásai, amelyekből a kész o
 - Az Antroposzféra 2. leckéjének falu- és várostérképei nyílt adatokból készültek: OpenStreetMap-közreműködők (ODbL), Microsoft Global ML Building Footprints (ODbL), AWS Terrain Tiles (SRTM), ESA WorldCover 2021 és Copernicus HRL Grasslands. A légifotók a Google Earth képei (Image © 2026 Airbus, CNES / Airbus), oktatási célra, a Google-felirattal. A városok éjszakai műholdképei a NASA Black Marble 2016 (VIIRS) közkincs felvételei. Az „Okos város” képe mesterséges intelligenciával (Google Gemini, Nano Banana) készült, Koppenhága nyomán; ezt a kép is jelzi.
 - A Növénymozgás-kaland és a Mikroszkópos megfigyelések illusztrációi mesterséges intelligenciával (Nano Banana) készültek.
 - A Naprendszer szemléltető illusztrációi és háttérképei mesterséges intelligenciával (Google Nano Banana) készültek, ezt a képaláírások is jelzik; a 14. dia forgatható Földje a NASA Blue Marble és Black Marble közkincs textúráját használja.
+- A Növényi és állati szövetek szemléltető mikroszkópos fotói a Wikimedia Commonsról, az OpenStax Anatomy & Physiology tankönyvből, a CDC Public Health Image Libraryből és a Cell Image Libraryből származnak (közkincs, CC0, CC BY és CC BY-SA licenccel); a szerző és a licenc minden képnél fel van tüntetve. Az emberi test, a szervek, a kar, a reflexjelenet és a fedőhám, illetve az érzékhám illusztrációi mesterséges intelligenciával (Google Nano Banana) készültek, ezt a képek „MI-illusztráció” címkéje is jelzi.
 
 ## Szerkezet
 - `foldrajz/5-osztaly/` … `foldrajz/8-osztaly/`
