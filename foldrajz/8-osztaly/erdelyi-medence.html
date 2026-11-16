@@ -381,6 +381,32 @@ input[type=range]::-moz-range-thumb{width:1.6rem;height:1.6rem;border-radius:50%
 .tv.full .tvc li.sub{padding-left:1.9rem}
 .tv.full .tvc li.sub::before{left:.9rem}
 
+/* táblavázlat: kivetítés (teljes képernyő, a betűméretet a fit() állítja) */
+.tvx{display:none}
+.tv.max{position:fixed;inset:0;z-index:300;padding:1.2vh 1.6vw 1.6vh;gap:1.2vw;grid-template-columns:minmax(12rem,19%) 1fr;grid-template-rows:auto 1fr;
+  background:radial-gradient(ellipse at 30% 0%,#0b2350 0%,#030814 70%)}
+.tv.max .tvx{display:flex;grid-column:1/-1;align-items:center;gap:.7rem;padding-bottom:.4vh;border-bottom:1px solid var(--line)}
+.tvx-t{font:700 clamp(1rem,2.4vh,1.6rem) 'Barlow Condensed',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-right:auto}
+.tvx-n{font:600 clamp(.9rem,2vh,1.3rem) 'Barlow Condensed',sans-serif;letter-spacing:.1em;color:var(--dim);text-transform:uppercase;margin-right:1rem}
+.tvx-x{font-size:1.8rem;line-height:1}
+.tv.max .tvl{gap:.6vh}
+.tv.max .tvb{font-size:clamp(1rem,2.3vh,1.7rem);min-height:0}
+.tv.max .tvc{padding:2.2vh 2.4vw;overflow:hidden}
+.tv.max .tvc li{font-size:var(--tvf,1.55rem);padding:.28em 0 .28em 1.2em}
+.tv.max .tvc li::before{top:.68em;width:.38em;height:.38em}
+.tv.max .tvc li.sub{padding-left:2.2em} .tv.max .tvc li.sub::before{left:1.1em}
+.tv.max .tvh h3{font-size:calc(var(--tvf,1.55rem) * 2);margin-bottom:.5em}
+.tv.max .tvh .kick{font-size:calc(var(--tvf,1.55rem) * .72)}
+.tv.max .tvn{font-size:calc(var(--tvf,1.55rem) * .86)}
+.tv.max.full{grid-template-columns:1fr}
+.tv.max.full .tvg{columns:4;column-gap:1.6vw;height:100%}
+.tv.max.full .tvc li{font-size:var(--tvf,1rem);line-height:1.25;padding:.15em 0 .15em .9em}
+.tv.max.full .tvc li::before{top:.55em;width:.34em;height:.34em;left:0}
+.tv.max.full .tvc li.sub{padding-left:1.6em} .tv.max.full .tvc li.sub::before{left:.7em}
+.tv.max.full .tvt{font-size:calc(var(--tvf,1rem) * 1.12)}
+.tv.max.full .tvm{margin-bottom:.7em}
+.tvx .btn.on{background:var(--orange);border-color:var(--orange);color:#1a0b00}
+
 </style>
 <!-- kis-jel:start --><link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiI+CiAgPGNpcmNsZSBjeD0iOCIgY3k9IjgiIHI9IjgiIGZpbGw9IiMwNjE2MzQiLz4KICA8Y2lyY2xlIGN4PSI4IiBjeT0iOCIgcj0iNi41IiBmaWxsPSIjMWMzMDUxIi8+CiAgPGNpcmNsZSBjeD0iNy41IiBjeT0iNy4xIiByPSIzLjciIGZpbGw9IiMyZTdmZTYiLz4KICA8cGF0aCBkPSJNNS4zIDUuMmMuOS0uOSAyLjItLjggMi42LS4xczEuNi40IDIgMS4zLS42IDEuMi0xLjMgMS42LS4yIDEuNy0uOSAyLjMtMS40LS40LTEuNC0xLjMtMS42LS44LTEuNi0xLjcuMS0xLjYuNi0yLjF6IiBmaWxsPSIjMmZlNTlhIi8+CiAgPHBhdGggZD0iTTguOSAzLjFhNC40IDQuNCAwIDAgMSAwIDguNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZiMzQ3IiBzdHJva2Utd2lkdGg9IjEuMSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHBhdGggZD0iTTguMiAxMS40di45TTYuMyAxMi41aDMuNiIgc3Ryb2tlPSIjZmZiMzQ3IiBzdHJva2Utd2lkdGg9IjEuMSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iOCIgY3k9IjgiIHI9IjYuOSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmY4YTFlIiBzdHJva2Utd2lkdGg9IjEuMjUiLz4KPC9zdmc+Cg=="><link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,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"><link rel="apple-touch-icon" href="/szemleltetok/ikonok/foldrajz-180.png"><meta name="theme-color" content="#071328"><!-- kis-jel:end --></head>
 <body>
@@ -758,6 +784,7 @@ function runCounts(root) {
     if (UI.seen.has(key)) return; UI.seen.add(key); const t0 = performance.now(), dur = 900;
     (function tk(n) { const k = Math.min(1, (n - t0) / dur); e.textContent = fmt.format(Math.round(to * (1 - Math.pow(1 - k, 3)))) + suf; if (k < 1) requestAnimationFrame(tk); })(t0); });
 }
+I.expand = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';
 I.end = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5l9 7-9 7z"/><path d="M18 5v14"/></svg>';
 function endBtn(on) { const b = el('button', 'nav', I.end); b.onclick = on; b.title = 'Ugrás a végállapotra (vége)'; b.setAttribute('aria-label', 'Vége'); return b; }
 function seg(labels, onSel, cls = '') {
@@ -1710,7 +1737,7 @@ const TV = [
 const LI = x => x.startsWith('· ') ? `<li class="sub">${x.slice(2)}</li>` : `<li>${x}</li>`;
 SC.push({
   g: 1, title: 'Táblavázlat', short: 'Az egész lecke tíz pontban, füzetbe másolható.',
-  txt: 'Az óra végén foglaljuk össze, amit megtudtunk! Érintsd meg a pontokat sorban: előbb próbáljátok <b>fejből</b> megmondani, mi tartozik oda, aztán nézzétek meg. A <b>Teljes vázlat</b> gombbal mind a tíz pont egyszerre látszik.',
+  txt: 'Az óra végén foglaljuk össze, amit megtudtunk! Érintsd meg a pontokat sorban: előbb próbáljátok <b>fejből</b> megmondani, mi tartozik oda, aztán nézzétek meg. A <b>Teljes vázlat</b> gombbal mind a tíz pont egyszerre látszik, a <b>Kivetítés</b> gombbal (vagy K betű, dupla koppintás) pedig teljes képernyőn, nagy betűkkel.',
   think: [
     ['Melyik pontot tudnád egyetlen szóval összefoglalni?', 'Például: kőzetei → üledékes (agyag, márga, homok); formakincse → dombvidék; kincsei → só és földgáz.'],
     ['Hogyan függ össze a medence kialakulása az ásványkincseivel?', 'A bádeni tenger bepárolgásából lett a kősó, a tó- és tengeri üledékekből a földgáz, amely a dómokban gyűlt össze.'],
@@ -1723,25 +1750,74 @@ SC.push({
     this.list = el('div', 'tvl'); this.card = el('div', 'tvc'); w.append(this.list, this.card);
     this.btns = TV.map((p, i) => { const b = el('button', 'tvb', `<i>${i + 1}</i><span>${p[0]}</span>`); b.style.setProperty('--c', p[1]); b.onclick = () => this.show(i); this.list.appendChild(b); return b; });
     this.allBtn = btn('Teljes vázlat', () => this.toggleAll());
-    ct.append(btn(I.reset + 'Újra', () => { this.seen = {}; this.all = false; this.show(-1); }), el('div', 'sep'), this.allBtn);
+    this.maxBtn = btn(I.expand + 'Kivetítés', () => this.setMax(true), 'o'); this.maxBtn.title = 'Teljes képernyős, nagy betűs nézet (K)';
+    ct.append(btn(I.reset + 'Újra', () => { this.seen = {}; this.all = false; this.show(-1); }), el('div', 'sep'), this.allBtn, this.maxBtn);
+    // kivetítő-sáv: csak teljes képernyős nézetben látszik
+    const bar = el('div', 'tvx');
+    bar.innerHTML = `<span class="tvx-t">Az Erdélyi-medence · Táblavázlat</span><span class="tvx-n"></span>`;
+    const nav = (d) => this.all ? null : this.show(clamp(this.k + d, 0, TV.length - 1));
+    this.xAll = btn('Mind', () => this.toggleAll()); this.xAll.classList.add('tvx-b');
+    const bp = navBtn(-1, () => nav(-1)), bn = navBtn(1, () => nav(1)), bx = el('button', 'nav tvx-x', '×'); bx.title = 'Bezárás (Esc)'; bx.onclick = () => this.setMax(false);
+    bar.append(bp, bn, this.xAll, bx); this.w.prepend(bar);
+    this.card.addEventListener('dblclick', () => this.setMax(!this.max));
+    addEventListener('resize', () => this.fit());
+    addEventListener('hashchange', () => { if (this.max) this.setMax(false); });
+    addEventListener('keydown', e => {                 // kivetítésben a nyilak a pontok között lapoznak, Esc bezár
+      if (!this.max || UI.cur !== this) return;
+      const k = e.key;
+      if (k === 'Escape') this.setMax(false);
+      else if (k === 'ArrowRight' || k === 'ArrowDown' || k === ' ') { if (this.all) this.toggleAll(); else this.show(this.k + 1 >= TV.length ? 0 : this.k + 1); }
+      else if (k === 'ArrowLeft' || k === 'ArrowUp') { if (!this.all) this.show(Math.max(0, this.k - 1)); }
+      else if (k === 'm' || k === 'M') this.toggleAll();
+      else return;
+      e.preventDefault(); e.stopImmediatePropagation();
+    }, true);
+    addEventListener('keydown', e => { if ((e.key === 'k' || e.key === 'K') && UI.cur === this && !this.max) { e.preventDefault(); this.setMax(true); } });
     this.show(-1);
+  },
+  setMax(on) {
+    this.max = on; this.w.classList.toggle('max', on); document.body.classList.toggle('tv-max', on);
+    if (on && this.w.parentNode !== document.body) { this.home = this.w.parentNode; document.body.appendChild(this.w); }   // a fixed nézet ne öröklődjön a panelek szűrőiből
+    else if (!on && this.home) { this.home.appendChild(this.w); this.home = null; }
+    const d = document, fs = d.fullscreenElement || d.webkitFullscreenElement;
+    if (on && !fs) { const e = d.documentElement, r = e.requestFullscreen || e.webkitRequestFullscreen; if (r) try { const p = r.call(e); if (p && p.catch) p.catch(() => {}); } catch (_) {} }
+    if (on && this.k < 0 && !this.all) this.show(0);
+    this.fit();
+  },
+  fit() {                                              // a betűméret a képernyőhöz igazodik: a legnagyobb, amelynél minden kifér
+    const w = this.w, c = this.card;
+    if (!this.max) { w.style.removeProperty('--tvf'); return; }
+    requestAnimationFrame(() => {
+      const g = c.querySelector('.tvg');
+      const fits = () => { const R = c.getBoundingClientRect();
+        return c.scrollHeight <= c.clientHeight + 1 && c.scrollWidth <= c.clientWidth + 1
+          && [...c.querySelectorAll('.tvm')].every(x => { const q = x.getBoundingClientRect(); return q.right <= R.right - 4 && q.bottom <= R.bottom - 4; }); };
+      const search = () => { let lo = 6, hi = 90;
+        for (let i = 0; i < 14; i++) { const m = (lo + hi) / 2; w.style.setProperty('--tvf', m + 'px'); if (fits()) lo = m; else hi = m; }
+        return Math.floor(lo * 10) / 10; };
+      let best = { f: 0, n: 0 };
+      for (const n of (g ? [3, 4, 5] : [0])) { if (g) g.style.columnCount = n; const f = search(); if (f > best.f) best = { f, n }; }
+      if (g) g.style.columnCount = best.n;
+      w.style.setProperty('--tvf', best.f + 'px');
+    });
   },
   show(i) {
     this.k = i; if (i >= 0) this.seen[i] = 1; this.all = false;
     this.btns.forEach((b, j) => { b.classList.toggle('on', j === i); b.classList.toggle('seen', !!this.seen[j]); });
-    this.allBtn.classList.toggle('on', false); this.w.classList.toggle('full', false);
+    this.allBtn.classList.toggle('on', false); this.w.classList.toggle('full', false); if (this.xAll) this.xAll.classList.remove('on');
     if (i < 0) { this.card.innerHTML = '<div class="tvh"><span class="kick">Az Erdélyi-medence</span><h3>Tíz pont</h3></div><p class="tve">Válassz egy pontot a bal oldalon, vagy nyomd meg a szóközt!</p>'; this.card.style.setProperty('--c', C.cyan); }
     else this.card.innerHTML = this.cardHTML(i), this.card.style.setProperty('--c', TV[i][1]);
-    this.card.scrollTop = 0; UI.data(this);
+    this.card.scrollTop = 0; UI.data(this); this.fit();
+    if (this.max) this.w.querySelector('.tvx-n').textContent = i >= 0 ? `${i + 1} / ${TV.length}` : '';
   },
   cardHTML(i) { const p = TV[i];
     return `<div class="tvh"><span class="kick">${i + 1}. pont</span><h3>${p[0]}</h3></div><ul>${p[2].map(LI).join('')}</ul>${p[3] ? `<p class="tvn">${p[3]}</p>` : ''}`; },
   toggleAll() {
-    this.all = !this.all; this.allBtn.classList.toggle('on', this.all); this.w.classList.toggle('full', this.all);
+    this.all = !this.all; this.allBtn.classList.toggle('on', this.all); this.w.classList.toggle('full', this.all); this.xAll.classList.toggle('on', this.all);
     if (this.all) { TV.forEach((_, j) => this.seen[j] = 1); this.btns.forEach(b => b.classList.add('seen'));
       this.card.innerHTML = '<div class="tvg">' + TV.map((p, j) => `<div class="tvm" style="--c:${p[1]}"><b class="tvt">${j + 1}. ${p[0]}</b><ul>${p[2].map(LI).join('')}</ul></div>`).join('') + '</div>';
-      this.card.scrollTop = 0; UI.data(this); }
-    else this.show(this.k);
+      this.card.scrollTop = 0; UI.data(this); this.fit(); this.w.querySelector('.tvx-n').textContent = 'mind a tíz pont'; }
+    else this.show(this.k < 0 ? 0 : this.k);
   },
   space() { this.show(this.k + 1 >= TV.length ? 0 : this.k + 1); },
   tick() {},
