@@ -37,6 +37,8 @@ Kezdőlap: https://szaszfzsolt.github.io/szemleltetok/
 A `_keszlet/` mappában vannak a szemléltetők forrásai, amelyekből a kész oldalak épülnek (jelenleg: `_keszlet/genetika-szemlelteto/`, a genetikai szemléltetők egyfájlos kerete). Ez a mappa nem jelenik meg a weboldalon; a használatát a benne lévő README írja le.
 
 ## Képek
+
+- A tantárgyi kis jelek (`ikonok/`: földgömb a földrajzhoz, ugró delfin DNS-hullámmal a biológiához) MI-vel (Google Nano Banana) tervezett, majd kézzel vektorizált és javított saját grafikák. Ezekből készül a favicon, a telefonos ikon és a telefonos fejléc jelvénye.
 - A Föld mozgásai szemléltető Föld-képei a NASA Blue Marble közkincs felvételei (nappali és éjszakai textúra); a Barlow betűtípus SIL OFL licencű.
 - Az Űrszótár fényképei a NASA, az ESA és a JPL szabadon felhasználható felvételei; a forrás minden képnél fel van tüntetve.
 - A növényi sejt ábrája Mariana Ruiz Villarreal (LadyofHats) közkincs rajza a Wikimedia Commonsról, Németh László magyar fordításával.
