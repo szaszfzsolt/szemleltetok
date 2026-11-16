@@ -17,6 +17,8 @@ Kezdőlap: https://szaszfzsolt.github.io/szemleltetok/
 | Földrajz | 8. | Románia glaciális formakincse (A4 lap) | `foldrajz/8-osztaly/glacialis-formakincs.png` |
 | Földrajz | 8. | Románia karsztformakincsei (A4 lap) | `foldrajz/8-osztaly/karszt-formakincs.png` |
 | Földrajz | 8. | Románia domborzatának kialakulása | `foldrajz/8-osztaly/romania-domborzat.html` |
+| Földrajz | 8. | Az Erdélyi-medence (okostábla, táblavázlattal, záró csapatversennyel) | `foldrajz/8-osztaly/erdelyi-medence.html` |
+| Földrajz | 8. | Az Erdélyi-medence (telefon, egyéni próbával) | `foldrajz/8-osztaly/erdelyi-medence-telefon.html` |
 | Biológia | 5. | Mi eszik mit? | `biologia/5-osztaly/mi-eszik-mit.html` |
 | Biológia | 7. | Növénymozgás-kaland | `biologia/7-osztaly/novenymozgas-kaland/` |
 | Biológia | 8. | A genetikai anyag (okostábla, záró csapatversennyel) | `biologia/8-osztaly/genetikai-anyag.html` |
@@ -40,6 +42,7 @@ A `_keszlet/` mappában vannak a szemléltetők forrásai, amelyekből a kész o
 - A növényi sejt ábrája Mariana Ruiz Villarreal (LadyofHats) közkincs rajza a Wikimedia Commonsról, Németh László magyar fordításával.
 - A glaciális és a karszt lap fotói többnyire a Wikimedia Commonsról származnak; a szerzők és a licencek a lapok alján vannak felsorolva.
 - A Románia domborzatának kialakulása térképe nyílt adatokból készült: a tájhatárok B. Candrea, P. Candrea és M. D. Niță adatkészletéből (geo-spatial.org, 2008; Posea–Badea 1984 nyomán; CC BY-SA 3.0), az országhatár és a települések az ANCPI-től (nyílt kormányzati licenc). A forrás a lapon is fel van tüntetve. Ugyanezekből az adatokból készült a glaciális lap kis térképe is.
+- Az Erdélyi-medence szemléltető fotói a Wikimedia Commonsról (CC BY-SA 3.0/4.0, CC0) és a NASA MODIS közkincs műholdképéből származnak; a szerző és a licenc minden képnél fel van tüntetve. A térképek és a domborzati szelvény az AWS Terrain Tiles (SRTM) domborzatmodelljéből, a geo-spatial.org tájhatáraiból (CC BY-SA 3.0) és az ANCPI nyílt adataiból készültek.
 - A genetikai anyag szemléltető fotói a Wikimedia Commonsról származnak (közkincs, CC0, CC BY és CC BY-SA licenccel; köztük az NHGRI kariotípusa és Bolzer és mtsai. PLoS Biology-felvétele); a szerző és a licenc minden képnél fel van tüntetve. A borsófilm (D. Bornand és mtsai., CC BY-SA 3.0) gyorsítva és kivágva szerepel.
 - A genetikai anyag átörökítése szemléltető fotói a Wikimedia Commonsról és a Wellcome Collectionből származnak (közkincs, CC BY 4.0, CC BY-SA 3.0 és GFDL licenccel; köztük Josef Reischig mikroszkópos felvételei, az NHGRI kariotípusai, a Wessex Regional Genetics Centre kariogramja és Ishihara-táblák); a szerző és a licenc minden képnél fel van tüntetve.
 - Az Antroposzféra Föld-képei a NASA Blue Marble és Black Marble közkincs textúrái. A házak fényképei a Wikimedia Commonsról származnak (CC BY-SA és közkincs), a szerző és a licenc a képek alatt áll. A térképek nyílt adatokból készültek: Copernicus DEM, ESA WorldCover 2021, Copernicus HRL Grasslands, OpenStreetMap-közreműködők, INS (2021-es népszámlálás), a források a térképeken is fel vannak tüntetve. A székely ház fotója még hiányzik, mert a forrásához engedély kell.
