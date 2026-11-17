@@ -21,6 +21,8 @@ Kezdőlap: https://szaszfzsolt.github.io/szemleltetok/
 | Földrajz | 8. | Románia domborzatának kialakulása | `foldrajz/8-osztaly/romania-domborzat.html` |
 | Földrajz | 8. | Az Erdélyi-medence (okostábla, táblavázlattal, záró csapatversennyel) | `foldrajz/8-osztaly/erdelyi-medence.html` |
 | Földrajz | 8. | Az Erdélyi-medence (telefon, egyéni próbával) | `foldrajz/8-osztaly/erdelyi-medence-telefon.html` |
+| Biológia | 5. | Kertek, gyümölcsösök, gazdaságok (szemléltető) | `biologia/5-osztaly/kertek-gyumolcsosok-gazdasagok.html` |
+| Biológia | 5. | Kertek, gyümölcsösök, gazdaságok (telefonos változat) | `biologia/5-osztaly/kertek-gyumolcsosok-gazdasagok-telefon.html` |
 | Biológia | 5. | Mi eszik mit? | `biologia/5-osztaly/mi-eszik-mit.html` |
 | Biológia | 7. | Növénymozgás-kaland | `biologia/7-osztaly/novenymozgas-kaland/` |
 | Biológia | 8. | A genetikai anyag (okostábla, záró csapatversennyel) | `biologia/8-osztaly/genetikai-anyag.html` |
@@ -57,6 +59,7 @@ A `_keszlet/` mappában vannak a szemléltetők forrásai, amelyekből a kész o
 - A Naprendszer szemléltető illusztrációi és háttérképei mesterséges intelligenciával (Google Nano Banana) készültek, ezt a képaláírások is jelzik; a 14. dia forgatható Földje a NASA Blue Marble és Black Marble közkincs textúráját használja.
 - A Növényi és állati szövetek szemléltető mikroszkópos fotói a Wikimedia Commonsról, az OpenStax Anatomy & Physiology tankönyvből, a CDC Public Health Image Libraryből és a Cell Image Libraryből származnak (közkincs, CC0, CC BY és CC BY-SA licenccel); a szerző és a licenc minden képnél fel van tüntetve. Az emberi test, a szervek, a kar, a reflexjelenet és a fedőhám, illetve az érzékhám illusztrációi mesterséges intelligenciával (Google Nano Banana) készültek, ezt a képek „MI-illusztráció” címkéje is jelzi.
 
+- A Kertek, gyümölcsösök, gazdaságok szemléltető minden képe (zöldségek, gyümölcsök, háziállatok, a gyümölcsös, a székely porta és a konyha jelenete) mesterséges intelligenciával (Google Nano Banana) készült; a jelenetképeken „MI-illusztráció” címke jelzi. A világtérkép a Natural Earth közkincs országhatáraiból készült.
 ## Szerkezet
 - `foldrajz/5-osztaly/` … `foldrajz/8-osztaly/`
 - `biologia/5-osztaly/` … `biologia/8-osztaly/`
