@@ -12,6 +12,8 @@ Kezdőlap: https://szaszfzsolt.github.io/szemleltetok/
 | Földrajz | 5. | A Föld mozgásai (telefon) | `foldrajz/5-osztaly/fold-mozgasai-telefon.html` |
 | Földrajz | 5. | A Naprendszer (okostábla) | `foldrajz/5-osztaly/naprendszer.html` |
 | Földrajz | 5. | A Naprendszer (telefon) | `foldrajz/5-osztaly/naprendszer-telefon.html` |
+| Földrajz | 5. | A fokhálózat (okostábla) | `foldrajz/5-osztaly/fokhalozat.html` |
+| Földrajz | 5. | A fokhálózat (telefon) | `foldrajz/5-osztaly/fokhalozat-telefon.html` |
 | Földrajz | 6. | Antroposzféra (okostábla, táblavázlatokkal) | `foldrajz/6-osztaly/antroposzfera.html` |
 | Földrajz | 6. | Antroposzféra (telefon) | `foldrajz/6-osztaly/antroposzfera-telefon.html` |
 | Földrajz | 8. | Románia glaciális formakincse (A4 lap) | `foldrajz/8-osztaly/glacialis-formakincs.png` |
@@ -40,6 +42,7 @@ A `_keszlet/` mappában vannak a szemléltetők forrásai, amelyekből a kész o
 
 - A tantárgyi kis jelek (`ikonok/`: földgömb a földrajzhoz, ugró delfin DNS-hullámmal a biológiához) MI-vel (Google Nano Banana) tervezett, majd kézzel vektorizált és javított saját grafikák. Ezekből készül a favicon, a telefonos ikon és a telefonos fejléc jelvénye.
 - A Föld mozgásai szemléltető Föld-képei a NASA Blue Marble közkincs felvételei (nappali és éjszakai textúra); a Barlow betűtípus SIL OFL licencű.
+- A fokhálózat játék földgömbje és térképe a NASA Blue Marble közkincs nappali textúrájából készült; ezt a kezdőlap is jelzi.
 - Az Űrszótár fényképei a NASA, az ESA és a JPL szabadon felhasználható felvételei; a forrás minden képnél fel van tüntetve.
 - A növényi sejt ábrája Mariana Ruiz Villarreal (LadyofHats) közkincs rajza a Wikimedia Commonsról, Németh László magyar fordításával.
 - A glaciális és a karszt lap fotói többnyire a Wikimedia Commonsról származnak; a szerzők és a licencek a lapok alján vannak felsorolva.
