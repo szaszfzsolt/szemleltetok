@@ -673,9 +673,9 @@ const GATES = [
     lead: '2026. november 18-án, szerdán hajnali 02:48:55-kor 5,7-es földrengés pattant ki a vráncsai szeizmikus területen, 120,8 km mélyen. Bukaresttől Sepsiszentgyörgyig sokan felébredtek rá, Bulgáriában, Moldovában és Ukrajnában is érezték.',
     chips: [['5,7', 'magnitúdó (INFP)'], ['120,8 km', 'a fészek mélysége'], ['02:48:55', 'helyi idő szerint'], ['5–10 s', 'ennyi ideig rázott']] },
   { t: 'Miért és hogyan rázott?', c: C.cyan, d: 'A lebukó kőzetlemez Vráncsa alatt, magnitúdó és intenzitás, a két földrengéshullám versenye.',
-    lead: 'Vráncsa alatt egy régi, lebukott kőzetlemez-darab süllyed a földköpenybe, és benne pattannak ki a rengések 60–200 km mélyen. A rengés hullámai két fajtában érkeznek: előbb a gyors P-hullám, utána a romboló S-hullám.',
+    lead: 'Vráncsa alatt egy régi, lebukott kőzetlemez-darab süllyed a földköpenybe, és benne pattannak ki a rengések 60–200 km mélyen. Kétféle hullám érkezik: előbb a gyors P-hullám, utána a romboló S-hullám.',
     chips: [['60–200 km', 'a vráncsai fészkek mélysége'], ['×32', 'energia magnitúdó-egységenként'], ['7,4 km/s', 'a P-hullám (mért)'], ['4,2 km/s', 'az S-hullám (mért)']] },
-  { t: 'Mit tegyek, ha ráz?', c: C.green, d: 'Mi a helyes és mi a veszélyes földrengés előtt, közben és után.',
+  { t: 'Mit tegyek, ha ráz?', c: C.green, d: 'Mi a helyes, és mi a veszélyes földrengés előtt, közben és után?',
     lead: 'A november 18-i rengésnél nem az épületek okoztak sérülést, hanem a pánik: valaki menekülés közben szekrényajtónak ütközött, egy másik emberre bútor dőlt. Aki tudja, mit kell tenni, az nyugodtabb, és nagyobb biztonságban van.',
     chips: [['Le!', 'guggolj le'], ['Fedezék!', 'erős asztal alá'], ['Kapaszkodj!', 'amíg a rázás tart'], ['112', 'csak vészhelyzetben']] },
 ];
@@ -856,11 +856,11 @@ SC.push({
   g: 0, title: 'Szerda hajnal, 02:48', short: 'Indítsd el a rengést, és nézd, hogyan éri el a hullám a városokat!',
   txt: 'Szerda hajnalban, <b>02:48:55-kor</b> a vráncsai szeizmikus területen, <span class="k">120,8 km mélyen</span> megmozdult a kőzet. A <b>fészekből</b> (hipocentrum) a rengés hullámai minden irányba elindultak. Előbb a gyors <b style="color:var(--cyan)">P-hullám</b> ért a felszínre, utána az erősebb <b style="color:var(--orange)">S-hullám</b>. Indítsd el, és figyeld, mikor ér a hullám Bögözbe!',
   think: [
-    ['Miért nem egyszerre rázott meg mindenhol?', 'Mert a hullámoknak időbe telik, amíg odaérnek. Az S-hullám kb. 4 km-t tesz meg másodpercenként: Focșaniba 30 s, Bögözbe 40 s, Kolozsvárra 80 s alatt ért el.'],
-    ['Miért kellett 16 másodperc, amíg a P-hullám egyáltalán a felszínre ért?', 'Mert a fészek 120,8 km mélyen volt. A P-hullám kb. 7,4 km/s sebességgel halad: 120,8 ÷ 7,4 ≈ 16 s, ennyi kellett, hogy felérjen a fészek fölötti pontra, az epicentrumba.'],
-    ['Sepsiszentgyörgyön a rázás előtt morajlást hallottak. Mi lehetett az?', 'A gyorsabb P-hullám, amely az S-hullám előtt érkezett. A földön át érkező rezgés egy része hangként is hallható.'],
+    ['Miért nem egyszerre rázott meg mindenhol?', 'Mert a hullámoknak időbe telik, amíg odaérnek. Az S-hullám kb. 4 km-t tesz meg másodpercenként: Focșaniba 30, Bögözbe 40, Kolozsvárra 80 másodperc alatt jutott el.'],
+    ['Miért telt el 16 másodperc, mire a P-hullám egyáltalán a felszínre ért?', 'Mert a fészek 120,8 km mélyen volt. A P-hullám kb. 7,4 km/s sebességgel halad: 120,8 ÷ 7,4 ≈ 16 s alatt ért fel a fészek fölötti pontra, az epicentrumba.'],
+    ['Sepsiszentgyörgyön a rázás előtt morajlást hallottak. Mi lehetett az?', 'A gyorsabb P-hullám, amely az S-hullám előtt érkezett. A rezgés egy része a levegőbe is átjut, és hangként hallható.'],
   ],
-  tip: ['or', 'Tudtad?', 'Romániában az INFP <span class="w">több mint 200 automata mérőpontja</span> figyeli a földet éjjel-nappal. A november 18-i rengés adatait néhány perccel a rengés után már közölték.'],
+  tip: ['or', 'Tudtad?', 'Romániában az INFP <span class="w">több mint 200 automatikus mérőállomása</span> figyeli a földet éjjel-nappal. A november 18-i rengés adatait már néhány perccel később közölték.'],
   init(st, ct) {
     this.cv = Cv(st); this.t = T0; this.play = false; this.spd = 4; this.done = false;
     this.pb = playBtn(() => this.space());
@@ -933,7 +933,7 @@ SC.push({
       + drow('A P-hullám útja', huf(sP, 0) + ' km', C.cyan) + drow('Az S-hullám útja', huf(sS, 0) + ' km', C.orange)
       + drow('Megrázott települések', `${r.length} / ${QT.length}`)
       + drow('Bögözbe érkezik', `P: ${Math.round(B.R / EQ.vp)} s · S: ${Math.round(B.R / EQ.vs)} s`)
-      + `<div class="dsub">${this.t < EQ.h / EQ.vp ? 'A hullámok még a mélyben tartanak felfelé: a fészek 120,8 km mélyen van.' : r.length ? 'Legutóbb: <b>' + r[r.length - 1] + '</b> (becsült intenzitás: ' + romanI(TOWN[r[r.length - 1]].mmi) + ')' : 'A P-hullám már a felszínen van, az S-hullám még úton.'}</div>`;
+      + `<div class="dsub">${this.t < EQ.h / EQ.vp ? 'A hullámok még a mélyben tartanak felfelé: a fészek 120,8 km mélyen van.' : r.length ? 'Legutóbb: <b>' + r[r.length - 1] + '</b> (becsült intenzitás: ' + romanI(TOWN[r[r.length - 1]].mmi) + ')' : 'A P-hullám már a felszínen van, az S-hullám még úton van.'}</div>`;
   },
 });
 
@@ -955,10 +955,10 @@ SC.push({
   txt: 'Az <b>intenzitás</b> megmutatja, mennyire rázott a föld egy adott helyen (I–XII fok). A színes térkép az INFP <b>rázkódástérképe</b>, a mérőállomások adataiból számolt becslés. Figyeld meg: a Kárpátokon <span class="k">kívül</span> erősebben rázott, mint az ív <span class="k">belsejében</span>, Erdélyben. <b>Koppints a térképre</b>, és megtudod, mit éreztek ott!',
   think: [
     ['Kovászna 3,8-as, Csíkszereda csak 3,2-es értéket kapott. Miért?', 'Kovászna sokkal közelebb van az epicentrumhoz (kb. 25 km), Csíkszereda messzebb (kb. 80 km). A távolsággal a rázás gyengül.'],
-    ['Miért rázott erősebben Bukarestben, mint Kolozsváron, pedig Bukarest is messze van?', 'A vráncsai rengések hullámai főleg a Kárpátokon kívülre, dél és kelet felé terjednek erősen. A hegység ívén belül, Erdélyben gyengébben érződnek, és Kolozsvár ráadásul kétszer olyan messze van.'],
+    ['Miért rázott erősebben Bukarestben, mint Kolozsváron, pedig Bukarest is messze van?', 'A vráncsai rengések hullámai főleg a Kárpátokon kívülre, dél és kelet felé terjednek erősebben. A hegység ívén belül, Erdélyben gyengébben érződnek, és Kolozsvár ráadásul kétszer olyan messze van.'],
     ['Egy rengésnek hány intenzitása van?', 'Sok: minden helyen más. A magnitúdó viszont egyetlen szám, a rengés erejét adja meg. Erről szól a 4. jelenet.'],
   ],
-  tip: ['cy', 'Becslés', 'A színes térkép a <span class="w">mérőállomások adataiból számolt becslés</span>. A középpont közelében (Panciu, Buzău) a helyszíni beszámolók V–VI fokot jeleztek, a modell ott 4–4,5-öt ad.'],
+  tip: ['cy', 'Becslés', 'A színes térkép a <span class="w">mérőállomások adataiból számolt becslés</span>. A középpont közelében (Panciu, Buzău) a helyszíni beszámolók V–VI fokot jeleztek, a modell ott csak 4–4,5 fokot számol.'],
   init(st, ct) {
     this.cv = Cv(st); this.img = gridImage(0); this.pin = { lon: TOWN['Bögöz'].lon, lat: TOWN['Bögöz'].lat, n: 'Bögöz', t: 0 }; this.et = 0;
     this.showT = true; this.showK = false; this.showG = true;
@@ -1004,17 +1004,17 @@ SC.push({
 const VST = [
   ['A felszín', 'A metszet Bögöztől indul, átszeli a Háromszéki-medencét és a Keleti-Kárpátok Vráncsai-hegységét, és a Román-alföldön ér véget. Fent a domborzat (20-szorosra nagyítva), lent a föld belseje.', C.green],
   ['Kőzetlemezek ütköznek', 'A Kárpátkanyarban több kőzetlemez találkozik: nyugatról az erdélyi (Tisza–Dácia) mikrolemez, keletről a kelet-európai, délről a moesiai lemez. Összetartó (konvergens) mozgásuk feszültséget halmoz fel.', C.orange],
-  ['A lebukott lemezdarab', 'Vráncsa alatt egy régi, lebukott kőzetlemez-darab majdnem függőlegesen lóg és lassan süllyed a forró földköpenybe. Ez a hideg, merev „nyelv” a vráncsai rengések forrása.', C.cyan],
-  ['Itt pattannak ki a rengések', 'A lemezdarabban felhalmozódó feszültség hirtelen elmozdulásként szabadul fel: 60 és 200 km között. Ezek a közepes mélységű rengések. Romániában csak Vráncsában vannak ilyenek.', C.yellow],
+  ['A lebukott lemezdarab', 'Vráncsa alatt egy régi, lebukott kőzetlemez-darab majdnem függőlegesen lóg, és lassan süllyed a forró földköpenybe. Ez a hideg, merev „nyelv” a vráncsai rengések forrása.', C.cyan],
+  ['Itt pattannak ki a rengések', 'A lemezdarabban felhalmozódó feszültség hirtelen elmozdulásként szabadul fel, 60 és 200 km közötti mélységben. Ezek a közepes mélységű rengések. Romániában csak Vráncsában vannak ilyenek.', C.yellow],
   ['November 18.', 'A szerda hajnali rengés fészke (hipocentruma) 120,8 km mélyen volt. A fölötte lévő felszíni pont az epicentrum. Innen indultak a hullámok minden irányba.', C.red],
-  ['Mély vagy sekély?', 'A mély rengés hullámai nagy területre jutnak el, de mire felérnek, gyengülnek: ezért érezték Bukaresttől Moldováig, mégsem okozott kárt. A sekély rengés (pl. Gorj, 2023: 6 km) kis területen, de erősebben ráz.', C.purple],
+  ['Mély vagy sekély?', 'A mély rengés hullámai nagy területre jutnak el, de mire felérnek, gyengülnek: ezért érezték Bukaresttől Moldováig, mégsem okozott kárt. A sekély rengés (pl. a 2023-as gorji, kb. 6 km mélyen) kis területen, de erősebben ráz.', C.purple],
 ];
 const DEPTHS = [['Gorj, 2023', 6, C.purple], ['1977. márc. 4.', 94, C.orange], ['2026. nov. 18.', 121, C.red], ['1986. aug. 30.', 131, C.orange], ['1940. nov. 10.', 150, C.orange]];
 SC.push({
   g: 1, title: 'Miért éppen Vráncsa?', short: 'Metszet a föld belsejébe: a lebukott kőzetlemez és a rengések fészkei, lépésenként.',
   txt: 'Romániában a legtöbb és a legerősebb rengés <b>Vráncsában</b> pattan ki. Az ok a mélyben van: itt egy <span class="k">lebukott kőzetlemez-darab</span> süllyed a földköpenybe. A rengések benne keletkeznek, <b>60–200 km mélyen</b>: ezek a <b>közepes mélységű</b> (átmeneti) rengések. Lépésenként nézd meg!',
   think: [
-    ['Miért érezték a november 18-i rengést ilyen nagy területen?', 'Mert mélyen, 120,8 km-en pattant ki. A mélyből érkező hullámok nagy területre jutnak el: Bukarestben, Moldovában, Bulgáriában és Ukrajnában is érezték.'],
+    ['Miért érezték a november 18-i rengést ilyen nagy területen?', 'Mert mélyen, 120,8 km-re a felszín alatt pattant ki. A mélyből érkező hullámok nagy területre jutnak el: Bukarestben, Moldovában, Bulgáriában és Ukrajnában is érezték.'],
     ['Miért nem okozott kárt, pedig sokan felébredtek rá?', 'Mert mire a hullámok felértek a 120 km-es mélységből, sokat gyengültek. A felszínen a legerősebb rázás is csak V–VI fokú volt.'],
     ['Mi a különbség a hipocentrum és az epicentrum között?', 'A hipocentrum (fészek) a mélyben az a pont, ahol a rengés kipattan. Az epicentrum a felszínen, pontosan fölötte van.'],
   ],
@@ -1119,14 +1119,14 @@ const MPRE = [[5.7, '2026'], [6.9, '1990'], [7.4, '1977'], [7.9, '1802']];
 const ERAT = M => Math.pow(10, 1.5 * (M - EQ.M));
 const fmtX = r => r >= 10 ? Math.round(r).toLocaleString('hu-HU') : r >= 1 ? huf(r, 1) : huf(r, 2);
 SC.push({
-  g: 1, title: 'Magnitúdó vagy intenzitás?', short: 'Húzd a csúszkát: hányszor több energia egy nagyobb rengés, és mennyivel jobban ráz?',
+  g: 1, title: 'Magnitúdó vagy intenzitás?', short: 'Húzd a csúszkát: hányszor több energiát szabadít fel egy nagyobb rengés, és mennyivel jobban ráz?',
   txt: 'A <b>magnitúdó</b> (Richter-skála) <span class="k">egyetlen szám</span>: azt mondja meg, mekkora energia szabadult fel a fészekben. Egy egységnyi növekedés kb. <b>32-szer</b> több energiát jelent! Az <b>intenzitás</b> (Mercalli-skála, I–XII) viszont helyenként más: azt mutatja, mennyire rázott egy adott helyen. Húzd a csúszkát, és hasonlítsd össze a nagy vráncsai rengésekkel!',
   think: [
     ['Hányszor több energia szabadult fel 1977-ben, mint november 18-án?', 'Kb. 350-szer több. A két magnitúdó között 1,7 a különbség (7,4 − 5,7), és minden egész egység kb. 32-szeres energiát jelent.'],
-    ['Van-e felső határa a Richter-skálának?', 'Nincs: a skála nyitott. A valaha mért legnagyobb rengés 9,5-es volt (Chile, 1960). Az 5. osztályos tankönyv „1–10-ig” tartó skálája csak kerekítés.'],
+    ['Van-e felső határa a Richter-skálának?', 'Nincs: a skála nyitott. A valaha mért legnagyobb rengés 9,5-es volt (Chile, 1960). Az 5. osztályos tankönyvben szereplő 1–10-es skála csak egyszerűsítés.'],
     ['Miért nem elég a magnitúdó ahhoz, hogy tudjuk, mekkora kár lesz?', 'Mert a kár attól is függ, milyen mélyen van a fészek, milyen messze vagyunk tőle, milyen a talaj, és mennyire erősek az épületek. Ezt az intenzitás mutatja meg.'],
   ],
-  tip: ['or', 'Ne keverd össze!', '<span class="w">Magnitúdó:</span> egy rengésnek egy van (pl. 5,7). <span class="w">Intenzitás:</span> minden helyen más (Bögözben III, Focșaniban IV). A térkép a valódi november 18-i rázkódásból becsül: <span class="w">csak tájékoztató</span>.'],
+  tip: ['or', 'Ne keverd össze!', '<span class="w">Magnitúdó:</span> egy rengésnek egy van (pl. 5,7). <span class="w">Intenzitás:</span> minden helyen más (Bögözben III, Focșaniban IV). A térkép a valódi november 18-i rázkódásból becsül, ezért <span class="w">csak tájékoztató jellegű</span>.'],
   init(st, ct) {
     this.cv = Cv(st); this.M = EQ.M; this.dM = null; this.img = null; this.et = 0;
     this.sl = slider('Magnitúdó', (EQ.M - 4) / 4, v => { this.M = Math.round((4 + v * 4) * 10) / 10; this.sg.set(MPRE.findIndex(q => q[0] === this.M)); UI.data(this); });
@@ -1168,7 +1168,7 @@ SC.push({
     return `<div class="dtitle">Magnitúdó: ${huf(M)}${p ? ' (' + p[1] + ')' : ''}</div>`
       + drow('Energia a nov. 18-ihoz képest', '×' + fmtX(r), r >= 1 ? C.orange : C.cyan)
       + drow('Bögözben (becslés)', romanI(bv) + '. fok', mhex(bv)) + drow('Bukarestben (becslés)', romanI(uv) + '. fok', mhex(uv))
-      + `<div class="dsub"><b style="color:${mhex(uv)}">Bukarest, ${romanI(uv)}. fok – ${EMS[clamp(Math.round(uv), 1, 12)][0]}:</b> ${EMS[clamp(Math.round(uv), 1, 12)][1]}${M >= 7.3 ? ' 1977-ben Bukarestben 33 épület dőlt össze, kb. 1400 ember halt meg.' : ''}</div>`;
+      + `<div class="dsub"><b style="color:${mhex(uv)}">Bukarest, ${romanI(uv)}. fok – ${EMS[clamp(Math.round(uv), 1, 12)][0]}:</b> ${EMS[clamp(Math.round(uv), 1, 12)][1]}${M >= 7.3 ? ' 1977-ben Bukarestben 33 nagy épület dőlt össze, és csak a fővárosban kb. 1400 ember halt meg.' : ''}</div>`;
   },
 });
 
@@ -1190,7 +1190,7 @@ SC.push({
   txt: 'A fészekből kétféle hullám indul. A <b style="color:var(--cyan)">P-hullám</b> gyorsabb (kb. 7,4 km/s), de gyenge: ez a <b>morajlás</b>, az első rezzenés. Az <b style="color:var(--orange)">S-hullám</b> lassabb (kb. 4,2 km/s), de ez rázza meg igazán a házakat. Minél messzebb vagy, annál <span class="k">több idő telik el a kettő között</span>. Válaszd ki a <b>mérőállomást</b> is: ott a november 18-i rengés valódi felvételét látod!',
   think: [
     ['A bukovinai állomáson 27 másodperc telt el a P- és az S-hullám között. Milyen messze volt a fészek?', 'Ökölszabály: az S − P idő (másodpercben) × kb. 10 = a távolság km-ben. 27 × 10 ≈ 270 km. A valódi távolság 271 km volt!'],
-    ['Miért tud a telefon előbb riasztani, mint ahogy megérkezik a rázás?', 'A rengés közelében lévő telefonok érzékelik az első rezgést, és a riasztás az interneten fénysebességgel megy tovább. Ez gyorsabb, mint az S-hullám, ezért a távolabbiak néhány másodperccel előbb kapnak jelzést.'],
+    ['Miért tud a telefon előbb riasztani, mint ahogy megérkezik a rázás?', 'A rengés közelében lévő telefonok érzékelik az első rezgést, és a riasztás az interneten szinte azonnal továbbmegy. Ez gyorsabb, mint az S-hullám, ezért a távolabbiak néhány másodperccel előbb kapnak jelzést.'],
     ['Mi az a szeizmográf és a szeizmogram?', 'A szeizmográf a földrengést mérő műszer. Az általa rajzolt (vagy ma már digitálisan rögzített) görbe a szeizmogram: ezen látszik a P- és az S-hullám érkezése.'],
   ],
   tip: ['gr', 'Valódi adat', 'A mérőállomás görbéje a <span class="w">bukovinai RO.BUR31 állomás</span> valódi felvétele (2026. november 18., 02:48:56–02:51:36). Adatok: INFP · RO hálózat, EarthScope. A többi helyen a görbe modellezett.'],
@@ -1285,17 +1285,17 @@ const PHI = {   // vonalas ikonok: hátizsák (előtte), rázkódó ház (közbe
 const TD = [
   ['e', 'Rögzítjük a magas szekrényt és a polcokat a falhoz.', 1, 'Igen! November 18-án Buzău megyében egy nőre bútor dőlt. A rögzített bútor nem borul fel.'],
   ['e', 'Összekészítünk egy vészhelyzeti csomagot: ivóvíz, zseblámpa, elemes rádió, elsősegélydoboz, meleg ruha.', 1, 'Igen! Egy nagy rengés után órákig vagy napokig nem lehet áram és víz.'],
-  ['e', 'Megbeszéljük a családdal, hol a legbiztonságosabb hely a lakásban, és hol találkozunk utána.', 1, 'Igen! Aki előre tudja, mit tegyen, az nem esik pánikba.'],
+  ['e', 'Megbeszéljük a családdal, hol a legbiztonságosabb hely a lakásban, és hol találkozunk utána.', 1, 'Igen! Aki előre tudja, mit tegyen, kevésbé esik pánikba.'],
   ['k', 'Ha ráz, azonnal kirohanok a lépcsőházba.', 0, 'Nem! Rázás közben a lépcsőház a legveszélyesebb. November 18-án Galacon valaki menekülés közben szekrényajtónak ütközött. Maradj bent!'],
   ['k', 'Leguggolok, bebújok egy erős asztal alá, és kapaszkodom a lábába.', 1, 'Igen! Le – fedezékbe – kapaszkodj. Ha nincs asztal: egy belső, teherhordó fal mellé guggolj, és a karoddal védd a fejed. Erős, üveg nélküli ajtókeret is szóba jöhet.'],
   ['k', 'Az ablak mellé állok, hogy lássam, mi történik kint.', 0, 'Nem! Az üveg betörhet. Maradj távol az ablakoktól, tükröktől, üveges szekrényektől és csillároktól.'],
   ['k', 'Lifttel megyek le, mert az gyorsabb.', 0, 'Nem! Földrengéskor tilos liftet használni: elakadhat, és áramszünet is lehet.'],
-  ['k', 'Ha az ágyban ér a rengés, ott maradok, és párnával védem a fejem.', 1, 'Igen! Éjszaka, sötétben futkosni veszélyesebb, mint az ágyban maradni.'],
+  ['k', 'Ha az ágyban ér a rengés, ott maradok, és párnával védem a fejem.', 1, 'Igen! Éjszaka, sötétben botorkálni veszélyesebb, mint az ágyban maradni.'],
   ['k', 'Ha autóban ülünk, kiszállunk, és elfutunk.', 0, 'Nem! A katasztrófavédelem szerint: álljatok meg nyílt helyen, és maradjatok az autóban. (Az 5. osztályos tankönyv itt pontatlan.)'],
-  ['k', 'Ha az utcán ér a rengés, távol megyek az épületektől, oszlopoktól és villanyvezetékektől.', 1, 'Igen! Kint a lehulló cserép, üveg és a leszakadó vezeték a veszélyes. Keress nyílt területet.'],
+  ['k', 'Ha az utcán ér a rengés, eltávolodom az épületektől, oszlopoktól és villanyvezetékektől.', 1, 'Igen! Kint a lehulló cserép, üveg és a leszakadó vezeték a veszélyes. Keress nyílt területet.'],
   ['u', 'Gyertyát gyújtok, hogy jobban lássak.', 0, 'Nem! Megsérülhetett a gázvezeték. Amíg nem biztos, hogy nincs gázszivárgás, gyufát, öngyújtót, villanykapcsolót se használj. Zseblámpa kell!'],
   ['u', 'A felnőttek ellenőrzik a gázt, a vizet és a villanyt.', 1, 'Igen! És megnézzük, megsérült-e valaki a közelünkben.'],
-  ['u', 'Mindenkit felhívok telefonon, hogy jól vannak-e.', 0, 'Nem! A telefonhálózat ilyenkor túlterhelődik. Hívni csak vészhelyzetben kell (112). Írj inkább rövid üzenetet.'],
+  ['u', 'Mindenkit felhívok telefonon, hogy jól vannak-e.', 0, 'Nem! A telefonhálózat ilyenkor túlterhelődik. Csak vészhelyzetben telefonálj (112). Írj inkább rövid üzenetet.'],
 ];
 SC.push({
   g: 2, title: 'Mit tegyek, ha ráz?', short: 'Helyes vagy hibás? 13 helyzet földrengés előtt, közben és után.',
@@ -1305,7 +1305,7 @@ SC.push({
     ['Miért nem riaszt előre a RO-Alert?', 'A katasztrófavédelem szerint a RO-Alert soha nem küld figyelmeztetést a rengés előtt: a földrengést nem lehet előre jelezni, és néhány másodperces riasztás inkább pánikot keltene. A telefonok saját riasztását (Android) a Google küldi.'],
     ['Mit csinálunk az iskolában?', 'A tanulók a padok alá bújnak, a tanár irányít. A rázás után a kiürítési terv szerint, nyugodtan hagyjuk el az épületet, és a gyülekezési helyre megyünk.'],
   ],
-  tip: ['gr', 'Hivatalos tanácsok', 'Romániában a katasztrófavédelem (IGSU) oldala: <span class="w">fiipregatit.ro</span>. A kártyák az ő ajánlásaikat és a 8. osztályos tankönyveket (A948, A951) követik.'],
+  tip: ['gr', 'Hivatalos tanácsok', 'Romániában a katasztrófavédelem (IGSU) oldala: <span class="w">fiipregatit.ro</span>. A kártyák az IGSU ajánlásait és a 8. osztályos tankönyveket (A948, A951) követik.'],
   init(st, ct) {
     this.cv = Cv(st); const w = this.w = el('div', 'tdw'); st.appendChild(w);
     this.order = []; this.i = 0; this.ok = 0; this.miss = []; this.ans = null;
@@ -1365,25 +1365,25 @@ const QB = [
   { s: 0, q: 'Hogyan nevezzük a felszíni pontot a fészek fölött?', o: ['Epicentrum', 'Hipocentrum', 'Szeizmogram', 'Magnitúdó'], e: 'Az epicentrum a fészek (hipocentrum) fölötti felszíni pont.' },
   { s: 0, q: 'Mi a hipocentrum?', o: ['A rengés fészke a mélyben', 'A felszíni pont a fészek fölött', 'A mérőműszer', 'A rengés ereje'], e: 'A hipocentrum (fészek) az a pont a mélyben, ahol a rengés kipattan.' },
   { s: 0, q: 'Melyik skála méri a rengés hatását egy adott helyen (I–XII)?', o: ['A Mercalli-skála (intenzitás)', 'A Richter-skála (magnitúdó)', 'A Celsius-skála', 'A Beaufort-skála'], e: 'Az intenzitást a Mercalli-féle (ma EMS-98) skála adja meg, római számokkal.' },
-  { s: 0, q: 'Mit tegyél, ha az osztályteremben ér a földrengés?', o: ['Bújj a pad alá, és kapaszkodj', 'Rohanj ki a lépcsőházba', 'Állj az ablakhoz', 'Menj le lifttel'], e: 'Le – fedezékbe – kapaszkodj! A rázás közben maradj bent.' },
+  { s: 0, q: 'Mit tegyél, ha az osztályteremben ér a földrengés?', o: ['Bújj a pad alá, és kapaszkodj', 'Rohanj ki a lépcsőházba', 'Állj az ablakhoz', 'Menj le lifttel'], e: 'Le – fedezékbe – kapaszkodj! Rázás közben maradj bent.' },
   { s: 0, q: 'Melyik hullám érkezik előbb?', o: ['A P-hullám', 'Az S-hullám', 'Egyszerre érkeznek', 'A felszíni hullám'], e: 'A P-hullám gyorsabb (kb. 7,4 km/s), az S-hullám lassabb (kb. 4,2 km/s).' },
   // ---------- KÖZEPES ----------
   { s: 1, q: 'Milyen mélyen pattannak ki a vráncsai közepes mélységű rengések?', o: ['60–200 km között', '0–5 km között', '300–700 km között', '1000 km alatt'], e: 'A lebukott lemezdarabban, 60 és 200 km között.' },
   { s: 1, q: 'Mi okozza a vráncsai rengéseket?', o: ['Egy lebukott kőzetlemez-darab süllyed a köpenybe', 'Vulkánkitörések', 'A bányászat', 'A Duna árvizei'], e: 'Vráncsa alatt egy régi, lebukott lemezdarab majdnem függőlegesen süllyed: benne pattannak ki a rengések.' },
-  { s: 1, q: 'Hol rázott erősebben november 18-án?', o: ['Focșaniban', 'Kolozsváron', 'Nagyváradon', 'Temesváron'], e: 'Focșani közel van az epicentrumhoz, és a Kárpátokon kívül fekszik: kb. IV. fok.' },
+  { s: 1, q: 'Hol rázott erősebben november 18-án?', o: ['Focșaniban', 'Kolozsváron', 'Nagyváradon', 'Temesváron'], e: 'Focșani közel van az epicentrumhoz, és a Kárpátokon kívül fekszik: ott kb. IV-es erősségű volt a rázás.' },
   { s: 1, q: 'Miért gyengébbek a vráncsai rengések Erdélyben?', o: ['A hullámok főleg a Kárpátokon kívülre terjednek erősen', 'Erdélyben nincsenek kőzetek', 'Erdély magasabban fekszik a tenger fölött', 'Erdélyben nincs földkéreg'], e: 'A vráncsai rengések a Kárpátok ívén belül gyengébben érződnek, mint kívül.' },
   { s: 1, q: 'Hányszor több energiát jelent egy magnitúdó-egységnyi növekedés?', o: ['Kb. 32-szer többet', 'Kétszer többet', 'Tízszer kevesebbet', 'Ugyanannyit'], e: 'Minden egész magnitúdó-egység kb. 32-szeres energiát jelent.' },
   { s: 1, q: 'Melyik volt Románia eddigi legpusztítóbb földrengése?', o: ['Az 1977. március 4-i', 'A 2026. november 18-i', 'A 2023-as gorji', 'A 2004-es'], e: '1977. március 4.: 7,4-es, kb. 1570 halott, Bukarestben 33 épület dőlt össze.' },
-  { s: 1, q: 'Mit tegyél, ha autóban ér a földrengés?', o: ['Állj meg nyílt helyen, és maradj az autóban', 'Szállj ki, és fuss el', 'Hajts minél gyorsabban egy hídra', 'Állj meg egy magas ház mellett'], e: 'A katasztrófavédelem szerint: meg kell állni nyílt helyen, és bent maradni.' },
+  { s: 1, q: 'Mit tegyél, ha autóban ér a földrengés?', o: ['Állj meg nyílt helyen, és maradj az autóban', 'Szállj ki, és fuss el', 'Hajts minél gyorsabban egy hídra', 'Állj meg egy magas ház mellett'], e: 'A katasztrófavédelem szerint: meg kell állni egy nyílt helyen, és az autóban kell maradni.' },
   { s: 1, q: 'Mit tegyél közvetlenül a rengés után, ha sötét van?', o: ['Zseblámpát használj', 'Gyújts gyertyát', 'Gyújts gyufát', 'Kapcsolgasd a villanyt'], e: 'Gázszivárgás lehet: nyílt láng és villanykapcsoló tilos, amíg ez nem biztos.' },
   { s: 1, q: 'Melyik műszer rögzíti a földrengéseket?', o: ['A szeizmográf', 'A barométer', 'A hőmérő', 'A szélmérő'], e: 'A szeizmográf méri a rengést, az általa rögzített görbe a szeizmogram.' },
   // ---------- NEHÉZ ----------
   { s: 2, q: 'Egy állomáson 27 s telt el a P- és az S-hullám között. Kb. milyen messze volt a fészek?', o: ['Kb. 270 km', 'Kb. 27 km', 'Kb. 2700 km', 'Kb. 7 km'], e: 'Ökölszabály: S − P (s) × 10 ≈ távolság (km). A bukovinai állomás 271 km-re volt.' },
-  { s: 2, q: 'Kb. hányszor több energia szabadult fel 1977-ben (M 7,4), mint november 18-án (M 5,7)?', o: ['Kb. 350-szer', 'Kb. 2-szer', 'Kb. 17-szer', 'Kb. 1700-szor'], e: 'A különbség 1,7 magnitúdó: 10 a 1,5 × 1,7 hatványon ≈ 350.' },
+  { s: 2, q: 'Kb. hányszor több energia szabadult fel 1977-ben (M 7,4), mint november 18-án (M 5,7)?', o: ['Kb. 350-szer', 'Kb. 2-szer', 'Kb. 17-szer', 'Kb. 1700-szor'], e: 'A különbség 1,7 magnitúdó: egy egész egység 32-szeres, a maradék 0,7 kb. 11-szeres energiát jelent, 32 × 11 ≈ 350.' },
   { s: 2, q: 'Miért érezték a november 18-i rengést nagy területen, mégsem okozott kárt?', o: ['Mert mélyen pattant ki, és a hullámok a felszínig gyengültek', 'Mert sekély volt', 'Mert nappal történt', 'Mert a magnitúdója 9 volt'], e: 'A mély (120,8 km) rengés hullámai messzire jutnak, de a felszínen már gyengébben ráznak.' },
   { s: 2, q: 'Melyik állítás igaz a magnitúdóra és az intenzitásra?', o: ['Egy rengésnek egy magnitúdója, de sok intenzitása van', 'Egy rengésnek sok magnitúdója és egy intenzitása van', 'A kettő ugyanaz', 'Az intenzitás a fészek mélysége'], e: 'A magnitúdó a rengés ereje (egy szám), az intenzitás helyenként más.' },
   { s: 2, q: 'Melyik kőzetlemezek találkoznak a Kárpátkanyarban?', o: ['A kelet-európai, a moesiai és az erdélyi (Tisza–Dácia)', 'Az afrikai és a csendes-óceáni', 'Az észak-amerikai és az eurázsiai', 'Az indiai és az ausztráliai'], e: 'A Kárpátkanyarban a kelet-európai, a moesiai, az erdélyi (Tisza–Dácia) és a fekete-tengeri lemez(darab) találkozik.' },
-  { s: 2, q: 'Milyen mélyen volt a 2023-as gorji rengés fészke?', o: ['Kb. 6 km', 'Kb. 120 km', 'Kb. 60 km', 'Kb. 200 km'], e: 'A gorji rengés sekély (kb. 6 km) volt, ezért közel ezer utórengése is volt.' },
+  { s: 2, q: 'Milyen mélyen volt a 2023-as gorji rengés fészke?', o: ['Kb. 6 km', 'Kb. 120 km', 'Kb. 60 km', 'Kb. 200 km'], e: 'A 2023-as gorji rengés sekély volt (kb. 6 km), és közel ezer utórengés követte.' },
   { s: 2, q: 'Miért nem küld a RO-Alert figyelmeztetést rengés előtt?', o: ['Mert a földrengést nem lehet előre jelezni, és pánikot keltene', 'Mert nincs Romániában telefonhálózat', 'Mert a rengések mindig nappal jönnek', 'Mert a RO-Alert csak időjárásra jó'], e: 'A katasztrófavédelem szerint a RO-Alert csak utólag, súlyos következmények esetén riaszt.' },
 ];
 
