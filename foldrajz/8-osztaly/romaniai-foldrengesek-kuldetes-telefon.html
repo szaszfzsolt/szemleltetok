@@ -194,7 +194,20 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;touch-
 #rotate svg{width:110px;height:110px;animation:rot 2.4s ease-in-out infinite}
 #rotate .btn{font-size:16px}
 @keyframes rot{0%,20%{transform:rotate(0)}50%,70%{transform:rotate(-90deg)}100%{transform:rotate(0)}}
-@media (orientation:portrait) and (max-width:900px){#rotate{display:flex}}
+@media (orientation:portrait) and (max-width:900px){
+  html:not(.stay) #rotate{display:flex}
+  /* álló nézet: fent a kép, alatta a szöveg és a feladat */
+  html{font-size:clamp(9px,2.75vw,13px)}
+  #step .grid{grid-template-columns:1fr;grid-template-rows:minmax(0,42%) minmax(0,1fr)}
+  #stagew{order:-1}
+  #top .ttl span,#bMenu span{display:none}
+  #bMenu{padding:0;min-width:2.6rem}
+  #homeCv{left:0;right:0;top:0;width:100%;height:42%}
+  #home .wrap{left:1rem;right:1rem;width:auto;top:42%;bottom:0;justify-content:flex-start;padding-top:.6rem;overflow:auto}
+  #home h1{font-size:3rem}
+  .chl{grid-template-columns:1fr}
+  .photo{padding:.6rem .6rem 3.4rem}
+}
 @media (prefers-reduced-motion:reduce){.view.on{animation:none}#rotate svg{animation:none}}
 @media (max-height:340px){#sTitle{font-size:1.75rem}}
 /* fotó */
@@ -261,8 +274,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;touch-
 <div id="rotate">
   <svg viewBox="0 0 120 120"><rect x="38" y="18" width="44" height="84" rx="7" fill="none" stroke="#eef5ff" stroke-width="4"/><circle cx="60" cy="93" r="3" fill="#eef5ff"/></svg>
   <b>Fordítsd el a telefonod!</b>
-  <p>A küldetés fekvő helyzetben működik. Ha nem fordul el a kép, kapcsold be az automatikus elforgatást.</p>
+  <p>Fekvő helyzetben nagyobb a kép. Ha nem fordul el, kapcsold ki az elforgatás zárolását (iPhone-on: Vezérlőközpont, lakat ikon).</p>
   <button class="btn o" id="bRotFull">Teljes képernyő</button>
+  <button class="btn" id="bRotStay">Folytatom állva</button>
 </div>
 
 <script>
@@ -586,6 +600,11 @@ function tlab(ctx, n, x, y, txt, col, fs) { const L = n in LBL ? LBL[n] : ['left
 // Földrengés-küldetés – diákváltozat (telefon, otthoni önálló munka)
 // Lépésmotor: fejezetek → lépések; minden lépés: rövid szöveg + egy feladat + színpad (vászon)
 // =====================================================================
+// régebbi Safari (iOS 15 és régebbi) nem ismeri a roundRect-et: pótlás
+if (window.CanvasRenderingContext2D && !CanvasRenderingContext2D.prototype.roundRect) CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+  r = Math.max(0, Math.min(typeof r === 'number' ? r : (Array.isArray(r) ? r[0] : 0) || 0, Math.abs(w) / 2, Math.abs(h) / 2));
+  this.moveTo(x + r, y); this.lineTo(x + w - r, y); this.quadraticCurveTo(x + w, y, x + w, y + r); this.lineTo(x + w, y + h - r); this.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  this.lineTo(x + r, y + h); this.quadraticCurveTo(x, y + h, x, y + h - r); this.lineTo(x, y + r); this.quadraticCurveTo(x, y, x + r, y); this.closePath(); return this; };
 const pad = n => String(n).padStart(2, '0');
 const drow = (k, v, col) => `<div class="drow"><span>${k}</span><b${col ? ` style="color:${col}"` : ''}>${v}</b></div>`;
 const SC = [];                                   // a régi jelenetek regisztere (itt nem használjuk)
@@ -754,6 +773,10 @@ $('#bMenu').onclick = menu;
 $('#badge').onclick = home;
 function fullscreen() { const d = document.documentElement; try { if (!document.fullscreenElement) { const p = (d.requestFullscreen || d.webkitRequestFullscreen || (() => null)).call(d); if (p && p.then) p.then(() => { try { screen.orientation.lock('landscape').catch(() => {}); } catch (_) {} }).catch(() => {}); } else (document.exitFullscreen || document.webkitExitFullscreen).call(document); } catch (_) {} }
 $('#bFull').onclick = fullscreen; $('#bRotFull').onclick = fullscreen;
+const FS_OK = !!(document.fullscreenEnabled || document.webkitFullscreenEnabled);
+if (!FS_OK) { $('#bFull').style.display = 'none'; $('#bRotFull').style.display = 'none'; $('#home .meta').textContent = 'Tipp: kapcsold be a hangot, és fordítsd fekvőbe a telefont.'; }
+$('#bRotStay').onclick = () => { document.documentElement.classList.add('stay'); try { sessionStorage.setItem('fk_stay', '1'); } catch (_) {} };
+try { if (sessionStorage.getItem('fk_stay')) document.documentElement.classList.add('stay'); } catch (_) {}
 addEventListener('keydown', e => {
   if (e.key === 'f' || e.key === 'F') fullscreen();
   if (APP.view !== 'step') return;
@@ -775,9 +798,11 @@ const homeCv = CvEl($('#homeCv'));
 let last = performance.now();
 function loop(now) {
   const dt = clamp((now - last) / 1000, 0, .05); last = now; APP.TT += dt;
-  if (APP.view === 'step' && APP.cur && APP.cur.draw) { const o = CV.fit(); if (o.w > 40 && o.h > 40) APP.cur.draw(o.ctx, o.w, o.h, dt, APP.TT); }
-  else if (APP.view === 'home') drawHome(dt);
   requestAnimationFrame(loop);
+  try {
+    if (APP.view === 'step' && APP.cur && APP.cur.draw) { const o = CV.fit(); if (o.w > 40 && o.h > 40) APP.cur.draw(o.ctx, o.w, o.h, dt, APP.TT); }
+    else if (APP.view === 'home') drawHome(dt);
+  } catch (err) { if (!loop.err) { loop.err = 1; console.error(err); } }
 }
 function drawHome(dt) {
   const o = homeCv.fit(); if (o.w < 40 || o.h < 40) return; const ctx = o.ctx, W = o.w, H = o.h, TT = APP.TT, v = mapView(W, H, BOX_RO, 10), fs = clamp(W / 40, 10, 18);
