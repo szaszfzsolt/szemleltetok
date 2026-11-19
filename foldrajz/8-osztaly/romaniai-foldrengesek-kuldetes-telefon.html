@@ -1059,7 +1059,7 @@ SCN.gap = {
       if (this.cd > 0) { const pc = this.cd; this.cd = Math.max(0, this.cd - dt); if (Math.floor(pc) !== Math.floor(this.cd) && this.cd > 0) beep(520, .05, .05);
         if (this.cd === 0) { rumble(6, 1); vib([500, 80, 700]); if (this.onEnd) this.onEnd(); } }
       const c = this.cd, ph = c < 0 ? -1 : c > 13 ? 0 : c > 7 ? 1 : c > 0 ? 2 : 3;
-      const WORD = [['LE!', 'Guggolj le, mielőtt feldönt a rengés.'], ['FEDEZÉK!', 'Bújj egy erős asztal alá.'], ['KAPASZKODJ!', 'Fogd az asztal lábát, védd a fejed.'], ['MOST ÉRKEZIK AZ S-HULLÁM!', 'Maradj fedezékben, amíg a rengés tart.']];
+      const WORD = [['LE!', 'Guggolj le, mielőtt feldönt a rengés.'], ['FEDEZÉK!', 'Bújj egy erős asztal alá.'], ['KAPASZKODJ!', 'Fejed és gerinced az asztal alatt, fogd a lábát.'], ['MOST ÉRKEZIK AZ S-HULLÁM!', 'Maradj fedezékben, amíg a rengés tart.']];
       const sh = ph === 3 ? Math.exp(-(-c) * 0) : 0;
       ctx.save(); ctx.lineWidth = fs * .7; ctx.strokeStyle = 'rgba(110,170,255,.18)'; ctx.beginPath(); ctx.arc(cx, cy, r, 0, TAU); ctx.stroke();
       if (c >= 0) { ctx.strokeStyle = ph === 3 ? C.orange : [C.cyan, C.yellow, C.green][ph]; ctx.lineCap = 'round'; ctx.beginPath(); ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + TAU * (c / 18)); ctx.stroke(); }
@@ -1396,9 +1396,9 @@ STEPS.push(
       O('Egyszerre', false, 'Majdnem: Bögözbe 41, Bukarestbe 44 másodperc alatt ért el. A közelebbi helyre előbb ér a hullám.') ],
       onPick() { SCN.map.reveal(); }, after: 'Nézd a térképet: a narancs kör az S-hullám, a szaggatott cián kör a P-hullám.' } },
   { id: 'ketto', ch: 1, scene: 'gap', so: { mode: 'bars' }, title: 'Két hullám',
-    txt: '<p>A <span class="c">P-hullám</span> gyors (kb. 7,4 km/s), de gyenge: ez a morajlás, az első rezzenés. Az <span class="o">S-hullám</span> lassabb (kb. 4,2 km/s), de ez rázza meg igazán a házakat.</p><p>Minél messzebb vagy, annál több idő telik el a kettő között.</p>',
+    txt: '<p>A <span class="c">P-hullám</span> gyors (kb. 7,4 km/s), de gyenge: ez a morajlás, az első rezzenés. Az <span class="o">S-hullám</span> lassabb (kb. 4,2 km/s), de ettől rázkódnak meg igazán a házak.</p><p>Minél messzebb vagy, annál több idő telik el a kettő között.</p>',
     task: { type: 'choice', q: 'Melyik hullám ébresztette fel a legtöbb embert?', opts: [
-      O('Az S-hullám', true, 'Az S-hullám rázza meg igazán a házat. A P-hullám csak figyelmeztet, hogy mindjárt jön.'),
+      O('Az S-hullám', true, 'Az S-hullámtól rázkódik meg igazán a ház. A P-hullám csak figyelmeztet, hogy mindjárt jön.'),
       O('A P-hullám', false, 'A P-hullám érkezik előbb, de gyenge: sokan csak morajlást hallanak. Az erős rengés az S-hullámmal jön.') ],
       after: 'Bögözben <b>17,7 másodperc</b> telt el a kettő között.' } },
   { id: 'tizennyolc', ch: 1, scene: 'gap', so: { mode: 'count' }, title: 'Mire elég 18 másodperc?',
@@ -1498,9 +1498,9 @@ STEPS.push(
   { id: 'iskola', ch: 5, scene: 'scen', so: { tm: '10:15 · Az iskolában', ic: 'desk', tt: 'Órán vagy, megmozdul a pad', shake: true }, title: 'Az osztályteremben',
     txt: '<p>Az iskolában a tanárod irányít, de az első másodpercekben neked kell gyorsan cselekedned.</p>',
     task: { type: 'choice', q: 'Mit teszel?', opts: [
-      O('Bebújok a pad alá, és a lábába kapaszkodom', true, 'Le, fedezék, kapaszkodj! Ha a rengés elmúlt, a tanárod vezetésével, nyugodtan mentek ki a gyülekezési helyre.'),
-      O('Kirohanok a folyosóra', false, 'Rengés közben ne fuss! A folyosón és a lépcsőn tolongás és elesés lesz. Bújj a pad alá, és a rengés után, a tanárod vezetésével mentek ki.'),
-      O('Felállok a székre, hogy jobban lássak', false, 'Így könnyen leesel. Bújj a pad alá, kapaszkodj a lábába, és védd a fejed.') ] } },
+      O('Bebújok a pad alá úgy, hogy a fejem és a gerincem védve legyen', true, 'Le, fedezék, kapaszkodj! A legfontosabb, hogy a <b>fejed és a gerinced</b> a pad alatt legyen. A pad lábába azért kapaszkodsz, hogy a pad ne csússzon el fölüled. Ha a rengés elmúlt, a tanárod vezetésével, nyugodtan mentek ki a gyülekezési helyre.'),
+      O('Kirohanok a folyosóra', false, 'Rengés közben ne fuss! A folyosón és a lépcsőn tolongás és elesés lesz. Bújj a pad alá, védd a fejed és a gerinced, és a rengés után, a tanárod vezetésével mentek ki.'),
+      O('Felállok a székre, hogy jobban lássak', false, 'Így könnyen leesel. Bújj a pad alá úgy, hogy a fejed és a gerinced védve legyen, és kapaszkodj a pad lábába.') ] } },
   { id: 'tombhaz', ch: 5, scene: 'scen', so: { tm: 'Délután · Tömbház, 4. emelet', ic: 'block', tt: 'Rázkódik a lakás', shake: true }, title: 'A tömbházban',
     txt: '<p>A tömbházban sokan a lépcsőház felé indulnak. A katasztrófavédelem szerint rengés közben éppen az a legveszélyesebb.</p>',
     task: { type: 'choice', q: 'Mit teszel?', opts: [
