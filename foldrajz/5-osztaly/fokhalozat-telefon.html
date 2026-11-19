@@ -1,6 +1,22 @@
 <!doctype html>
 <html lang="hu" class="phone">
-<head>
+<head><!-- iphone-vedelem:start --><script>
+(function(){try{
+var C=window.CanvasRenderingContext2D;
+if(C&&!C.prototype.roundRect)C.prototype.roundRect=function(x,y,w,h,r){r=typeof r==='number'?r:(r&&r.length?(typeof r[0]==='number'?r[0]:0):0);r=Math.max(0,Math.min(r,Math.abs(w)/2,Math.abs(h)/2));
+this.moveTo(x+r,y);this.lineTo(x+w-r,y);this.quadraticCurveTo(x+w,y,x+w,y+r);this.lineTo(x+w,y+h-r);this.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+this.lineTo(x+r,y+h);this.quadraticCurveTo(x,y+h,x,y+h-r);this.lineTo(x,y+r);this.quadraticCurveTo(x,y,x+r,y);this.closePath();return this;};
+var P=window.Path2D;if(P&&!P.prototype.roundRect&&C)P.prototype.roundRect=C.prototype.roundRect;
+var at=function(i){i=Math.trunc(i)||0;if(i<0)i+=this.length;return this[i];};
+if(!Array.prototype.at)Object.defineProperty(Array.prototype,'at',{value:at,writable:true,configurable:true});
+if(!String.prototype.at)Object.defineProperty(String.prototype,'at',{value:at,writable:true,configurable:true});
+if(!Array.prototype.findLast)Object.defineProperty(Array.prototype,'findLast',{value:function(f,t){for(var i=this.length-1;i>=0;i--)if(f.call(t,this[i],i,this))return this[i];},writable:true,configurable:true});
+if(!Array.prototype.findLastIndex)Object.defineProperty(Array.prototype,'findLastIndex',{value:function(f,t){for(var i=this.length-1;i>=0;i--)if(f.call(t,this[i],i,this))return i;return -1;},writable:true,configurable:true});
+if(!Object.hasOwn)Object.hasOwn=function(o,k){return Object.prototype.hasOwnProperty.call(o,k);};
+if(!window.structuredClone)window.structuredClone=function(v){return v===undefined?v:JSON.parse(JSON.stringify(v));};
+if(!String.prototype.replaceAll)String.prototype.replaceAll=function(a,b){return typeof a==='string'?this.split(a).join(b):this.replace(a,b);};
+}catch(e){}})();
+</script><!-- iphone-vedelem:end -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
