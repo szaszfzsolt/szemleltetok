@@ -594,7 +594,7 @@ const STEPS = [];                                // lépések (d_steps.js tölti
 const CH = [
   { t: 'Szerda hajnal', s: 'Az éjszaka, amikor megmozdult a föld', c: C.orange },
   { t: 'A hullám útja', s: 'P- és S-hullám, és a 18 másodperc', c: C.cyan },
-  { t: 'Hol rázott jobban?', s: 'Az intenzitás térképe', c: C.yellow },
+  { t: 'Hol rázkódott jobban?', s: 'Az intenzitás térképe', c: C.yellow },
   { t: 'Miért éppen Vráncsa?', s: 'Lemezek és fészkek a mélyben', c: C.blue },
   { t: 'Mekkora volt?', s: 'Magnitúdó, energia, nagy rengések', c: C.purple },
   { t: 'Mit tegyek?', s: 'Helyzetek előtte, közben, utána', c: C.green },
@@ -1052,14 +1052,14 @@ SCN.gap = {
         dot(ctx, X(tp), y, fs * .38, C.cyan); dot(ctx, X(ts), y, fs * .46, C.orange);
         if (this.k > .9) { tag(ctx, `${huf(ts - tp)} s`, (X(tp) + X(ts)) / 2, y - fs * 1.05, me ? C.orange : C.text, fs * (me ? .85 : .66)); }
       });
-      tag(ctx, '● P-HULLÁM (MORAJLÁS)', fs * .8, fs * 1.3, C.cyan, fs * .66, 'left'); tag(ctx, '● S-HULLÁM (ERŐS RÁZÁS)', fs * 12.5, fs * 1.3, C.orange, fs * .66, 'left');
+      tag(ctx, '● P-HULLÁM (MORAJLÁS)', fs * .8, fs * 1.3, C.cyan, fs * .66, 'left'); tag(ctx, '● S-HULLÁM (ERŐS RENGÉS)', fs * 12.5, fs * 1.3, C.orange, fs * .66, 'left');
     }
     if (this.mode === 'count') {
       const cx = W / 2, cy = H * .47, r = Math.min(W, H) * .32;
       if (this.cd > 0) { const pc = this.cd; this.cd = Math.max(0, this.cd - dt); if (Math.floor(pc) !== Math.floor(this.cd) && this.cd > 0) beep(520, .05, .05);
         if (this.cd === 0) { rumble(6, 1); vib([500, 80, 700]); if (this.onEnd) this.onEnd(); } }
       const c = this.cd, ph = c < 0 ? -1 : c > 13 ? 0 : c > 7 ? 1 : c > 0 ? 2 : 3;
-      const WORD = [['LE!', 'Guggolj le, mielőtt feldönt a rázás.'], ['FEDEZÉK!', 'Bújj egy erős asztal alá.'], ['KAPASZKODJ!', 'Fogd az asztal lábát, védd a fejed.'], ['MOST ÉRKEZIK AZ S-HULLÁM!', 'Maradj fedezékben, amíg a rázás tart.']];
+      const WORD = [['LE!', 'Guggolj le, mielőtt feldönt a rengés.'], ['FEDEZÉK!', 'Bújj egy erős asztal alá.'], ['KAPASZKODJ!', 'Fogd az asztal lábát, védd a fejed.'], ['MOST ÉRKEZIK AZ S-HULLÁM!', 'Maradj fedezékben, amíg a rengés tart.']];
       const sh = ph === 3 ? Math.exp(-(-c) * 0) : 0;
       ctx.save(); ctx.lineWidth = fs * .7; ctx.strokeStyle = 'rgba(110,170,255,.18)'; ctx.beginPath(); ctx.arc(cx, cy, r, 0, TAU); ctx.stroke();
       if (c >= 0) { ctx.strokeStyle = ph === 3 ? C.orange : [C.cyan, C.yellow, C.green][ph]; ctx.lineCap = 'round'; ctx.beginPath(); ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + TAU * (c / 18)); ctx.stroke(); }
@@ -1303,12 +1303,12 @@ const QZ = [
   { q: 'Milyen mélyen volt a rengés fészke?', o: ['Kb. 120 km mélyen', 'Kb. 6 km mélyen', 'Kb. 600 km mélyen', 'A felszínen'], e: '120,8 km mélyen: közepes mélységű (átmeneti) rengés volt.' },
   { q: 'Mi a hipocentrum?', o: ['A rengés fészke a mélyben', 'A felszíni pont a fészek fölött', 'A rengést mérő műszer', 'A rengés ereje'], e: 'A hipocentrum (fészek) a mélyben van. Az epicentrum a felszínen, pontosan fölötte.' },
   { q: 'Melyik hullám érkezik meg előbb?', o: ['A P-hullám', 'Az S-hullám', 'Egyszerre érkeznek', 'Attól függ, nappal van-e'], e: 'A P-hullám gyorsabb (kb. 7,4 km/s), de gyenge: ez a morajlás. Az S-hullám lassabb, de erősebb.' },
-  { q: 'Bögöz és Galac egyforma messze van az epicentrumtól. Hol rázott erősebben?', o: ['Galacon, a Kárpátokon kívül', 'Bögözben, a Kárpátokon belül', 'Egyformán', 'Egyik helyen sem érezték'], e: 'Galacon IV, Bögözben III fokú volt. A Kárpátok íve alatti forró köpeny elnyeli a rezgést.' },
+  { q: 'Bögöz és Galac egyforma messze van az epicentrumtól. Hol rázkódott erősebben a föld?', o: ['Galacon, a Kárpátokon kívül', 'Bögözben, a Kárpátokon belül', 'Egyformán', 'Egyik helyen sem érezték'], e: 'Galacon IV, Bögözben III fokú volt. A Kárpátok íve alatti forró köpeny elnyeli a rezgést.' },
   { q: 'Mi okozza a vráncsai rengéseket?', o: ['Egy lebukott, süllyedő kőzetlemez-darab', 'Egy működő vulkán', 'A bányászat', 'A Szeret árvizei'], e: 'Vráncsa alatt egy lebukott lemezdarab süllyed a köpenybe: benne pattannak ki a rengések 60–200 km mélyen.' },
   { q: 'Melyik állítás igaz?', o: ['Egy rengésnek egy magnitúdója, de sok intenzitása van', 'Egy rengésnek sok magnitúdója van', 'A magnitúdó és az intenzitás ugyanaz', 'Az intenzitás a fészek mélysége'], e: 'A magnitúdó (Richter-skála) a rengés ereje. Az intenzitás (Mercalli-skála) helyenként más.' },
   { q: 'Egy magnitúdó-egységnyi növekedés kb. hányszor több energiát jelent?', o: ['Kb. 32-szer', 'Kétszer', 'Tízszer kevesebbet', 'Ugyanannyit'], e: 'Egy egység kb. 32-szeres, két egység kb. 1000-szeres energiát jelent.' },
-  { q: 'Hajnalban az ágyadban ér a rengés. Mit teszel?', o: ['Az ágyban maradok, és párnával védem a fejem', 'Kirohanok a lépcsőházba', 'Az ablakhoz állok', 'Lifttel lemegyek'], e: 'Rázás közben a legnagyobb veszély a mozgás: elesel, rád dől valami. Maradj, és védd a fejed.' },
-  { q: 'Vége a rázásnak, sötét van, és gázszagot érzel. Mit használsz?', o: ['Zseblámpát', 'Gyertyát', 'Gyufát', 'Felkapcsolom a villanyt'], e: 'Nyílt láng és villanykapcsoló tilos: a szikra berobbanthatja a gázt.' },
+  { q: 'Hajnalban az ágyadban ér a rengés. Mit teszel?', o: ['Az ágyban maradok, és párnával védem a fejem', 'Kirohanok a lépcsőházba', 'Az ablakhoz állok', 'Lifttel lemegyek'], e: 'Rengés közben a legnagyobb veszély a mozgás: elesel, rád dől valami. Maradj, és védd a fejed.' },
+  { q: 'Vége a rengésnek, sötét van, és gázszagot érzel. Mit használsz?', o: ['Zseblámpát', 'Gyertyát', 'Gyufát', 'Felkapcsolom a villanyt'], e: 'Nyílt láng és villanykapcsoló tilos: a szikra berobbanthatja a gázt.' },
   { q: 'Egy állomáson 27 s telt el a P- és az S-hullám között. Kb. milyen messze volt a fészek?', o: ['Kb. 270 km', 'Kb. 27 km', 'Kb. 2700 km', 'Kb. 7 km'], e: 'Ökölszabály: S − P (másodperc) × 10 ≈ távolság (km).' },
   { q: 'Meg lehet jósolni, mikor jön a következő nagy vráncsai rengés?', o: ['Nem, csak azt tudjuk, hogy egyszer jönni fog', 'Igen, napra pontosan', 'Igen, a kis rengések mindig előre jelzik', 'Igen, a RO-Alert előre szól'], e: 'Pontos időpontot senki sem tud. Ezért kell felkészülni: rögzített bútor, csomag, családi terv.' },
 ];
@@ -1362,7 +1362,7 @@ SCN.cert = {
 const later = (ms, id, fn) => setTimeout(() => { if (STEPS[APP.si] && STEPS[APP.si].id === id) fn(); }, ms);
 const O = (t, ok, f, extra = {}) => Object.assign({ t, ok, fb: f }, extra);
 const DOOR = 'Régen ezt tanították, és a tankönyvek egy része ma is említi. A mai házakban az ajtókeret nem erősebb a falnál, és az ajtó is rád csapódhat. Egy erős asztal alatt nagyobb biztonságban vagy.';
-const NIGHT_FB = 'Az első, gyenge rezzenés a <b>P-hullám</b> volt (morajlás), az erős rázás az <b>S-hullám</b>. Bögözben kb. 18 másodperc telt el a kettő között. Ezt még megnézzük közelebbről!';
+const NIGHT_FB = 'Az első, gyenge rezzenés a <b>P-hullám</b> volt (morajlás), az erős rengés az <b>S-hullám</b>. Bögözben kb. 18 másodperc telt el a kettő között. Ezt még megnézzük közelebbről!';
 const PDESC = {
   'Kelet-európai lemez': 'keletről nyomul: Moldva és a Kelet-európai-síkság alatt van.',
   'Moesiai lemez': 'délről nyomul: a Román-alföld és Dobrudzsa déli része alatt van.',
@@ -1390,19 +1390,19 @@ STEPS.push(
   // ---------------- 2. A hullám útja ----------------
   { id: 'elobb', ch: 1, scene: 'map', so: { mode: 'wave', hi: ['Bögöz', 'Bukarest'], t0: -2 }, title: 'Hova ért előbb?',
     txt: '<p>A fészekből a hullámok minden irányba elindultak. Bögöz <b>122 km</b>-re, Bukarest <b>141 km</b>-re van az epicentrumtól.</p>',
-    task: { type: 'choice', q: 'Szerinted hova ért el előbb az erős rázás?', opts: [
-      O('Bögözbe', true, 'Bögözbe 41, Bukarestbe 44 másodperc alatt ért el az erős rázás. Bögöz közelebb van a fészekhez.'),
-      O('Bukarestbe', false, 'Bukarest nagyobb város, de messzebb van: oda 44, Bögözbe 41 másodperc alatt ért el az erős rázás.'),
+    task: { type: 'choice', q: 'Szerinted hova ért el előbb az erős rengés?', opts: [
+      O('Bögözbe', true, 'Bögözbe 41, Bukarestbe 44 másodperc alatt ért el az erős rengés. Bögöz közelebb van a fészekhez.'),
+      O('Bukarestbe', false, 'Bukarest nagyobb város, de messzebb van: oda 44, Bögözbe 41 másodperc alatt ért el az erős rengés.'),
       O('Egyszerre', false, 'Majdnem: Bögözbe 41, Bukarestbe 44 másodperc alatt ért el. A közelebbi helyre előbb ér a hullám.') ],
       onPick() { SCN.map.reveal(); }, after: 'Nézd a térképet: a narancs kör az S-hullám, a szaggatott cián kör a P-hullám.' } },
   { id: 'ketto', ch: 1, scene: 'gap', so: { mode: 'bars' }, title: 'Két hullám',
     txt: '<p>A <span class="c">P-hullám</span> gyors (kb. 7,4 km/s), de gyenge: ez a morajlás, az első rezzenés. Az <span class="o">S-hullám</span> lassabb (kb. 4,2 km/s), de ez rázza meg igazán a házakat.</p><p>Minél messzebb vagy, annál több idő telik el a kettő között.</p>',
     task: { type: 'choice', q: 'Melyik hullám ébresztette fel a legtöbb embert?', opts: [
       O('Az S-hullám', true, 'Az S-hullám rázza meg igazán a házat. A P-hullám csak figyelmeztet, hogy mindjárt jön.'),
-      O('A P-hullám', false, 'A P-hullám érkezik előbb, de gyenge: sokan csak morajlást hallanak. Az erős rázás az S-hullámmal jön.') ],
+      O('A P-hullám', false, 'A P-hullám érkezik előbb, de gyenge: sokan csak morajlást hallanak. Az erős rengés az S-hullámmal jön.') ],
       after: 'Bögözben <b>17,7 másodperc</b> telt el a kettő között.' } },
   { id: 'tizennyolc', ch: 1, scene: 'gap', so: { mode: 'count' }, title: 'Mire elég 18 másodperc?',
-    txt: '<p>Ha Bögözben meghallod a morajlást, kb. <b>18 másodperced</b> van, mielőtt az erős rázás megérkezik.</p><p>Próbáld ki most! Keress egy erős asztalt, indítsd el, és csináld végig: <b>Le! Fedezék! Kapaszkodj!</b></p>',
+    txt: '<p>Ha Bögözben meghallod a morajlást, kb. <b>18 másodperced</b> van, mielőtt az erős rengés megérkezik.</p><p>Próbáld ki most! Keress egy erős asztalt, indítsd el, és csináld végig: <b>Le! Fedezék! Kapaszkodj!</b></p>',
     enter() { SCN.gap.onEnd = () => { if (STEPS[APP.si].id === 'tizennyolc') APP.done(this.doneTxt, C.green, 'Kész!'); }; },
     doneTxt: 'Az epicentrum fölött csak kb. 13, Kolozsváron kb. 29 másodperc jutott volna. Ne menekülésre használd, hanem arra, hogy <b>fedezékbe bújj</b>: kirohanni nem érsz ki, de elesni, nekiütközni könnyű.',
     task: { type: 'action', btn: 'Indítsd a 18 másodpercet', label2: 'Még egyszer', relock: 19, need: 'Előbb próbáld ki a 18 másodpercet!',
@@ -1413,7 +1413,7 @@ STEPS.push(
       APP.done(`A tipped: ${huf(t, 0)} s, a valódi: <b>64 s</b>. Az S − P idő 27,5 s. Ökölszabály: <b>S − P × 10 ≈ a távolság km-ben</b>: 27,5 × 10 ≈ 275 km. A valódi távolság 271 km volt!`, good ? C.green : C.yellow, good ? 'Telitalálat!' : d <= 15 ? 'Majdnem!' : 'Nézd meg újra a görbét!'); }; },
     task: { type: 'tap', q: 'Koppints a görbén oda, ahol szerinted az S-hullám megérkezik!', need: 'Előbb koppints a görbére!', doneFb: 'Az S-hullám a 64. másodpercben érkezett. S − P = 27,5 s, × 10 ≈ 275 km. A valódi távolság 271 km volt.' } },
 
-  // ---------------- 3. Hol rázott jobban? ----------------
+  // ---------------- 3. Hol rázkódott jobban? ----------------
   { id: 'galac', ch: 2, scene: 'map', so: { mode: 'imap', hi: ['Bögöz', 'Galac'] }, title: 'Egyforma messze',
     txt: '<p>Bögöz és Galac (Galați) is kb. <b>120 km</b>-re van az epicentrumtól: mindkettő rajta van a szaggatott körön.</p>',
     task: { type: 'choice', q: 'Hol rázkódott erősebben a föld?', opts: [
@@ -1428,7 +1428,7 @@ STEPS.push(
   { id: 'iv', ch: 2, scene: 'map', so: { mode: 'imap' }, title: 'Mit veszel észre?',
     txt: '<p>Kapcsold be a <b>Kárpátok ívét</b> a térkép alján lévő gombbal! Figyeld meg a színeket az íven belül és kívül.</p>',
     task: { type: 'choice', q: 'Hol volt erősebb a rázkódás?', opts: [
-      O('Az íven kívül, keletre és délre', true, 'Igen! A Kárpátokon kívül, Moldvában és a Román-alföldön erősebben rázott, Erdélyben gyengébben.'),
+      O('Az íven kívül, keletre és délre', true, 'Igen! A Kárpátokon kívül, Moldvában és a Román-alföldön erősebben rázkódott a föld, Erdélyben gyengébben.'),
       O('Az íven belül, Erdélyben', false, 'Nézd meg újra a színeket: Erdélyben (az íven belül) hidegebbek, vagyis gyengébb volt a rázkódás. Kívül, Moldvában és a Román-alföldön erősebb.'),
       O('Mindenhol egyforma', false, 'Nézd meg újra a színeket: a Kárpátokon kívül, Moldvában és a Román-alföldön erősebb, Erdélyben gyengébb volt a rázkódás.') ],
       after: 'A magyarázat a mélyben van. Irány a 4. fejezet!' } },
@@ -1455,8 +1455,8 @@ STEPS.push(
       else APP.done('Ez az <b>epicentrum</b>, Vrancea megyében. A hírekben ezt adják meg a rengés helyeként.', C.green, 'Mindkettő megvan!'); }; },
     task: { type: 'tap', q: 'Koppints előbb a november 18-i hipocentrumra, aztán az epicentrumra!', need: 'Keresd meg a hipocentrumot és az epicentrumot!', doneFb: 'Hipocentrum: a fészek, 120,8 km mélyen. Epicentrum: fölötte, a felszínen.' } },
   { id: 'forro', ch: 3, scene: 'section', so: { mode: 'hotcold' }, title: 'A rejtély megoldása',
-    txt: '<p>Emlékszel? Galacon erősebben rázott, mint Bögözben. A kutatók szerint a Kárpátok íve alá, a leszakadt lemezdarab helyére <span class="o">forró köpenyanyag</span> nyomult fel. A Kárpátokon kívül <span class="c">hideg, merev tábla</span> van.</p>',
-    task: { type: 'choice', q: 'Miért rázott gyengébben Bögözben?', opts: [
+    txt: '<p>Emlékszel? Galacon erősebben rázkódott a föld, mint Bögözben. A kutatók szerint a Kárpátok íve alá, a leszakadt lemezdarab helyére <span class="o">forró köpenyanyag</span> nyomult fel. A Kárpátokon kívül <span class="c">hideg, merev tábla</span> van.</p>',
+    task: { type: 'choice', q: 'Miért rázkódott gyengébben a föld Bögözben?', opts: [
       O('A forró köpeny elnyeli a rezgést, mint egy párna', true, 'Így van! A hideg, merev tábla viszont úgy vezeti a rezgést, mint a kemény asztallap a kopogást. Ugyanez a forró anyag táplálta egykor a Hargita vulkánjait is.'),
       O('Bögöz magasabban fekszik', false, 'A magasság itt nem számít. A különbség a mélyben van: Erdély alatt forró köpeny nyeli el a rezgést, kívül hideg tábla vezeti.'),
       O('Bögözben kevesebben laknak', false, 'A rázkódás erőssége nem attól függ, hányan laknak ott. A különbség a mélyben van: a forró köpeny elnyeli a rezgést.') ] } },
@@ -1492,20 +1492,20 @@ STEPS.push(
   { id: 'agy', ch: 5, scene: 'scen', so: { tm: '02:48 · Otthon', ic: 'bed', tt: 'Ágyban fekszel, rázkódik a ház', shake: true }, title: 'Hajnalban, ágyban',
     txt: '<p>A szerdai rengésnél nem az épületek okoztak sérülést, hanem a <b>pánik</b>: valaki menekülés közben szekrényajtónak ütközött, egy másik emberre bútor dőlt.</p>',
     task: { type: 'choice', q: 'Mit teszel?', opts: [
-      O('Az ágyban maradok, és párnával védem a fejem', true, 'Rázás közben a legnagyobb veszély a mozgás: elesel, nekiütközöl valaminek, rád dől valami. Az ágyban maradva, párnával a fejeden biztonságban vagy.'),
+      O('Az ágyban maradok, és párnával védem a fejem', true, 'Rengés közben a legnagyobb veszély a mozgás: elesel, nekiütközöl valaminek, rád dől valami. Az ágyban maradva, párnával a fejeden biztonságban vagy.'),
       O('Kiugrom, és kirohanok a házból', false, 'Ez a leggyakoribb hiba. Sötétben, rázkódó padlón könnyű elesni, és útközben rád eshet valami. Maradj, és védd a fejed.'),
       O('Az ablakhoz megyek, hogy lássam, mi történik', false, 'Az ablak a legveszélyesebb hely: az üveg betörhet. Maradj az ágyban, párnával a fejeden.') ] } },
   { id: 'iskola', ch: 5, scene: 'scen', so: { tm: '10:15 · Az iskolában', ic: 'desk', tt: 'Órán vagy, megmozdul a pad', shake: true }, title: 'Az osztályteremben',
     txt: '<p>Az iskolában a tanárod irányít, de az első másodpercekben neked kell gyorsan cselekedned.</p>',
     task: { type: 'choice', q: 'Mit teszel?', opts: [
-      O('Bebújok a pad alá, és a lábába kapaszkodom', true, 'Le, fedezék, kapaszkodj! Ha a rázás elmúlt, a tanárod vezetésével, nyugodtan mentek ki a gyülekezési helyre.'),
-      O('Kirohanok a folyosóra', false, 'Rázás közben ne fuss! A folyosón és a lépcsőn tolongás és elesés lesz. Bújj a pad alá, és a rázás után, a tanárod vezetésével mentek ki.'),
+      O('Bebújok a pad alá, és a lábába kapaszkodom', true, 'Le, fedezék, kapaszkodj! Ha a rengés elmúlt, a tanárod vezetésével, nyugodtan mentek ki a gyülekezési helyre.'),
+      O('Kirohanok a folyosóra', false, 'Rengés közben ne fuss! A folyosón és a lépcsőn tolongás és elesés lesz. Bújj a pad alá, és a rengés után, a tanárod vezetésével mentek ki.'),
       O('Felállok a székre, hogy jobban lássak', false, 'Így könnyen leesel. Bújj a pad alá, kapaszkodj a lábába, és védd a fejed.') ] } },
   { id: 'tombhaz', ch: 5, scene: 'scen', so: { tm: 'Délután · Tömbház, 4. emelet', ic: 'block', tt: 'Rázkódik a lakás', shake: true }, title: 'A tömbházban',
-    txt: '<p>A tömbházban sokan a lépcsőház felé indulnak. A katasztrófavédelem szerint rázás közben éppen az a legveszélyesebb.</p>',
+    txt: '<p>A tömbházban sokan a lépcsőház felé indulnak. A katasztrófavédelem szerint rengés közben éppen az a legveszélyesebb.</p>',
     task: { type: 'choice', q: 'Mit teszel?', opts: [
-      O('Erős asztal alá bújok, vagy egy belső fal mellé guggolok', true, 'Rázás közben maradj bent, távol az ablaktól, a tükörtől és a magas szekrénytől.'),
-      O('Lifttel lemegyek', false, 'A lift tilos! Elmehet az áram, és bent ragadsz. Rázás közben maradj a lakásban, erős asztal alatt.'),
+      O('Erős asztal alá bújok, vagy egy belső fal mellé guggolok', true, 'Rengés közben maradj bent, távol az ablaktól, a tükörtől és a magas szekrénytől.'),
+      O('Lifttel lemegyek', false, 'A lift tilos! Elmehet az áram, és bent ragadsz. Rengés közben maradj a lakásban, erős asztal alatt.'),
       O('Kiállok az erkélyre', false, 'Az erkély az épület egyik legsérülékenyebb része. Maradj bent, erős asztal alatt.'),
       O('Beállok az ajtókeretbe', false, DOOR) ] } },
   { id: 'utca', ch: 5, scene: 'scen', so: { tm: 'Délután · Az utcán', ic: 'street', tt: 'Kint ér a rengés' }, title: 'Az utcán',
@@ -1514,8 +1514,8 @@ STEPS.push(
       O('Nyílt helyre megyek, távol a házaktól és a vezetékektől', true, 'A tankönyv szerint a vezetékektől legalább 10 méterre maradj. A szabadban, nyílt helyen vagy a legnagyobb biztonságban.'),
       O('Behúzódom egy kapualjba', false, 'A kapualjban rád eshet a vakolat vagy a cserép. Menj nyílt helyre, távol a házaktól és a vezetékektől.'),
       O('Egy villanyoszlop mellé állok, és kapaszkodom', false, 'A villanyoszlop eldőlhet, a vezeték leszakadhat. Menj nyílt helyre, legalább 10 méterre a vezetékektől.') ] } },
-  { id: 'gaz', ch: 5, scene: 'scen', so: { tm: 'Utána · Sötét van', ic: 'gas', tt: 'Elment az áram, és gázszagot érzel' }, title: 'Vége a rázásnak',
-    txt: '<p>A rázás után is maradj nyugodt. Vegyél cipőt, mert üvegszilánk lehet a földön, és nézd meg, nem sérült-e meg valaki.</p>',
+  { id: 'gaz', ch: 5, scene: 'scen', so: { tm: 'Utána · Sötét van', ic: 'gas', tt: 'Elment az áram, és gázszagot érzel' }, title: 'Vége a rengésnek',
+    txt: '<p>A rengés után is maradj nyugodt. Vegyél cipőt, mert üvegszilánk lehet a földön, és nézd meg, nem sérült-e meg valaki.</p>',
     task: { type: 'choice', q: 'Mit teszel?', opts: [
       O('Zseblámpát használok, szólok egy felnőttnek, ablakot nyitunk, és kimegyünk', true, 'Gázszagnál tilos a gyufa, az öngyújtó, a gyertya és a villanykapcsoló: egyetlen szikra is berobbanthatja a gázt. Telefonálni csak vészhelyzetben kell: 112.'),
       O('Gyertyát gyújtok', false, 'Gázszagnál a nyílt láng robbanást okozhat! Zseblámpát használj, nyiss ablakot, szólj egy felnőttnek, és menjetek ki.'),
