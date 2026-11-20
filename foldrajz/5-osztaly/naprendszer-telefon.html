@@ -16,6 +16,27 @@ if(!Object.hasOwn)Object.hasOwn=function(o,k){return Object.prototype.hasOwnProp
 if(!window.structuredClone)window.structuredClone=function(v){return v===undefined?v:JSON.parse(JSON.stringify(v));};
 if(!String.prototype.replaceAll)String.prototype.replaceAll=function(a,b){return typeof a==='string'?this.split(a).join(b):this.replace(a,b);};
 }catch(e){}})();
+/* iPhone: a Safari nem enged teljes képernyőt (csak videónál). Ahol nincs rá lehetőség, a teljes képernyős
+   gombokat és a rá buzdító tippeket elrejtjük, hogy a diák ne nyomkodjon hatástalan gombot (2026-11-20). */
+(function(){try{
+var d=document;if(d.fullscreenEnabled||d.webkitFullscreenEnabled)return;
+var de=d.documentElement;de.classList.add('nofs');
+var st=d.createElement('style');st.textContent='html.nofs #bFull,html.nofs #bRotFull,html.nofs #fs,html.nofs #tFs,html.nofs #rotFs,html.nofs #fsTip,html.nofs #phoneTip,html.nofs .fstip,html.nofs [data-fullgo]{display:none!important}';
+(d.head||de).appendChild(st);
+var RX=/teljes\s+k\u00e9perny\u0151/i;
+function rejt(){
+ var bs=d.querySelectorAll('button,a,[role=button]');
+ for(var i=0;i<bs.length;i++){var b=bs[i],t=(b.textContent||'')+' '+(b.getAttribute('aria-label')||'')+' '+(b.getAttribute('title')||'');if(RX.test(t))b.style.display='none';}
+ var w=d.createTreeWalker(d.body,NodeFilter.SHOW_TEXT,null),n,lista=[];
+ while((n=w.nextNode()))if(RX.test(n.nodeValue))lista.push(n);
+ for(var k=0;k<lista.length;k++){var el=lista[k].parentElement;if(!el||el.closest('script,style,button'))continue;
+  // felfelé, amíg a szülő szövege lényegében ugyanaz (ikon + szöveg csomagolók)
+  while(el.parentElement&&el.parentElement!==d.body&&el.parentElement.textContent.trim().length<=el.textContent.trim().length+12)el=el.parentElement;
+  if(el.textContent.trim().length<=220&&!el.querySelector('input,select,textarea'))el.style.display='none';}
+}
+if(d.readyState==='loading')d.addEventListener('DOMContentLoaded',rejt);else rejt();
+setTimeout(rejt,800);
+}catch(e){}})();
 </script><!-- iphone-vedelem:end -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
