@@ -37,6 +37,7 @@ Kezdőlap: https://szaszfzsolt.github.io/szemleltetok/
 | Biológia | 6. | Növényi és állati szövetek (okostábla, táblavázlatokkal, záró csapatversennyel) | `biologia/6-osztaly/szovetek.html` |
 | Biológia | 6. | Növényi és állati szövetek (telefon, egyéni próbával) | `biologia/6-osztaly/szovetek-telefon.html` |
 | Biológia | 6. | Mikroszkópos megfigyelések | `biologia/6-osztaly/mikroszkopos-megfigyelesek/` |
+| Biológia | 6. | A növényi és az állati sejt (négy kapu: növényi sejt, állati sejt, összehasonlítás, Sejt-Jeopardy) | `biologia/6-osztaly/sejtek.html` |
 | Biológia | 6. + érettségi | A növényi sejt felépítése (két szinten) | `biologia/6-osztaly/novenyi-sejt.html` |
 | Biológia | 6. | Mikroszkópos kísérletek képpromptjai (tanári) | `biologia/6-osztaly/mikroszkopos-megfigyelesek/promptok.html` |
 | Latin | – | Sententiae Latinae (diák, telefon) | `latin/sententiae-latinae.html` |
@@ -52,6 +53,7 @@ A `_keszlet/` mappában vannak a szemléltetők forrásai, amelyekből a kész o
 - A fokhálózat játék földgömbje és térképe a NASA Blue Marble közkincs nappali textúrájából készült; ezt a kezdőlap is jelzi.
 - Az Űrszótár fényképei a NASA, az ESA és a JPL szabadon felhasználható felvételei; a forrás minden képnél fel van tüntetve.
 - A növényi sejt ábrája Mariana Ruiz Villarreal (LadyofHats) közkincs rajza a Wikimedia Commonsról, Németh László magyar fordításával.
+- A „Növényi és az állati sejt” szemléltető állatisejt-ábrája szintén Mariana Ruiz Villarreal (LadyofHats) közkincs rajza (Animal cell structure en.svg, Wikimedia Commons), magyar feliratokkal; a Sejt-Jeopardy kérdései a két 6. osztályos tankönyv alapján, NotebookLM segítségével készültek, lektorálva.
 - A glaciális és a karszt lap fotói többnyire a Wikimedia Commonsról származnak; a szerzők és a licencek a lapok alján vannak felsorolva.
 - A Románia domborzatának kialakulása térképe nyílt adatokból készült: a tájhatárok B. Candrea, P. Candrea és M. D. Niță adatkészletéből (geo-spatial.org, 2008; Posea–Badea 1984 nyomán; CC BY-SA 3.0), az országhatár és a települések az ANCPI-től (nyílt kormányzati licenc). A forrás a lapon is fel van tüntetve. Ugyanezekből az adatokból készült a glaciális lap kis térképe is.
 - Az Erdélyi-medence szemléltető fotói a Wikimedia Commonsról (CC BY-SA 3.0/4.0, CC0) és a NASA MODIS közkincs műholdképéből származnak; a szerző és a licenc minden képnél fel van tüntetve. A térképek a Copernicus DEM (ESA, GLO-90) domborzatmodelljéből, az OpenStreetMap-közreműködők folyó-, tó- és helynévadataiból (ODbL), a geo-spatial.org tájhatáraiból (CC BY-SA 3.0) és az ANCPI nyílt adataiból készültek; a forrás a térképeken is fel van tüntetve. Az Európa-térkép (nyitó ráközelítés) a Natural Earth közkincs országhatáraiból (world-atlas) készült.
