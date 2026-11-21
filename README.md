@@ -16,6 +16,9 @@ Kezdőlap: https://szaszfzsolt.github.io/szemleltetok/
 | Földrajz | 5. | A fokhálózat (telefon) | `foldrajz/5-osztaly/fokhalozat-telefon.html` |
 | Földrajz | 6. | Antroposzféra (okostábla, táblavázlatokkal) | `foldrajz/6-osztaly/antroposzfera.html` |
 | Földrajz | 6. | Antroposzféra (telefon) | `foldrajz/6-osztaly/antroposzfera-telefon.html` |
+| Földrajz | 7. | Ázsia éghajlata, a monszun (okostábla) | `foldrajz/7-osztaly/azsia-eghajlata.html` |
+| Földrajz | 7. | Ázsia éghajlata, a monszun (telefon) | `foldrajz/7-osztaly/azsia-eghajlata-telefon.html` |
+| Földrajz | 7. | Ázsia éghajlattípusai – kifestő (A4, 2 példány) | `foldrajz/7-osztaly/azsia-eghajlattipusai-kifesto.png` |
 | Földrajz | 8. | Románia glaciális formakincse (A4 lap) | `foldrajz/8-osztaly/glacialis-formakincs.png` |
 | Földrajz | 8. | Románia karsztformakincsei (A4 lap) | `foldrajz/8-osztaly/karszt-formakincs.png` |
 | Földrajz | 8. | Románia domborzatának kialakulása | `foldrajz/8-osztaly/romania-domborzat.html` |
@@ -51,6 +54,7 @@ A `_keszlet/` mappában vannak a szemléltetők forrásai, amelyekből a kész o
 
 - A tantárgyi kis jelek (`ikonok/`: földgömb a földrajzhoz, ugró delfin DNS-hullámmal a biológiához) MI-vel (Google Nano Banana) tervezett, majd kézzel vektorizált és javított saját grafikák. Ezekből készül a favicon, a telefonos ikon és a telefonos fejléc jelvénye.
 - A Föld mozgásai szemléltető Föld-képei a NASA Blue Marble közkincs felvételei (nappali és éjszakai textúra); a Barlow betűtípus SIL OFL licencű.
+- Az Ázsia éghajlata szemléltető és kifestő térképe a Natural Earth közkincs partvonalaiból készült (world-atlas npm-csomag); fénykép nincs benne. Az éghajlati adatok 1991–2020-as sokéves átlagok (IMD, NOAA, JMA, CMA, HKO, Romániai Meteorológiai Szolgálat).
 - A fokhálózat játék földgömbje és térképe a NASA Blue Marble közkincs nappali textúrájából készült; ezt a kezdőlap is jelzi.
 - Az Űrszótár fényképei a NASA, az ESA és a JPL szabadon felhasználható felvételei; a forrás minden képnél fel van tüntetve.
 - A növényi sejt ábrája Mariana Ruiz Villarreal (LadyofHats) közkincs rajza a Wikimedia Commonsról, Németh László magyar fordításával.
