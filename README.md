@@ -54,7 +54,7 @@ A `_keszlet/` mappában vannak a szemléltetők forrásai, amelyekből a kész o
 
 - A tantárgyi kis jelek (`ikonok/`: földgömb a földrajzhoz, ugró delfin DNS-hullámmal a biológiához) MI-vel (Google Nano Banana) tervezett, majd kézzel vektorizált és javított saját grafikák. Ezekből készül a favicon, a telefonos ikon és a telefonos fejléc jelvénye.
 - A Föld mozgásai szemléltető Föld-képei a NASA Blue Marble közkincs felvételei (nappali és éjszakai textúra); a Barlow betűtípus SIL OFL licencű.
-- Az Ázsia éghajlata szemléltető és kifestő térképe a Natural Earth közkincs partvonalaiból készült (world-atlas npm-csomag); fénykép nincs benne. Az éghajlati adatok 1991–2020-as sokéves átlagok (IMD, NOAA, JMA, CMA, HKO, Romániai Meteorológiai Szolgálat).
+- Az Ázsia éghajlata szemléltető és kifestő térképe a Natural Earth közkincs partvonalaiból készült (world-atlas npm-csomag); fénykép nincs benne. Az éghajlati adatok 1991–2020-as sokéves átlagok (IMD, NOAA, JMA, CMA, NEA, HKO, Pogoda i klimat; a Wikipédia éghajlati tábláiból).
 - A fokhálózat játék földgömbje és térképe a NASA Blue Marble közkincs nappali textúrájából készült; ezt a kezdőlap is jelzi.
 - Az Űrszótár fényképei a NASA, az ESA és a JPL szabadon felhasználható felvételei; a forrás minden képnél fel van tüntetve.
 - A növényi sejt ábrája Mariana Ruiz Villarreal (LadyofHats) közkincs rajza a Wikimedia Commonsról, Németh László magyar fordításával.
