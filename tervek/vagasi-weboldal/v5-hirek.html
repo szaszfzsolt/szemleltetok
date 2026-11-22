@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<title>Hírek és kapcsolat – Csendes</title>
+<meta name="viewport" content="width=1440">
+<meta name="robots" content="noindex">
+<style>x-dc{display:none}</style>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;0,800;1,400&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}*:focus-visible{outline:3px solid #1B7A5E;outline-offset:3px}@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.001s !important;animation-iteration-count:1 !important;transition-duration:.001s !important}}.ph{display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;box-sizing:border-box;background:repeating-linear-gradient(135deg,#ECE9E1 0 12px,#E3DFD5 12px 24px);border:1.5px dashed #8F8A80;color:#4F4843;font-size:15px;line-height:21px}
+body{background:#FFFFFF}
+a{color:#1B7A5E;text-underline-offset:3px}a:hover{color:#156149}
+.side a{display:block;padding:10px 14px;border-radius:6px;color:#2A2523;text-decoration:none;font-weight:600}
+.side a:hover{background:#F2EFE8}
+.side a.on{background:#F6E9E6;color:#A8301F}
+.quick a{display:flex;align-items:center;justify-content:space-between;min-height:64px;padding:0 24px;border:2px solid #DDD9D0;border-radius:8px;color:#2A2523;text-decoration:none;font-weight:600}
+.quick a:hover{border-color:#1B7A5E}
+.size{min-height:44px;padding:0 16px;border-radius:6px;border:2px solid #DDD9D0;background:#fff;color:#2A2523;font:600 16px 'Public Sans',sans-serif;cursor:pointer}
+</style>
+</helmet>
+<div style="font-family:'Public Sans','Segoe UI',sans-serif;color:#2A2523;background:#FFFFFF;font-size:{{fs}};line-height:{{lh}};display:flex;flex-wrap:wrap;min-height:100%">
+<aside class="side" style="flex:0 0 320px;box-sizing:border-box;padding:48px 32px;border-right:1px solid #DDD9D0;background:#FAF9F5">
+<a href="v5-kezdolap.html" style="padding:0;margin-bottom:40px;font-weight:800;font-size:24px;line-height:30px">Márton Áron Általános Iskola<span style="display:block;font-weight:400;font-size:18px;color:#5E5651;margin-top:6px">Vágás</span></a>
+<nav aria-label="Főmenü"><ul style="list-style:none;margin:0 0 40px;padding:0;display:flex;flex-direction:column;gap:4px;font-size:19px"><li><a class="" href="v5-kezdolap.html">Kezdőlap</a></li><li><a class="" href="v5-iskolank.html">Iskolánk</a></li><li><a class="" href="v5-nevado.html">Névadónk</a></li><li><a class="on" href="v5-hirek.html">Hírek és kapcsolat</a></li></ul></nav>
+<button class="size" type="button" aria-pressed="{{pressed}}" onClick="{{toggle}}">{{label}}</button>
+<p style="margin:40px 0 0;font-size:16px;line-height:24px;color:#5E5651">A Bögözi Általános Iskola tagintézménye.<br><a href="https://bogoziiskola.ro">bogoziiskola.ro</a></p>
+</aside>
+<main style="flex:999 1 560px;min-width:0;box-sizing:border-box;padding:56px 80px 96px;max-width:1120px"><h1 style="margin:0 0 24px;font-weight:800;font-size:52px;line-height:60px;letter-spacing:-0.01em">Hírek</h1><article style="display:grid;grid-template-columns:240px minmax(0,1fr);gap:32px;padding:28px 0;border-top:1px solid #DDD9D0">
+<div class="ph" style="height:160px;border-radius:8px">[Fotó]</div>
+<div><p style="margin:0;color:#5E5651;font-size:.85em">[DÁTUM]</p><h2 style="margin:4px 0 8px;font-weight:800;font-size:26px;line-height:34px">[Hír címe 1]</h2><p style="margin:0">[Két-három mondat a hírről.]</p></div></article><article style="display:grid;grid-template-columns:240px minmax(0,1fr);gap:32px;padding:28px 0;border-top:1px solid #DDD9D0">
+<div class="ph" style="height:160px;border-radius:8px">[Fotó]</div>
+<div><p style="margin:0;color:#5E5651;font-size:.85em">[DÁTUM]</p><h2 style="margin:4px 0 8px;font-weight:800;font-size:26px;line-height:34px">[Hír címe 2]</h2><p style="margin:0">[Két-három mondat a hírről.]</p></div></article><article style="display:grid;grid-template-columns:240px minmax(0,1fr);gap:32px;padding:28px 0;border-top:1px solid #DDD9D0">
+<div class="ph" style="height:160px;border-radius:8px">[Fotó]</div>
+<div><p style="margin:0;color:#5E5651;font-size:.85em">[DÁTUM]</p><h2 style="margin:4px 0 8px;font-weight:800;font-size:26px;line-height:34px">[Hír címe 3]</h2><p style="margin:0">[Két-három mondat a hírről.]</p></div></article>
+<p style="margin:24px 0 64px"><a href="#">Korábbi hírek</a></p>
+<section id="kapcsolat"><h2 style="margin:0 0 16px;font-weight:800;font-size:30px;line-height:38px;font-size:40px;line-height:48px">Kapcsolat</h2>
+<dl style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:12px 24px;margin:0 0 32px">
+<dt style="font-weight:800">Cím</dt><dd style="margin:0">[POSTACÍM], Vágás, Hargita megye</dd>
+<dt style="font-weight:800">Telefon</dt><dd style="margin:0">[TELEFONSZÁM]</dd>
+<dt style="font-weight:800">E-mail</dt><dd style="margin:0">[E-MAIL]</dd>
+<dt style="font-weight:800">Fogadóóra</dt><dd style="margin:0">[NAP, ÓRA]</dd></dl>
+<div class="ph" style="height:320px;border-radius:8px">[Térkép: Vágás, Dobó, Béta]</div></section></main></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview": {"width": 1440, "height": 1900}}'>
+class Component extends DCLogic {
+state = { big: false };
+renderVals() {
+  const b = this.state.big;
+  return { fs: b ? '24px' : '20px', lh: b ? '38px' : '32px', label: b ? 'Normál betűméret' : 'Nagyobb betű', pressed: b ? 'true' : 'false', toggle: () => this.setState({ big: !b }) };
+}
+}
+</script>
+<a href="index.html" style="position:fixed;right:16px;bottom:16px;z-index:9999;background:#2A2523;color:#fff;font:600 15px system-ui,sans-serif;padding:10px 16px;border-radius:20px;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.25)">Vissza a változatokhoz</a>
+</body>
+</html>

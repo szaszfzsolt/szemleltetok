@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<title>Kezdőlap – Zászló</title>
+<meta name="viewport" content="width=1440">
+<meta name="robots" content="noindex">
+<style>x-dc{display:none}</style>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Source+Sans+3:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}*:focus-visible{outline:3px solid #1B7A5E;outline-offset:3px}@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.001s !important;animation-iteration-count:1 !important;transition-duration:.001s !important}}.ph{display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;box-sizing:border-box;background:repeating-linear-gradient(135deg,#ECE9E1 0 12px,#E3DFD5 12px 24px);border:1.5px dashed #8F8A80;color:#4F4843;font-size:15px;line-height:21px}
+body{background:#FFFFFF}
+a{color:#1B7A5E}a:hover{color:#156149}
+.nav a{color:#2A2523;text-decoration:none;display:block;padding:22px 0 26px;position:relative}
+.nav a.on::after{content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);border-left:12px solid transparent;border-right:12px solid transparent;border-top:16px solid #A8301F}
+.nav a:hover{color:#A8301F}
+.teeth{height:28px;background:url(kepek/farkasfog.svg) repeat-x left top;background-size:auto 28px}
+.fringe{height:26px;background:repeating-linear-gradient(90deg,#E9E3D6 0 2px,transparent 2px 6px)}
+.slice{position:absolute;top:0;height:640px;overflow:hidden;animation:wave 3.2s ease-in-out infinite}
+.shade{position:absolute;inset:0;pointer-events:none;background:#2A2523;animation:shade 3.2s ease-in-out infinite}
+@keyframes wave{0%,100%{transform:translateY(-10px)}50%{transform:translateY(12px)}}
+@keyframes shade{0%,100%{opacity:0}50%{opacity:.10}}
+.big{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;letter-spacing:-0.02em}
+.btn{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border-radius:4px;font:600 17px 'Source Sans 3',sans-serif;cursor:pointer;text-decoration:none}
+</style>
+</helmet>
+<div style="font-family:'Source Sans 3','Segoe UI',sans-serif;color:#2A2523;font-size:19px;line-height:30px;background:#FFFFFF"><header style="padding:0 64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E4E0D6">
+<a href="v2-kezdolap.html" class="big" style="text-decoration:none;color:#A8301F;font-size:24px">Márton Áron Iskola, Vágás</a>
+<nav class="nav" aria-label="Főmenü"><ul style="list-style:none;margin:0;padding:0;display:flex;gap:40px;font-weight:600;font-size:18px"><li><a class="on" href="v2-kezdolap.html">Kezdőlap</a></li><li><a class="" href="v2-iskolank.html">Iskolánk</a></li><li><a class="" href="v2-nevado.html">Névadónk</a></li><li><a class="" href="v2-hirek.html">Hírek és kapcsolat</a></li></ul></nav>
+</header><section aria-label="Az iskola zászlaja" style="position:relative;height:700px;background:#EFEDE7;overflow:hidden">
+<div role="img" aria-label="Lobogó iskolazászló: Márton Áron Általános Iskola, Vágás, 1786" style="position:absolute;left:0;top:30px;width:1440px;height:640px">
+<sc-for list="{{slices}}" as="s" hint-placeholder-count="48">
+<div class="slice" style="left:{{s.left}};width:30px;animation-delay:{{s.delay}};animation-play-state:{{play}}"><div style="position:absolute;left:{{s.inner}};top:0;width:1440px;height:640px;background:#FBFAF6">
+<div class="teeth" style="position:absolute;left:0;right:0;top:24px"></div>
+<div class="ph" style="position:absolute;left:1040px;top:120px;width:250px;height:330px;border-radius:125px 125px 0 0;padding:0 24px">címer</div>
+<div class="big" style="position:absolute;left:150px;top:120px;width:860px;color:#A8301F;font-size:108px;line-height:100px">Márton Áron Általános Iskola</div>
+<div class="big" style="position:absolute;left:150px;top:470px;color:#1B7A5E;font-size:56px;line-height:60px">Vágás, 1786</div>
+<div class="teeth" style="position:absolute;left:0;right:0;bottom:40px;transform:scaleY(-1)"></div>
+<div class="fringe" style="position:absolute;left:0;right:0;bottom:0"></div>
+</div><div class="shade" style="animation-delay:{{s.delay}};animation-play-state:{{play}}"></div></div>
+</sc-for>
+</div>
+<button class="btn" type="button" onClick="{{toggle}}" style="position:absolute;right:24px;bottom:16px;background:#fff;border:1.5px solid #2A2523;color:#2A2523;min-height:40px">{{label}}</button>
+</section>
+<section style="padding:80px 64px 0;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:72px">
+<div><h1 class="big" style="margin:0 0 24px;font-size:64px;line-height:64px">Falunk iskolája 1786 óta</h1>
+<p style="margin:0 0 32px;max-width:32em;font-size:21px;line-height:33px">A vágási iskola első írásos említése 1786-ból való. Az egyházközség által épített iskolaház 1889-ben készült el Vágás és Dobó gyermekeinek. 2000 óta Márton Áron püspök nevét viseljük.</p>
+<a class="btn" href="v2-iskolank.html" style="background:#A8301F;color:#fff">Az iskola története</a></div>
+<div><h2 class="big" style="margin:0 0 16px;font-size:36px;line-height:40px;color:#1B7A5E">Hírek</h2>
+<ul style="list-style:none;margin:0;padding:0">
+<li style="padding:16px 0;border-top:2px solid #2A2523"><span style="color:#5E5651;font-size:16px">[DÁTUM]</span><br>[A legfrissebb hír címe]</li>
+<li style="padding:16px 0;border-top:2px solid #2A2523"><span style="color:#5E5651;font-size:16px">[DÁTUM]</span><br>[Második hír címe]</li>
+<li style="padding:16px 0;border-top:2px solid #2A2523;border-bottom:2px solid #2A2523"><span style="color:#5E5651;font-size:16px">[DÁTUM]</span><br>[Harmadik hír címe]</li></ul>
+<p style="margin:16px 0 0"><a href="v2-hirek.html">Minden hír</a></p></div>
+</section>
+<section style="margin-top:96px;background:#A8301F;color:#fff;padding:72px 64px">
+<p class="big" style="margin:0;font-size:120px;line-height:110px">Non recuso laborem</p>
+<p style="margin:20px 0 0;font-size:22px">Nem utasítom el a munkát. Márton Áron püspöki jelmondata, iskolánk vezérelve. <a href="v2-nevado.html" style="color:#fff">Névadónkról</a></p>
+</section><footer style="margin-top:96px;background:#1B7A5E;color:#fff">
+<div class="teeth" style="background-color:#fff"></div>
+<div style="padding:48px 64px;display:flex;justify-content:space-between;gap:32px;font-size:17px;line-height:26px">
+<p style="margin:0"><span class="big" style="font-size:28px">Márton Áron Általános Iskola</span><br>Vágás, a Bögözi Általános Iskola tagintézménye</p>
+<p style="margin:0">[POSTACÍM], Vágás<br>[TELEFON], [E-MAIL]<br><a href="https://bogoziiskola.ro" style="color:#fff">bogoziiskola.ro</a></p>
+</div></footer></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview": {"width": 1440, "height": 2050}}'>
+class Component extends DCLogic {
+state = { paused: false };
+renderVals() {
+  const slices = [];
+  for (let i = 0; i < 48; i++) slices.push({ left: (i * 30) + 'px', inner: (-i * 30) + 'px', delay: (-i * 0.07).toFixed(2) + 's' });
+  return { slices, play: this.state.paused ? 'paused' : 'running', label: this.state.paused ? 'Lobogjon a zászló' : 'Álljon meg a zászló', toggle: () => this.setState({ paused: !this.state.paused }) };
+}
+}
+</script>
+<a href="index.html" style="position:fixed;right:16px;bottom:16px;z-index:9999;background:#2A2523;color:#fff;font:600 15px system-ui,sans-serif;padding:10px 16px;border-radius:20px;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.25)">Vissza a változatokhoz</a>
+</body>
+</html>
