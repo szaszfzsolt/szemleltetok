@@ -605,6 +605,13 @@ html.iab #bLinkMasol{display:inline-block}
 #bTovabb{background:transparent;color:#9db3d6;border:1px solid #5f7aa3!important}
 #linkMezo{display:none;width:100%;font-size:13px;padding:6px;border-radius:6px;border:0}
 html.allva #rotate,html.jsfekvo #rotate{display:none!important}
+/* állva, „Tovább így is” után: a jelenetek egymás alá (fent az ábra, alatta a szöveg) */
+@media (orientation:portrait){
+html.allva #scene .grid{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,56fr) minmax(0,44fr);gap:.6rem}
+html.allva #scene .grid>*{order:1;min-width:0}
+html.allva #scene .left{order:2;overflow-x:hidden}
+}
+html.phone #scene .left{overflow-x:hidden}
 </style>
 <script>
 (function(){try{
