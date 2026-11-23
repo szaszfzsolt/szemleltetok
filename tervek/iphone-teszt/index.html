@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>iPhone-teszt</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#030814;color:#eef5ff;font:15px/1.35 -apple-system,system-ui,sans-serif}
+body{padding:10px 12px 40px}
+h1{font-size:18px;margin:0 0 6px}
+.lepes{color:#9db3d6;font-size:14px;margin:0 0 10px}
+.nagy{display:flex;gap:8px;margin-bottom:10px}
+.nagy div{flex:1;border-radius:10px;padding:10px 6px;text-align:center;font-weight:800;font-size:20px}
+.nagy small{display:block;font-weight:500;font-size:12px;opacity:.85}
+#css{background:#b3263a}
+@media (orientation:landscape){#css{background:#1d8a5a}#css .a{display:none}}
+@media (orientation:portrait){#css .f{display:none}}
+#js{background:#444}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td{padding:3px 4px;border-bottom:1px solid #1c2a44;vertical-align:top}
+td:first-child{color:#9db3d6;width:46%}
+td:last-child{font-family:ui-monospace,Menlo,monospace;word-break:break-all}
+.btn{display:block;width:100%;margin:12px 0 6px;padding:12px;border:0;border-radius:10px;background:#ff8a1e;color:#111;font-weight:800;font-size:16px}
+#lecke{display:none;position:fixed;inset:0;border:0;width:100%;height:100%;z-index:1;background:#000}
+#csik{display:none;position:fixed;left:0;right:0;top:0;z-index:2;background:rgba(0,0,0,.82);color:#fff;font:12px/1.3 ui-monospace,Menlo,monospace;padding:4px 6px;padding-top:max(4px,env(safe-area-inset-top))}
+#csik button{float:right;background:#ff8a1e;border:0;border-radius:6px;padding:4px 8px;font-weight:700;margin-left:6px}
+.v{font-size:11px;color:#5f7aa3;margin-top:14px}
+</style>
+</head>
+<body>
+<h1>iPhone-teszt · Szász F. Zs.</h1>
+<p class="lepes">1. Fotózd le így, állva. 2. Fordítsd el a telefont, várj 2 mp-et, fotózd le újra. 3. Nyomd meg a narancs gombot, és fotózd le fekve is.</p>
+
+<div class="nagy">
+  <div id="css"><span class="a">ÁLLÓ</span><span class="f">FEKVŐ</span><small>a lecke szerint (CSS)</small></div>
+  <div id="js">…<small>méretek szerint (JS)</small></div>
+</div>
+
+<table id="t"></table>
+
+<button class="btn" id="bLecke">Az Előkárpátok lecke kipróbálása itt</button>
+<p class="lepes">A lecke megnyílik, fölötte egy fekete sávban látszik, mit érzékel. Fekve is fotózd le.</p>
+
+<iframe id="lecke" title="Lecke"></iframe>
+<div id="csik"></div>
+
+<p class="v">tesztoldal v1 · 2026-11-23</p>
+
+<script>
+(function(){
+var t0=Date.now(),esemeny={},utolso='–',hibak=[];
+function jegyez(n){esemeny[n]=(esemeny[n]||0)+1;utolso=n+' @ '+((Date.now()-t0)/1000).toFixed(1)+' mp';frissit();}
+window.addEventListener('error',function(e){hibak.push((e.message||'hiba')+'');frissit();});
+function mm(q){try{return matchMedia(q).matches?'igen':'nem';}catch(e){return 'n/a';}}
+function ios(){var m=navigator.userAgent.match(/OS (\d+)_(\d+)(?:_(\d+))? like Mac/);return m?m[1]+'.'+m[2]+(m[3]?'.'+m[3]:''):'nem iOS';}
+function bongeszo(){var u=navigator.userAgent;
+ if(/FBAN|FBAV/.test(u))return 'Facebook/Messenger beépített';
+ if(/Instagram/.test(u))return 'Instagram beépített';
+ if(/CriOS/.test(u))return 'Chrome (iOS)';
+ if(/FxiOS/.test(u))return 'Firefox (iOS)';
+ if(/EdgiOS/.test(u))return 'Edge (iOS)';
+ if(/GSA\//.test(u))return 'Google app';
+ if(/Safari/.test(u)&&/Version\//.test(u))return 'Safari';
+ if(/iPhone|iPad/.test(u))return 'beépített nézet (pl. Classroom, WhatsApp)';
+ return 'egyéb';}
+function sor(k,v){return '<tr><td>'+k+'</td><td>'+v+'</td></tr>';}
+function frissit(){
+ var w=innerWidth,h=innerHeight,vv=window.visualViewport,so=screen.orientation;
+ var js=document.getElementById('js');
+ var fekvo=w>h;
+ js.style.background=fekvo?'#1d8a5a':'#b3263a';
+ js.firstChild.nodeValue=fekvo?'FEKVŐ':'ÁLLÓ';
+ document.getElementById('t').innerHTML=
+  sor('iOS-verzió',ios())+
+  sor('Böngésző',bongeszo())+
+  sor('Ablak (innerW×H)',w+' × '+h)+
+  sor('Dokumentum (clientW×H)',document.documentElement.clientWidth+' × '+document.documentElement.clientHeight)+
+  sor('Látható rész (visualViewport)',vv?Math.round(vv.width)+' × '+Math.round(vv.height)+' (nagyítás '+vv.scale.toFixed(2)+')':'nincs')+
+  sor('Képernyő (screen)',screen.width+' × '+screen.height)+
+  sor('screen.orientation',so?so.type+' / '+so.angle+'°':'nincs')+
+  sor('window.orientation',typeof window.orientation!=='undefined'?window.orientation+'°':'nincs')+
+  sor('CSS álló? / fekvő?',mm('(orientation:portrait)')+' / '+mm('(orientation:landscape)'))+
+  sor('Pixelarány',window.devicePixelRatio)+
+  sor('Teljes képernyő engedett',(document.fullscreenEnabled||document.webkitFullscreenEnabled)?'igen':'nem')+
+  sor('Események',Object.keys(esemeny).map(function(k){return k+': '+esemeny[k];}).join(', ')||'még nincs')+
+  sor('Utolsó esemény',utolso)+
+  sor('JS-hibák',hibak.length?hibak.join(' | '):'nincs')+
+  sor('Böngészőazonosító','<small>'+navigator.userAgent+'</small>');
+ if(document.getElementById('lecke').style.display==='block')csik();
+}
+['resize','orientationchange','pageshow','focus'].forEach(function(n){window.addEventListener(n,function(){jegyez(n);});});
+if(window.visualViewport)visualViewport.addEventListener('resize',function(){jegyez('vv-resize');});
+if(screen.orientation&&screen.orientation.addEventListener)screen.orientation.addEventListener('change',function(){jegyez('so-change');});
+try{matchMedia('(orientation:portrait)').addListener(function(){jegyez('media-valtas');});}catch(e){}
+setInterval(frissit,1000);
+frissit();
+
+/* A valódi lecke beágyazva: azt nézzük, mit lát a lecke maga. */
+var fr=document.getElementById('lecke'),lt0=0,lhibak=[],betoltve=false;
+function csik(){
+ var c=document.getElementById('csik'),s='';
+ try{
+  var w=fr.contentWindow,d=w.document,r=d.getElementById('rotate');
+  var rd=r?w.getComputedStyle(r).display:'nincs ilyen elem';
+  var sky=d.getElementById('sky');
+  s='Lecke: '+(betoltve?'betöltve '+((lt0)/1000).toFixed(1)+' mp alatt':'töltődik…')+
+    ' | ablak '+w.innerWidth+'×'+w.innerHeight+
+    ' | CSS álló: '+(w.matchMedia('(orientation:portrait)').matches?'IGEN':'nem')+
+    ' | „Fordítsd el” '+(rd==='none'?'REJTVE':'LÁTSZIK ('+rd+')')+
+    ' | háttér rajzolva: '+(sky&&sky.width>0?'igen':'NEM')+
+    ' | hibák: '+(lhibak.length?lhibak.join(' | '):'nincs');
+ }catch(e){s='Lecke nem olvasható: '+e.message;}
+ c.innerHTML='<button id="bVissza">Vissza</button>'+s;
+ document.getElementById('bVissza').onclick=function(){fr.style.display='none';c.style.display='none';};
+}
+document.getElementById('bLecke').onclick=function(){
+ var c=document.getElementById('csik');
+ fr.style.display='block';c.style.display='block';
+ if(!fr.src){
+  var st=Date.now();
+  fr.onload=function(){betoltve=true;lt0=Date.now()-st;
+   try{fr.contentWindow.addEventListener('error',function(e){lhibak.push(e.message||'hiba');});}catch(e){}
+   csik();};
+  fr.src='../../foldrajz/8-osztaly/elokarpatok-telefon.html?teszt='+Date.now();
+ }
+ csik();
+};
+})();
+</script>
+</body>
+</html>
