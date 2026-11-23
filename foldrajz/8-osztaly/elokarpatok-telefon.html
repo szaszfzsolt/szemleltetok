@@ -641,6 +641,7 @@ function epit(){
   function kezi(){m.value=url;m.style.display='block';m.focus();m.select();try{if(d.execCommand('copy'))kesz();else b.textContent='Jelöld ki és másold ki:';}catch(e){b.textContent='Jelöld ki és másold ki:';}}
   try{if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(url).then(kesz,kezi);else kezi();}catch(e){kezi();}};
  d.getElementById('bTovabb').onclick=function(){de.classList.add('allva');try{sessionStorage.setItem('allva','1');}catch(e){}try{dispatchEvent(new Event('resize'));}catch(e){}};
+ if(d.getElementById('bRotStay'))d.getElementById('bTovabb').style.display='none';
  nez();
 }
 if(d.readyState==='loading')d.addEventListener('DOMContentLoaded',epit);else epit();
