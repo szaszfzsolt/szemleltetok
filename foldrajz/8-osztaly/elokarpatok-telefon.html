@@ -612,6 +612,10 @@ html.allva #scene .grid>*{order:1;min-width:0}
 html.allva #scene .left{order:2;overflow-x:hidden}
 }
 html.phone #scene .left{overflow-x:hidden}
+/* alacsony képernyő (Safari fekve, fülsávval): a nyitókép felülről indul és görgethető */
+html.phone #home .wrap{justify-content:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch}
+html.phone #home .wrap>:first-child{margin-top:auto}
+html.phone #home .wrap>:last-child{margin-bottom:auto}
 </style>
 <script>
 (function(){try{
