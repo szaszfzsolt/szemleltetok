@@ -176,8 +176,8 @@ a{color:#1B7A5E}a:hover{color:#156149}
 <div style="font-family:'Source Sans 3','Segoe UI',sans-serif;color:#2A2523;font-size:19px;line-height:30px;background:#FFFFFF"><header style="padding:0 64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E4E0D6">
 <a href="v2-kezdolap.html" class="big" style="text-decoration:none;color:#A8301F;font-size:24px">Márton Áron Iskola, Vágás</a>
 <nav class="nav" aria-label="Főmenü"><ul style="list-style:none;margin:0;padding:0;display:flex;gap:40px;font-weight:600;font-size:18px"><li><a class="on" href="v2-kezdolap.html">Kezdőlap</a></li><li><a class="" href="v2-iskolank.html">Iskolánk</a></li><li><a class="" href="v2-nevado.html">Névadónk</a></li><li><a class="" href="v2-hirek.html">Hírek és kapcsolat</a></li></ul></nav>
-</header><section aria-label="Az iskola zászlaja" style="position:relative;height:700px;background:#EFEDE7;overflow:hidden">
-<div role="img" aria-label="Lobogó iskolazászló: Márton Áron Általános Iskola, Vágás, 1786" style="position:absolute;left:0;top:30px;width:1440px;height:640px">
+</header><section id="zaszlo-sav" aria-label="Az iskola zászlaja" style="position:relative;height:700px;background:#FFFFFF;overflow:hidden">
+<div id="zaszlo-lap" role="img" aria-label="Lobogó iskolazászló: Márton Áron Általános Iskola, Vágás, 1786" style="position:absolute;left:0;top:14px;width:1440px;height:640px;transform-origin:0 0">
 <sc-for list="{{slices}}" as="s" hint-placeholder-count="48">
 <div class="slice" style="left:{{s.left}};width:30px;animation-delay:{{s.delay}};animation-play-state:{{play}}"><div style="position:absolute;left:{{s.inner}};top:0;width:1440px;height:640px;background:#FFFFFF">
 <div style="position:absolute;left:0;right:0;top:0;height:4px;background:#C6432E"></div>
@@ -189,8 +189,8 @@ a{color:#1B7A5E}a:hover{color:#156149}
 </div><div class="shade" style="animation-delay:{{s.delay}};animation-play-state:{{play}}"></div></div>
 </sc-for>
 </div>
-<button class="btn" type="button" onClick="{{toggle}}" style="position:absolute;right:24px;bottom:16px;background:#fff;border:1.5px solid #2A2523;color:#2A2523;min-height:40px">{{label}}</button>
 </section>
+<div style="display:flex;justify-content:flex-end;padding:12px 24px 0"><button class="btn" type="button" onClick="{{toggle}}" style="background:#fff;border:1.5px solid #2A2523;color:#2A2523;min-height:40px">{{label}}</button></div>
 <section style="padding:80px 64px 0;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:72px">
 <div><h1 class="big" style="margin:0 0 24px;font-size:64px;line-height:64px">Falunk iskolája 1786 óta</h1>
 <p style="margin:0 0 32px;max-width:32em;font-size:21px;line-height:33px">A vágási iskola első írásos említése 1786-ból való. Az egyházközség által épített iskolaház 1889-ben készült el Vágás és Dobó gyermekeinek. 2000 óta Márton Áron püspök nevét viseljük.</p>
@@ -221,6 +221,20 @@ renderVals() {
   return { slices, play: this.state.paused ? 'paused' : 'running', label: this.state.paused ? 'Lobogjon a zászló' : 'Álljon meg a zászló', toggle: () => this.setState({ paused: !this.state.paused }) };
 }
 }
+</script>
+<script>
+(function(){
+  function fit(){
+    var sav=document.getElementById('zaszlo-sav'), lap=document.getElementById('zaszlo-lap');
+    if(!sav||!lap) return;
+    var w=document.documentElement.clientWidth; if(!w) return; var k=w/1440;
+    lap.style.transform='scale('+k+')';
+    sav.style.height=Math.round(668*k)+'px';
+  }
+  window.addEventListener('resize',fit);
+  new MutationObserver(function(){requestAnimationFrame(fit);}).observe(document.body,{childList:true,subtree:true});
+  document.addEventListener('DOMContentLoaded',fit); fit();
+})();
 </script>
 </body>
 </html>
