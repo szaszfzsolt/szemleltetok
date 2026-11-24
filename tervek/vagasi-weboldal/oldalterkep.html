@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="hu"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>A vágási iskola weboldala – oldaltérkép</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#F6F4EE;color:#2A2523;font:18px/1.55 system-ui,'Segoe UI',sans-serif}
+main{max-width:1180px;margin:0 auto;padding:44px 20px 80px}
+.fog{height:20px;background:url(kepek/farkasfog.svg) repeat-x;background-size:auto 20px}
+h1{font:700 clamp(30px,5vw,46px)/1.1 Georgia,serif;margin:0 0 14px}
+h2{font:700 26px/1.2 Georgia,serif;margin:44px 0 14px}
+.lead{max-width:46em;margin:0 0 10px}
+.note{max-width:46em;color:#5E5651;font-size:16px;margin:0}
+.legend{display:flex;flex-wrap:wrap;gap:8px 22px;margin:22px 0 0;font-size:15px;color:#5E5651}
+.dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:7px;vertical-align:-1px;flex:none}
+.ok{background:#1B7A5E}.kell{background:#fff;border:2.5px solid #A8301F}.reszben{background:linear-gradient(90deg,#1B7A5E 50%,#fff 50%);border:2px solid #1B7A5E}
+.menu{margin:30px 0 0;background:#A8301F;color:#fff;border-radius:10px;padding:12px 18px;display:flex;flex-wrap:wrap;gap:6px 26px;font-weight:600;font-size:17px}
+.menu span{white-space:nowrap}.menu b{font:700 18px Georgia,serif;margin-right:8px}
+.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-top:14px}
+@media (max-width:1050px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.grid{grid-template-columns:1fr}.menu{display:none}}
+.card{background:#fff;border:1px solid #DDD9D0;border-top:5px solid #A8301F;border-radius:10px;padding:18px 18px 14px}
+.num{margin:0;color:#A8301F;font:700 22px Georgia,serif}
+.card h3{margin:2px 0 6px;font:700 22px/1.2 Georgia,serif}
+.cel{margin:0 0 10px;color:#5E5651;font-size:15px}
+ul{list-style:none;margin:0;padding:0}
+li{display:flex;gap:2px;align-items:flex-start;padding:6px 0;border-top:1px solid #EEEBE4;font-size:16px;line-height:1.4}
+li .dot{margin-top:5px}
+.sub{margin:12px 0 0;padding:10px 12px;background:#F6F4EE;border-radius:8px}
+.sub h4{margin:0 0 4px;font:700 17px Georgia,serif}
+.sub li{border-top-color:#E4E0D7}
+.foot{margin-top:14px;background:#2A2523;color:#F6F4EE;border-radius:10px;padding:18px 20px}
+.foot h3{margin:0 0 8px;font:700 20px Georgia,serif}
+.foot ul{display:flex;flex-wrap:wrap;gap:4px 26px}
+.foot li{border:0;padding:3px 0;font-size:16px}
+.foot .dot.kell{background:#2A2523;border-color:#F0A896}
+.foot .dot.ok{background:#5FC9A4}
+.kerdes{background:#fff;border:1px solid #DDD9D0;border-radius:10px;padding:20px 24px;max-width:46em}
+.kerdes ol{margin:6px 0 0;padding-left:22px}.kerdes li{display:list-item;border:0;padding:4px 0;font-size:17px}
+a{color:#1B7A5E}
+.back{margin-top:34px;font-size:16px}
+</style></head><body><div class="fog"></div><main>
+<h1>A vágási iskola weboldala: mi hova kerül?</h1>
+<p class="lead">Ez az oldal nem a kinézetről szól, hanem a tartalomról: milyen menüpontok legyenek, és mi kerüljön az egyes oldalakra. Öt menüpontot javaslunk, mert telefonon ennyi fér el kényelmesen. A célközönség elsősorban a vágási és környékbeli szülők.</p>
+<p class="note">A színes pöttyök mutatják, mi van már meg. Ahol üres a karika, ott a ti segítségetek kell: adat, szöveg vagy fotó.</p>
+<div class="legend"><span><span class="dot ok"></span>megvan</span><span><span class="dot reszben"></span>részben megvan</span><span><span class="dot kell"></span>gyűjtjük, segítség kell</span></div>
+
+<div class="menu" aria-hidden="true"><span><b>Menü:</b></span><span>Kezdőlap</span><span>Iskolánk</span><span>Szülőknek</span><span>Hírek és képek</span><span>Kapcsolat</span></div>
+
+<div class="grid">
+<article class="card"><p class="num">1.</p><h3>Kezdőlap</h3><p class="cel">Első ránézésre: ki vagyunk, mi újság, hogyan érnek el minket.</p>
+<ul>
+<li><span class="dot ok"></span>Zászló és címer, az iskola neve</li>
+<li><span class="dot kell"></span>Egy mondat: miért jó ide járni</li>
+<li><span class="dot ok"></span>Három gyorsgomb: Beiratkozás · Csengetési rend és busz · Kapcsolat</li>
+<li><span class="dot kell"></span>A legfrissebb 2–3 hír</li>
+<li><span class="dot kell"></span>A következő esemény</li>
+</ul></article>
+
+<article class="card"><p class="num">2.</p><h3>Iskolánk</h3><p class="cel">Bemutatkozás, történet, a mostani iskola.</p>
+<ul>
+<li><span class="dot kell"></span>Bemutatkozás (5–8 mondat a szülőknek: a közösség, a kis létszám előnyei)</li>
+<li><span class="dot ok"></span>Osztályok: óvoda, II. C és IV. C (Dobóban), VI. C</li>
+<li><span class="dot reszben"></span>Pedagógusaink: a névsor megvan, közlés csak hozzájárulással; fotó és pár mondat, ha valaki szeretné</li>
+<li><span class="dot ok"></span>Történet évszámokkal, 1786-tól</li>
+<li><span class="dot reszben"></span>Az épületek: az 1889-es iskolaház és a mai iskola (friss fotó kell)</li>
+</ul>
+<div class="sub"><h4>Aloldal: Névadónk</h4><ul>
+<li><span class="dot ok"></span>Márton Áron, a névfelvétel (2000) és indoklása</li>
+<li><span class="dot ok"></span>Idézetek</li>
+<li><span class="dot kell"></span>Van-e névadói nap? Ha igen, mikor és hogyan</li>
+</ul></div></article>
+
+<article class="card"><p class="num">3.</p><h3>Szülőknek</h3><p class="cel">Minden gyakorlati tudnivaló egy helyen.</p>
+<ul>
+<li><span class="dot kell"></span>Beiratkozás az előkészítő osztályba és az óvodába</li>
+<li><span class="dot kell"></span>A tanév szerkezete, vakációk</li>
+<li><span class="dot ok"></span>Csengetési rend</li>
+<li><span class="dot kell"></span>Iskolabusz: útvonal, indulási idők</li>
+<li><span class="dot kell"></span>Étkeztetés, délutáni foglalkozás</li>
+<li><span class="dot kell"></span>Letölthető nyomtatványok</li>
+</ul></article>
+
+<article class="card"><p class="num">4.</p><h3>Hírek és képek</h3><p class="cel">Az iskola élete: ez frissül a legtöbbet.</p>
+<ul>
+<li><span class="dot kell"></span>Hírek, események</li>
+<li><span class="dot kell"></span>Másképp iskola, Zöld hét</li>
+<li><span class="dot kell"></span>Hagyományok, évente visszatérő ünnepek</li>
+<li><span class="dot kell"></span>Versenyek, eredmények az utolsó 2–3 évből</li>
+<li><span class="dot kell"></span>Galéria (gyerekfotó csak a szülői hozzájárulás szerint)</li>
+</ul></article>
+
+<article class="card"><p class="num">5.</p><h3>Kapcsolat</h3><p class="cel">Hogyan érnek el minket.</p>
+<ul>
+<li><span class="dot kell"></span>Cím, térkép</li>
+<li><span class="dot reszben"></span>Telefon, e-mail (az anyaiskola száma megvan; mobilszám csak hozzájárulással)</li>
+<li><span class="dot kell"></span>Facebook-oldal (van iskolai oldal?)</li>
+<li><span class="dot ok"></span>Link az anyaiskolához (bogoziiskola.ro)</li>
+</ul></article>
+</div>
+
+<div class="foot"><h3>Minden oldal alján (lábléc)</h3><ul>
+<li><span class="dot ok"></span>Anyaiskola: Bögözi Általános Iskola</li>
+<li><span class="dot ok"></span>Közérdekű / Informații publice: link a bogoziiskola.ro hivatalos dokumentumaihoz</li>
+<li><span class="dot reszben"></span>Adatvédelmi tájékoztató (vázlat kész, jóváhagyásra vár)</li>
+<li><span class="dot kell"></span>Akadálymentességi nyilatkozat</li>
+<li><span class="dot kell"></span>Rövid román bemutatkozó (Despre noi)</li>
+</ul></div>
+
+<h2>Három kérdés hozzátok</h2>
+<div class="kerdes"><ol>
+<li>Mi hiányzik innen, és mi fölösleges?</li>
+<li>Melyik üres karikához tudsz adatot, szöveget vagy fotót adni? (Például busz, étkeztetés, hagyományok, eredmények.)</li>
+<li>Szeretnél-e saját bemutatkozót fotóval a Pedagógusaink részbe?</li>
+</ol></div>
+
+<p class="back">A kinézet hat tervváltozata itt látható: <a href="index.html">tervváltozatok</a>.</p>
+</main></body></html>
