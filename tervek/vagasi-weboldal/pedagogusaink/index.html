@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Pedagógusaink – Vágás</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* VOICE: meleg, családias, iskolai – a vágási weblap 2. (Zászló) változatának hangja
+   IDEA: tablókép – a tanári kar arcképei sorban, mint az iskolafolyosó falán
+   PICTURE: a portrék maguk; rámutatva a szemből készült kép oldalnézetire vált
+   COLOUR and TYPE: a zászló tokenjei (piros #A8301F, zöld #1B7A5E, farkasfog); Bricolage Grotesque + Source Sans 3, mint a többi oldalon
+   LAYOUT: ugyanaz a fejléc, farkasfogas címsáv és zöld lábléc, mint az Iskolánk oldalon; kártyarács, telefonon egy oszlop */
+:root{color-scheme:light;--red:#A8301F;--green:#1B7A5E;--ink:#2A2523;--muted:#5E5651;--line:#E4E0D6;--paper:#FBFAF6}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:#fff;color:var(--ink);font:19px/30px 'Source Sans 3','Segoe UI',sans-serif;overflow-x:clip}
+a{color:var(--green)}a:hover{color:#156149}
+*:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+.big{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;letter-spacing:-0.02em}
+.wrap{padding-inline:max(5vw,16px)}
+.teeth{height:28px;background:url(kepek/farkasfog.svg) repeat-x left top;background-size:auto 28px}
+
+.draft{background:#FFF4D6;border-bottom:1px solid #E8D59A;font-size:16px;line-height:24px;padding-block:10px}
+.draft b{color:#7A5A00}
+
+header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0 32px;border-bottom:1px solid var(--line)}
+.logo{text-decoration:none;color:var(--red);font-size:24px;padding:18px 0}
+.nav ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:0 32px;font-weight:600;font-size:18px}
+.nav a{color:var(--ink);text-decoration:none;display:block;padding:22px 0 26px;position:relative}
+.nav a:hover{color:var(--red)}
+.nav a.on::after{content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);border-left:12px solid transparent;border-right:12px solid transparent;border-top:16px solid var(--red)}
+
+.hero{background:var(--paper)}
+.hero .in{padding-block:clamp(32px,5vw,56px) clamp(36px,5vw,64px);display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px 64px;align-items:end}
+.hero h1{margin:0;font-size:clamp(42px,11vw,104px);overflow-wrap:anywhere;line-height:.96;color:var(--red)}
+.hero p{margin:0;font-size:21px;line-height:33px;max-width:30em}
+.flip{transform:scaleY(-1)}
+
+.places{display:flex;flex-wrap:wrap;gap:12px;margin:40px 0 0;padding:0;list-style:none}
+.places li{border:1.5px solid var(--ink);border-radius:4px;padding:6px 14px;font-size:16px;line-height:24px}
+
+.grid{list-style:none;margin:48px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:56px 40px}
+.card{display:flex;flex-direction:column;border-top:2px solid var(--ink);padding-top:20px}
+.photo{position:relative;aspect-ratio:4/5;overflow:hidden;background:#ECE9E1;border-radius:2px}
+.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .45s ease}
+.photo img.side{opacity:0}
+.card:hover .photo img.side,.card:focus-within .photo img.side{opacity:1}
+.ph{display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;background:repeating-linear-gradient(135deg,#ECE9E1 0 12px,#E3DFD5 12px 24px);border:1.5px dashed #8F8A80;color:#4F4843;font-size:16px;line-height:23px}
+.photo.ph{position:relative}
+.card h2{margin:20px 0 4px;font-size:30px;line-height:32px}
+.card:nth-child(odd) h2{color:var(--red)}
+.card:nth-child(even) h2{color:var(--green)}
+.meta{margin:0 0 12px;color:var(--muted);font-size:17px;line-height:25px;font-weight:600}
+.card p.txt{margin:0;font-size:18px;line-height:28px}
+.msg{margin:16px 0 0;padding:14px 0 0;border-top:1px solid var(--line);font-size:17px;line-height:26px}
+.msg span{display:block;color:var(--muted);font-size:15px;font-weight:600}
+.missing{margin:0;padding:14px 16px;font-size:16px;line-height:24px;justify-content:flex-start;text-align:left}
+.tag{display:inline-block;margin-top:10px;font-size:14px;line-height:20px;font-weight:600;color:#7A5A00;background:#FFF4D6;border-radius:3px;padding:2px 8px}
+
+.motto{margin-top:96px;background:var(--red);color:#fff}
+.motto .in{padding-block:clamp(40px,6vw,72px)}
+.motto p.big{margin:0;font-size:clamp(48px,9vw,120px);line-height:.92}
+.motto p{margin:20px 0 0;font-size:21px}
+.motto a{color:#fff}
+
+footer{background:var(--green);color:#fff}
+footer .teeth{background-color:#fff}
+footer .in{padding-block:48px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px 32px;font-size:17px;line-height:26px}
+footer p{margin:0}footer a{color:#fff}
+
+@media(max-width:820px){.hero .in{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){
+  .nav ul{gap:0 20px;font-size:16px}.nav a{padding:10px 0 18px}
+  .logo{padding:14px 0 4px}
+  .card h2{font-size:27px}
+}
+@media (prefers-reduced-motion: reduce){.photo img{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="draft wrap" role="note"><b>Tervezet jóváhagyásra.</b> Kérjük, nézd meg a saját fotódat és szövegedet, és szólj Szász Ferenc Zsoltnak, ha valamit javítani kell. A sárga címkék azt jelzik, mi hiányzik még.</div>
+
+<header class="wrap">
+  <a href="#" class="logo big">Márton Áron Iskola, Vágás</a>
+  <nav class="nav" aria-label="Főmenü"><ul>
+    <li><a href="#">Kezdőlap</a></li>
+    <li><a href="#">Iskolánk</a></li>
+    <li><a class="on" href="#" aria-current="page">Pedagógusaink</a></li>
+    <li><a href="#">Névadónk</a></li>
+    <li><a href="#">Hírek és kapcsolat</a></li>
+  </ul></nav>
+</header>
+
+<section class="hero" aria-labelledby="cim">
+  <div class="teeth"></div>
+  <div class="in wrap">
+    <h1 id="cim" class="big">Pedagógusaink</h1>
+    <p>Ismerjék meg azokat, akik Dobón és Bétán tanítják, nevelik gyermekeiket. A bemutatkozók a pedagógusok saját válaszaiból készültek.</p>
+  </div>
+  <div class="teeth flip"></div>
+</section>
+
+<main class="wrap">
+  <ul class="places" aria-label="Épületeink">
+    <li><b>Dobó:</b> óvoda, II. C, IV. C, VI. C</li>
+    <li><b>Béta:</b> óvoda, előkészítő osztály</li>
+  </ul>
+  <ul class="grid" id="lista"></ul>
+</main>
+
+<section class="motto">
+  <div class="in wrap">
+    <p class="big">Non recuso laborem</p>
+    <p>Nem utasítom el a munkát. Márton Áron püspöki jelmondata, iskolánk vezérelve.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="teeth"></div>
+  <div class="in wrap">
+    <p><span class="big" style="font-size:28px">Márton Áron Általános Iskola</span><br>Vágás, a Bögözi Általános Iskola tagintézménye</p>
+    <p>str. Principală nr. 187, Vágás<br>0266-245410<br><a href="https://bogoziiskola.ro">bogoziiskola.ro</a></p>
+  </div>
+</footer>
+
+<script>
+{
+const P = [
+  {n:"Ambrus Anetta-Izabella", f:"ambrus-anetta-izabella", side:true, m:"Román nyelv · 2026 óta a vágási iskolában",
+   t:"Román nyelvet tanít. Az iskolában a családias hangulatot, a gyerekek őszinteségét és szeretetét szereti a legjobban. Szeret kreatív ötleteket megvalósítani, közösséget építeni és emlékezetes pillanatokat teremteni.",
+   s:"„Hiszem, hogy minden gyermek értékes, és közös feladatunk segíteni, hogy felfedezze a benne rejlő értékeket, kibontakozzon és higgyen önmagában.”"},
+  {n:"Antal-Bíró Róbert", f:"antal-biro-robert", side:true, m:"Tanító · II. C osztály",
+   miss:"Ide kerül a bemutatkozó 3–4 mondatban: mióta tanít a vágási iskolában, mit szeret a munkájában, üzenet a szülőknek.", tag:"Kérdőív még hiányzik"},
+  {n:"Csiszér Attila", f:null, photo:"Ide kerül Csiszér Attila fotója (álló, 4:5 arányú portré)", m:"Rajz és képzőművészet",
+   miss:"Ide kerül a bemutatkozó 3–4 mondatban: mióta tanít a vágási iskolában, mit szeret a munkájában, üzenet a szülőknek.", tag:"Fotó és szöveg még hiányzik"},
+  {n:"Dénes Orsolya-Beáta", f:"denes-orsolya-beata", side:true, m:"Magyar nyelv és irodalom · 2026 óta a vágási iskolában",
+   t:"Magyar nyelvet és irodalmat tanít. Az iskolában a kellemes, családias légkört, az ottani gyerekek közvetlenségét és szeretetét szereti a legjobban. Vallja: „Egy jó könyv gyógyír lehet a léleknek.”",
+   s:"„Beszélgessünk minél többet a gyerekekkel, hallgassuk meg őket.”"},
+  {n:"Derzsi Beáta", f:null, photo:"Ide kerül Derzsi Beáta saját fotója (álló, 4:5 arányú portré)", m:"Óvodapedagógus · bétai óvoda · 2019 óta a vágási iskolában",
+   t:"Óvodapedagógus. Azt szereti a legjobban, hogy a gyerekekkel egy kis családdá formálódtak.", tag:"Saját fotó érkezik"},
+  {n:"Dobai Teréz", f:null, photo:"Ide kerül Dobai Teréz fotója (álló, 4:5 arányú portré)", m:"Óvodapedagógus · dobói óvoda",
+   miss:"Ide kerül a bemutatkozó 3–4 mondatban: mióta tanít a vágási iskolában, mit szeret a munkájában, üzenet a szülőknek.", tag:"Fotó és szöveg még hiányzik"},
+  {n:"Fejér Zita", f:null, photo:"Ide kerül Fejér Zita fotója (álló, 4:5 arányú portré)", m:"Tanító · IV. C osztály",
+   miss:"Ide kerül a bemutatkozó 3–4 mondatban: mióta tanít a vágási iskolában, mit szeret a munkájában, üzenet a szülőknek.", tag:"Fotó és szöveg még hiányzik"},
+  {n:"Forró Bartha Tibor", f:null, photo:"Ide kerül Forró Bartha Tibor fotója (álló, 4:5 arányú portré)", m:"Történelem, kisebbségtörténet",
+   miss:"Ide kerül a bemutatkozó 3–4 mondatban: mióta tanít a vágási iskolában, mit szeret a munkájában, üzenet a szülőknek.", tag:"Fotó és szöveg még hiányzik"},
+  {n:"Miklós Norbert", f:"miklos-norbert", side:true, m:"Testnevelés · a VI. C osztályfőnöke · 2022 óta a vágási iskolában",
+   t:"A VI. C osztályfőnöke és az elemi osztályok testnevelő tanára. Munkájában az a célja, hogy a gyerekeket a mozgásos életmód felé irányítsa, és a sportolásra motiválja. Szabadidejében szívesen focizik és síel."},
+  {n:"Pál Tímea", f:null, photo:"Ide kerül Pál Tímea saját fotója (álló, 4:5 arányú portré)", m:"Tanító · előkészítő osztály · 2026 óta a vágási iskolában",
+   t:"Az előkészítő osztály tanítója. Munkájában a változást és a lehetőségeket, az iskolában a környezetet szereti. Kedvenc könyve A kis herceg.", tag:"Saját fotó érkezik"},
+  {n:"Ráduly Adrienn-Nikoletta", f:"raduly-adrienn-nikoletta", side:true, m:"Matematika, fizika · 2021 óta a vágási iskolában",
+   t:"Matematikát és fizikát tanít. Azt szereti, hogy bár nehéz tantárgyakat tanít, jó érzés tölti el, amikor a diákok szeme felcsillan, mert megértik. Matektanárnője mindig azt mondta neki, hogy legyen tanár; ő ellenkezett, és azt mondta, soha nem lesz az.",
+   s:"„Ha bármi kérdésük van, nyugodtan keressenek meg.”"},
+  {n:"Szász Ferenc Zsolt", f:"szasz-ferenc-zsolt", side:false, m:"Földrajz, biológia",
+   miss:"Ide kerül a bemutatkozó 3–4 mondatban: mióta tanít a vágási iskolában, mit szeret a munkájában, üzenet a szülőknek.", tag:"Szöveg még hiányzik"},
+  {n:"Szopos Arnold", f:"szopos-arnold", side:true, m:"Zene, technológia, szociális nevelés · 2025 óta a vágási iskolában",
+   t:"Zenetanár; zenét, technológiát és szociális nevelést tanít. Szereti a munkáját, a gyerekeket és a pedagógusközösséget, és úgy látja, hogy családias a hangulat az iskolában. Szeret zenélni, kirándulni és táncolni.",
+   s:"„Biztonsággal és nyugodt szívvel rábízhatják a gyermekeiket az iskolai közösségre.”"},
+  {n:"Varga Loránd", f:null, photo:"Ide kerül Varga Loránd fotója a közös fotózásról", m:"Római katolikus vallás · 2021 óta a vágási iskolában",
+   t:"Római katolikus vallást tanít. Munkájáról azt vallja: „A változatosság gyönyörködtet.” Mottója: „Isten nélkül lehet élni, de nem érdemes.”",
+   s:"„A gyereket ne küldjék templomba, hanem vigyék.”", tag:"Fotó még hiányzik"},
+  {n:"Zongor Andrea", f:"zongor-andrea", side:true, m:"Angol nyelv · 2026 szeptembere óta a vágási iskolában",
+   t:"Angolt tanít, saját szavaival „szimpla tanár”. A legjobban a közösséget és a gyerekekkel való munkát szereti. Szeret írni, kedvenc témái a krimi és a középkori irodalom. Nagy gamer, bár ezt a gyerekek nem hiszik el."}
+];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const card = p => {
+  const photo = p.f
+    ? `<div class="photo"><img src="kepek/${p.f}-szemben.jpg" alt="${esc(p.n)} portréja" width="800" height="1000" loading="lazy">${p.side ? `<img class="side" src="kepek/${p.f}-oldal.jpg" alt="" width="800" height="1000" loading="lazy">` : ''}</div>`
+    : `<div class="photo ph">${esc(p.photo)}</div>`;
+  const body = p.t
+    ? `<p class="txt">${esc(p.t)}</p>${p.s ? `<p class="msg"><span>Üzenete a szülőknek</span>${esc(p.s)}</p>` : ''}`
+    : `<p class="ph missing">${esc(p.miss)}</p>`;
+  return `<li class="card" tabindex="0">${photo}<h2 class="big">${esc(p.n)}</h2><p class="meta">${esc(p.m)}</p>${body}${p.tag ? `<span class="tag">${esc(p.tag)}</span>` : ''}</li>`;
+};
+document.getElementById('lista').innerHTML = P.map(card).join('');
+}
+</script>
+</body>
+</html>
